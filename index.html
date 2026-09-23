@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Site Template</title>
+<style>
+  :root{
+    --bg:#ffffff; --fg:#1b1b1b; --muted:#5c5c5c; --accent:#2e5aac; --border:#e4e4e4;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){ --bg:#14161a; --fg:#f1f1f1; --muted:#a5a5a5; --accent:#7ea2ff; --border:#2a2d33; }
+  }
+  :root[data-theme="dark"]{ --bg:#14161a; --fg:#f1f1f1; --muted:#a5a5a5; --accent:#7ea2ff; --border:#2a2d33; }
+  *{box-sizing:border-box}
+  html{scroll-padding-top:env(safe-area-inset-top,0px)}
+  body{
+    margin:0; background:var(--bg); color:var(--fg);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;
+  }
+  header{
+    position:sticky; top:0; padding:env(safe-area-inset-top,0px) 0 0;
+    background:var(--bg); border-bottom:1px solid var(--border); z-index:10;
+  }
+  nav{
+    max-width:960px; margin:0 auto; display:flex; align-items:center;
+    justify-content:space-between; padding:16px 20px;
+  }
+  .logo{font-weight:700; font-size:1.1rem; text-decoration:none; color:var(--fg)}
+  nav ul{list-style:none; display:flex; gap:24px; margin:0; padding:0}
+  nav a{color:var(--muted); text-decoration:none; font-size:0.95rem}
+  nav a:hover, nav a:focus-visible{color:var(--fg)}
+  main{max-width:960px; margin:0 auto; padding:0 20px}
+  .hero{padding:80px 0 60px; text-align:left; max-width:640px}
+  .hero h1{font-size:2.4rem; margin:0 0 16px; letter-spacing:-0.01em}
+  .hero p{color:var(--muted); font-size:1.1rem; margin:0 0 28px}
+  .btn{
+    display:inline-block; background:var(--accent); color:#fff; text-decoration:none;
+    padding:12px 22px; border-radius:6px; font-size:0.95rem; font-weight:600;
+  }
+  .btn:hover, .btn:focus-visible{opacity:0.9}
+  section{padding:50px 0; border-top:1px solid var(--border)}
+  section h2{font-size:1.5rem; margin:0 0 12px}
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px; margin-top:24px}
+  .card{border:1px solid var(--border); border-radius:8px; padding:20px}
+  .card h3{margin:0 0 8px; font-size:1.05rem}
+  .card p{margin:0; color:var(--muted); font-size:0.95rem}
+  footer{
+    border-top:1px solid var(--border); padding:30px 20px calc(30px + env(safe-area-inset-bottom,0px));
+    text-align:center; color:var(--muted); font-size:0.9rem;
+  }
+  a:focus-visible, button:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+  @media (max-width:600px){
+    nav ul{gap:14px}
+    .hero{padding:50px 0 40px}
+    .hero h1{font-size:1.9rem}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a class="logo" href="#top">Your Site</a>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="hero" style="border-top:none">
+    <h1>A simple starting point</h1>
+    <p>Replace this text with your own headline and description. This template gives you a header, a hero section, a few content blocks, and a footer — ready to customize.</p>
+    <a class="btn" href="#contact">Get in touch</a>
+  </section>
+
+  <section id="about">
+    <h2>About</h2>
+    <p>Write a short paragraph here describing what this site or project is about. Keep it clear and to the point.</p>
+  </section>
+
+  <section id="features">
+    <h2>Features</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Feature one</h3>
+        <p>Describe the first thing worth highlighting.</p>
+      </div>
+      <div class="card">
+        <h3>Feature two</h3>
+        <p>Describe the second thing worth highlighting.</p>
+      </div>
+      <div class="card">
+        <h3>Feature three</h3>
+        <p>Describe the third thing worth highlighting.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>Email us at <a href="mailto:hello@example.com" style="color:var(--accent)">hello@example.com</a>.</p>
+  </section>
+</main>
+
+<footer>
+  &copy; 2026 Your Site. All rights reserved.
+</footer>
+
+</body>
+</html>
