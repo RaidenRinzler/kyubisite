@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Site Template</title>
+<title>Fox Murray</title>
 <style>
   :root{
-    --bg:#ffffff; --fg:#1b1b1b; --muted:#5c5c5c; --accent:#2e5aac; --border:#e4e4e4;
+    --bg:#fff6ef; --fg:#2b1d14; --muted:#7a5c47; --accent:#e2703a; --accent-dark:#c85a28; --border:#f0d9c4; --card:#ffffff;
     box-sizing:border-box;
     padding-top:env(safe-area-inset-top,0px);
     padding-bottom:env(safe-area-inset-bottom,0px);
   }
   @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){ --bg:#14161a; --fg:#f1f1f1; --muted:#a5a5a5; --accent:#7ea2ff; --border:#2a2d33; }
+    :root:not([data-theme="light"]){ --bg:#241812; --fg:#fbe9dc; --muted:#d3ab8d; --accent:#f2814a; --accent-dark:#e2703a; --border:#3d2a1e; --card:#2e1f16; }
   }
-  :root[data-theme="dark"]{ --bg:#14161a; --fg:#f1f1f1; --muted:#a5a5a5; --accent:#7ea2ff; --border:#2a2d33; }
+  :root[data-theme="dark"]{ --bg:#241812; --fg:#fbe9dc; --muted:#d3ab8d; --accent:#f2814a; --accent-dark:#e2703a; --border:#3d2a1e; --card:#2e1f16; }
   *{box-sizing:border-box}
   html{scroll-padding-top:env(safe-area-inset-top,0px)}
   body{
@@ -35,18 +35,35 @@
   nav a{color:var(--muted); text-decoration:none; font-size:0.95rem}
   nav a:hover, nav a:focus-visible{color:var(--fg)}
   main{max-width:960px; margin:0 auto; padding:0 20px}
-  .hero{padding:80px 0 60px; text-align:left; max-width:640px}
-  .hero h1{font-size:2.4rem; margin:0 0 16px; letter-spacing:-0.01em}
+
+  .hero{
+    padding:70px 0 60px; border-top:none;
+    display:flex; align-items:center; gap:48px;
+  }
+  .hero-text{flex:1 1 360px; max-width:520px}
+  .hero h1{font-size:2.4rem; margin:0 0 16px; letter-spacing:-0.01em; color:var(--accent-dark)}
   .hero p{color:var(--muted); font-size:1.1rem; margin:0 0 28px}
+  .hero-photo{
+    flex:0 0 220px; width:220px; height:220px; border-radius:50%;
+    background:var(--card); border:3px solid var(--accent);
+    display:flex; align-items:center; justify-content:center; overflow:hidden;
+    color:var(--muted); font-size:0.85rem; text-align:center; padding:10px;
+  }
+  .hero-photo img{width:100%; height:100%; object-fit:cover; display:block}
+  @media (max-width:640px){
+    .hero{flex-direction:column-reverse; text-align:center; gap:28px}
+    .hero-text{max-width:none}
+  }
+
   .btn{
     display:inline-block; background:var(--accent); color:#fff; text-decoration:none;
     padding:12px 22px; border-radius:6px; font-size:0.95rem; font-weight:600;
   }
-  .btn:hover, .btn:focus-visible{opacity:0.9}
+  .btn:hover, .btn:focus-visible{background:var(--accent-dark)}
   section{padding:50px 0; border-top:1px solid var(--border)}
-  section h2{font-size:1.5rem; margin:0 0 12px}
+  section h2{font-size:1.5rem; margin:0 0 12px; color:var(--accent-dark)}
   .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px; margin-top:24px}
-  .card{border:1px solid var(--border); border-radius:8px; padding:20px}
+  .card{background:var(--card); border:1px solid var(--border); border-radius:10px; padding:20px}
   .card h3{margin:0 0 8px; font-size:1.05rem}
   .card p{margin:0; color:var(--muted); font-size:0.95rem}
   footer{
@@ -75,10 +92,18 @@
 </header>
 
 <main id="top">
-  <section class="hero" style="border-top:none">
-    <h1>Get Ahead of the Curve.</h1>
-    <p>With high quality tutoring from a 3rd year Electronic Engineering student with experience in National 5 and Higher level qualifications of maths, physics and engineering. Help me help you!</p>
-    <a class="btn" href="#contact">Get in touch</a>
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Get Ahead of the Curve.</h1>
+      <p>With high quality tutoring from a 3rd year Electronic Engineering student with experience in National 5 and Higher level qualifications of maths, physics and engineering. Help me help you!</p>
+      <a class="btn" href="#contact">Get in touch</a>
+    </div>
+    <div class="hero-photo">
+      <!-- To add your photo: replace the line below with
+           <img src="your-photo.jpg" alt="Fox Murray">
+           and make sure your-photo.jpg sits in the same folder as this file. -->
+      Your photo here
+    </div>
   </section>
 
   <section id="about">
@@ -106,7 +131,7 @@
 
   <section id="contact">
     <h2>Contact</h2>
-    <p>Email us at <a href="mailto:Fox@Kyubisan.com" style="color:var(--accent)">Fox@kyubisan.com</a>.</p>
+    <p>Email us at <a href="mailto:Fox@Kyubisan.com" style="color:var(--accent-dark)">Fox@kyubisan.com</a>.</p>
   </section>
 </main>
 
