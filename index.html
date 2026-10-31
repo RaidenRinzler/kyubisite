@@ -383,15 +383,66 @@ body.no-hnum #htb{display:none}
 #hov .va{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
 #hov .va input{width:46px;height:22px;box-sizing:border-box;text-align:center}
 #hov .va button{padding:0 7px;height:22px}
-.mb{position:absolute;left:8%;right:8%;bottom:-9px;height:4px;background:#000a;pointer-events:none;border:1px solid #0008}
-.mb.t{bottom:-14px}
-.mb i{display:block;height:100%}.mb i.h{background:#4fd16f}.mb i.t{background:#f08a2a}
+.mbar{position:absolute;left:8%;right:8%;bottom:-9px;height:4px;background:#000a;pointer-events:none;border:1px solid #0008}
+.mbar.t{bottom:-14px}
+.mbar i{display:block;height:100%}.mbar i.h{background:#4fd16f}.mbar i.t{background:#f08a2a}
 .tc .cb{position:absolute;left:0;right:0;top:63px;height:10px;pointer-events:none}
-.tc .cb .mb{left:2px;right:2px;bottom:auto;top:0}.tc .cb .mb.t{top:6px}
+.tc .cb .mbar{left:2px;right:2px;bottom:auto;top:0}.tc .cb .mbar.t{top:6px}
 .seg{display:inline-flex;border:1px solid var(--ln);width:100%}
 .seg label{flex:1;text-align:center;cursor:pointer;padding:4px 6px;font-weight:700;letter-spacing:.08em;font-size:11px;text-transform:uppercase;color:var(--mut)}
 .seg input{display:none}
 .seg label:has(input:checked){background:var(--ac);color:#06121a}
+
+#sheet{position:fixed;top:var(--th,52px);right:0;bottom:0;width:min(430px,100vw);z-index:70;display:none;flex-direction:column;background:var(--pn);color:var(--tx);border-left:3px solid var(--ac);box-shadow:-12px 0 32px #000a}
+#sheet .shh{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;padding:12px 14px 8px}
+#sheet .cs{font-size:20px;font-weight:700;letter-spacing:.04em}
+#sheet .shT{display:flex;gap:6px;padding:0 14px 8px;border-bottom:1px solid var(--ln);align-items:center}
+#sheet .shT button{flex:1;text-transform:uppercase;letter-spacing:.12em;font-weight:700}
+#sheet .shT select{flex:2;min-width:0}
+#sheet .shb{flex:1;overflow:auto;padding:10px 14px 24px}
+#sheet .tls{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+#sheet .tl{border:1px solid var(--ln);background:#0003;padding:5px 7px;display:flex;flex-direction:column;min-width:0}
+#sheet .tl span{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+#sheet .tl b{font-size:17px;line-height:1.2}
+#sheet .tl i{font-style:normal;font-size:10px;color:var(--mut)}
+#sheet .sh{margin-top:14px}
+#sheet h4{margin:0 0 5px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ac);border-bottom:1px solid var(--ln);padding-bottom:3px}
+#sheet h4 em{font-style:normal;color:var(--mut)}
+#sheet .dt{border:1px solid var(--ln);margin-bottom:4px;background:#0002}
+#sheet .dt summary{cursor:pointer;padding:5px 8px;display:flex;justify-content:space-between;gap:8px;list-style:none}
+#sheet .dt summary::-webkit-details-marker{display:none}
+#sheet .dt summary i{font-style:normal;color:var(--mut);font-size:11px;white-space:nowrap}
+#sheet .dt[open] summary{border-bottom:1px solid var(--ln);background:#ffffff08}
+#sheet .dt>*:not(summary){margin:6px 8px}
+#sheet .tx{white-space:pre-wrap;font-size:12px;line-height:1.45;color:var(--tx);opacity:.9}
+#sheet .rk{margin:4px 0}#sheet .rk b{font-size:12px;color:var(--ac)}
+#sheet .tg{display:flex;flex-wrap:wrap;gap:4px;margin:5px 0}
+#sheet .tg u{text-decoration:none;font-size:10px;letter-spacing:.06em;padding:1px 6px;border:1px solid var(--ln);background:#0004}
+#sheet .mt{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin:6px 0 3px}
+#sheet .fr{font-size:15px;margin-bottom:8px}
+#sheet .ln{font-size:12px;margin:2px 0}
+body.sheet-open #tpanel{right:446px;max-width:calc(100% - 470px)}
+body.sheet-open #ref{right:442px}
+.sk-98 #sheet{background:#c0c0c0;color:#000;border:2px solid;border-color:#fff #404040 #404040 #fff}
+.sk-98 #sheet .tl,.sk-98 #sheet .dt{background:#fff;border-color:#808080}
+.sk-98 #sheet .tl span,.sk-98 #sheet .tl i,.sk-98 #sheet .dt summary i,.sk-98 #sheet .mt{color:#404040}
+.sk-98 #sheet h4{color:#000080}.sk-98 #sheet .rk b{color:#000080}
+.sk-deck #sheet{background:linear-gradient(#2b3646,#18202b);border-color:#52617a}
+.sk-term #sheet{background:repeating-linear-gradient(0deg,#0000 0 2px,#00000066 2px 3px),#07110b;border-color:#1f6b3a}
+/* Blueprint */
+body.sk-bp{--bg:#0a2a4a;--pn:#0e3a63;--bt:#134a7c;--ln:#5fa8e6;--tx:#e9f4ff;--mut:#9cc6ee;--ac:#ffffff;--glass:#0b2f52ee;font:13px/1.3 "Cascadia Mono",Consolas,"Courier New",monospace}
+.sk-bp #tools,.sk-bp .pop,.sk-bp #ctl,.sk-bp #insp,.sk-bp #tpanel,.sk-bp #sheet,.sk-bp #hov,.sk-bp #prof,.sk-bp #ref{background:linear-gradient(#ffffff12 1px,transparent 1px) 0 0/100% 18px,linear-gradient(90deg,#ffffff12 1px,transparent 1px) 0 0/18px 100%,#0e3a63;border:1px dashed #9cc6ee;border-radius:0;box-shadow:none}
+.sk-bp #tools{border-width:0 0 1px}
+.sk-bp button,.sk-bp select,.sk-bp input{background:#0a2a4a;border:1px solid #9cc6ee;border-radius:0;color:#e9f4ff}
+.sk-bp button:hover{background:#134a7c}.sk-bp button.on{background:#fff;color:#0a2a4a}
+.sk-bp .pf{border-radius:0}
+/* Amber CRT */
+body.sk-amber{--bg:#0b0700;--pn:#140d02;--bt:#1f1503;--ln:#7a4d0a;--tx:#ffc23a;--mut:#b5791a;--ac:#ffb000;--glass:#100a01ee;font:13px/1.3 "Cascadia Mono",Consolas,"Courier New",monospace}
+.sk-amber #tools,.sk-amber .pop,.sk-amber #ctl,.sk-amber #insp,.sk-amber #tpanel,.sk-amber #sheet,.sk-amber #hov,.sk-amber #prof,.sk-amber #ref{background:repeating-linear-gradient(0deg,#0000 0 2px,#00000070 2px 3px),#140d02;border:1px solid #7a4d0a;box-shadow:0 0 14px #ffb00022;border-radius:0}
+.sk-amber #tools{border-width:0 0 1px}
+.sk-amber button,.sk-amber select,.sk-amber input{background:#100a01;border:1px solid #7a4d0a;border-radius:0;color:#ffc23a;text-shadow:0 0 5px #ffb00088}
+.sk-amber button:hover{background:#2a1c04;box-shadow:0 0 8px #ffb00055}.sk-amber button.on{background:#ffb000;color:#120a00;text-shadow:none}
+.sk-amber .pf{border-radius:0}
 </style>
 </head>
 <body>
@@ -436,14 +487,12 @@ body.no-hnum #htb{display:none}
   </div></div>
   <button id="bSnap" title="Snap tokens, objects and the ruler to the grid">Snap</button>
   <span class="sp"></span>
-  <button id="bRef" title="Turn options, template shapes, cover, terrain and statuses">Rules</button>
   <button id="bCombat" title="Combat mode: turn bar HUD with extra visual flair">Combat mode</button>
-  <div class="mn r"><button class="mb">TESTING ▾</button><div class="pop">
-    <div class="help" style="border:0;padding:0">Experimental features. They may change or break.</div>
-    <div class="rw"><button class="mi" id="b3d">3D height view</button></div>
-  </div></div>
+  <button id="b3d" title="Open the 3D height view (experimental)">3D view</button>
+  <span class="sp"></span>
+  <button id="bRef" title="Turn options, template shapes, cover, terrain and statuses">Rules</button>
   <div class="mn r"><button class="mb">Appearance ▾</button><div class="pop">
-    <div class="rw"><span>Style</span><select id="skin"><option value="">Compcon</option><option value="sk-98">Windows 98</option><option value="sk-deck">Flight deck</option><option value="sk-term">Terminal</option></select></div>
+    <div class="rw"><span>Style</span><select id="skin"><option value="">Compcon</option><option value="sk-98">Windows 98</option><option value="sk-deck">Flight deck</option><option value="sk-term">Terminal</option><option value="sk-bp">Blueprint</option><option value="sk-amber">Amber CRT</option></select></div>
     <div class="rw"><span>Accent</span><div id="sws" style="display:flex;gap:5px"></div></div>
     <div class="rw"><span>Mode</span><select id="mode"><option value="dark">Dark</option><option value="light">Light</option></select></div>
     <div class="rw"><span>Height numbers</span><input id="hnum" type="checkbox"></div>
@@ -529,7 +578,7 @@ function fit(){const z=Math.min(vp.clientWidth/S.mw,vp.clientHeight/S.mh)*.96;S.
 function miniBars(s){
   if(s.hpM==null)return'';
   const pc=(a,b)=>b?Math.max(0,Math.min(100,a/b*100)):0;
-  return`<span class="mb"><i class="h" style="width:${pc(s.hp,s.hpM)}%"></i></span><span class="mb t"><i class="t" style="width:${pc(s.heat,s.heatM)}%"></i></span>`;
+  return`<span class="mbar"><i class="h" style="width:${pc(s.hp,s.hpM)}%"></i></span><span class="mbar t"><i class="t" style="width:${pc(s.heat,s.heatM)}%"></i></span>`;
 }
 function mk(it){
   const gs=S.grid.size,d=document.createElement('div');
@@ -879,7 +928,7 @@ function setLook(o){
   try{Object.assign(l,JSON.parse(localStorage.getItem('lt-look')),o);localStorage.setItem('lt-look',JSON.stringify(l))}catch(e){Object.assign(l,o)}
   document.documentElement.style.setProperty('--ac',TH[l.accent]||TH['Union red']);
   document.body.classList.toggle('light',l.mode==='light');$('#mode').value=l.mode;
-  ['sk-98','sk-deck','sk-term'].forEach(k=>document.body.classList.toggle(k,k===l.skin));$('#skin').value=l.skin;
+  ['sk-98','sk-deck','sk-term','sk-bp','sk-amber'].forEach(k=>document.body.classList.toggle(k,k===l.skin));$('#skin').value=l.skin;
   document.body.classList.toggle('cool',!!l.cool);$('#bCombat').classList.toggle('on',!!l.cool);
   document.body.classList.toggle('no-hnum',l.hnum===false);$('#hnum').checked=l.hnum!==false;
   document.body.classList.toggle('ctl-off',!!l.ctlHide);$('#bEye').innerHTML=l.ctlHide?EYE_OFF:EYE_ON;$('#bEye').classList.toggle('on',!l.ctlHide);
@@ -1077,7 +1126,51 @@ function place(el,card,disp){
 }
 const cardEl=c=>document.querySelector(`.tc[data-cid="${c.id}"]`);
 function hideHov(){clearTimeout(hovT);clearTimeout(hovHide);$('#hov').style.display='none';hovCard=null}
-let vAmt=1;
+let vAmt=1,sheetCard=null,shTab='pilot',shMech=0;
+function openSheet(c){if(!c.p||!c.p.ps)return;sheetCard=c;shMech=c.p.mi||0;if(shTab!=='pilot'&&shTab!=='mech')shTab='pilot';$('#sheet').style.display='flex';document.body.classList.add('sheet-open');drawSheet()}
+function closeSheet(){sheetCard=null;$('#sheet').style.display='none';document.body.classList.remove('sheet-open')}
+function drawSheet(){
+  const c=sheetCard;if(!c||!c.p||!c.p.ps){closeSheet();return}
+  const p=c.p,ps=p.ps,st=stOf(c),E=esc,pre=t=>t?`<div class="tx">${E(t)}</div>`:'';
+  const tile=(l,v,sub)=>`<div class="tl"><span>${l}</span><b>${E(v)}</b>${sub?`<i>${E(sub)}</i>`:''}</div>`;
+  const sec=(t,body,n)=>body?`<div class="sh"><h4>${t}${n!=null?` <em>${n}</em>`:''}</h4>${body}</div>`:'';
+  const det=(t,sub,body)=>`<details class="dt"><summary><b>${E(t)}</b>${sub?`<i>${E(sub)}</i>`:''}</summary>${body}</details>`;
+  const chips=a=>a&&a.length?`<div class="tg">${a.map(t=>`<u>${E(t)}</u>`).join('')}</div>`:'';
+  let h=`<div class="shh"><div><div class="cs">${E(ps.callsign||p.callsign||c.name)}</div><div class="mut">${E([ps.name,ps.player&&'played by '+ps.player,ps.status].filter(Boolean).join(' · '))}</div></div><button data-s="x" title="Close">✕</button></div>`;
+  h+=`<div class="shT"><button data-s="t:pilot" class="${shTab==='pilot'?'on':''}">Pilot</button><button data-s="t:mech" class="${shTab==='mech'?'on':''}">Mech</button>`+
+     (shTab==='mech'&&p.mechs&&p.mechs.length>1?`<select data-s="m">${p.mechs.map((m,i)=>`<option value="${i}"${i===shMech?' selected':''}>${E(m.name||'Unnamed')} (${E(m.chassis||'?')})</option>`).join('')}</select>`:'')+`</div><div class="shb">`;
+  if(shTab==='pilot'){
+    h+=`<div class="tls">${tile('Licence level','LL'+ps.level)}${tile('Grit','+'+ps.grit)}${tile('Pilot HP',ps.hp)}${tile('Evasion',10)}${tile('E-Defense',10)}${tile('Speed',4)}</div>`;
+    h+=sec('Mech skills',`<div class="tls">${['Hull','Agility','Systems','Engineering'].map((n,i)=>tile(n,'+'+ps.sk[i])).join('')}</div>`);
+    h+=sec('Skill triggers',ps.skills.map(k=>det(k.n,'+'+k.r*2,pre(k.d))).join(''),ps.skills.length);
+    h+=sec('Talents',ps.talents.map(t=>det(t.n,'Rank '+t.r,pre(t.terse)+t.ranks.map(k=>`<div class="rk"><b>${E(k.n)}</b>${pre(k.d)}</div>`).join(''))).join(''),ps.talents.length);
+    h+=sec('Licences',ps.lic.map(l=>`<div class="ln">${E(l.n)} <b>${l.r}</b></div>`).join(''),ps.lic.length);
+    h+=sec('Core bonuses',ps.core.map(b=>det(b.n,'',pre(b.d))).join(''),ps.core.length);
+    h+=sec('Pilot gear',[...ps.armor.map(g=>[g,'Armor']),...ps.weapons.map(g=>[g,'Weapon']),...ps.gear.map(g=>[g,'Gear'])].map(([g,k])=>det(g.n,k,pre(g.d))).join(''));
+    h+=sec('Reserves',ps.reserves.map(r=>det(r.n,'',pre(r.d))).join(''),ps.reserves.length);
+    h+=sec('Bond',ps.bond&&(ps.bond.minor||ps.bond.max)?`<div class="ln">${E(ps.bond.minor||'')}</div>${ps.bond.max?`<div class="ln">Stress ${ps.bond.stress}/${ps.bond.max}</div>`:''}`:'');
+    h+=sec('Appearance',pre(ps.app))+sec('Background',pre(ps.bg))+sec('Notes',pre(ps.notes))+sec('History',pre(ps.hist));
+  }else{
+    const m=(p.mechs||[])[shMech],ms=m&&m.sheet;
+    if(!ms)h+='<div class="mut">No mech in this file.</div>';
+    else{
+      const live=shMech===(p.mi||0),S2=ms.stats,hpM=live?st.hpM:m.hp,hp=live?st.hp:m.hp,hM=live?st.heatM:m.heat,ht=live?st.heat:0;
+      h+=`<div class="fr"><b>${E(ms.frame)}</b> <span class="mut">${E(ms.src)}${ms.lic!==''?' · LL'+ms.lic:''}${ms.types.length?' · '+E(ms.types.join('/')):''}</span></div>`;
+      h+=`<div class="tls">${tile('HP',hp+' / '+hpM)}${tile('Heat',ht+' / '+hM)}${tile('Structure',(live?st.str:m.structure)+' / '+(live?st.strM:m.structure))}${tile('Stress',(live?st.sts:m.stress)+' / '+(live?st.stsM:m.stress))}`+
+        `${tile('Armor',S2.armor)}${tile('Evasion',m.evasion)}${tile('E-Defense',m.edef)}${tile('Speed',m.speed)}${tile('Size',S2.size)}${tile('Sensors',S2.sensor)}${tile('Tech attack','+'+S2.tech)}${tile('Save',S2.save)}${tile('Repair cap',S2.repcap)}${tile('SP',(S2.sp-S2.spUsed)+' free','of '+S2.sp)}${tile('Attack bonus','+'+S2.atk)}</div>`;
+      h+=sec('Mech skills',`<div class="tls">${['Hull','Agility','Systems','Engineering'].map((n,i)=>tile(n,'+'+ms.skills[i])).join('')}</div>`);
+      const wp=w=>det(w.n,[w.sz,w.t].filter(Boolean).join(' '),`<div class="ln">${E([w.rng,w.dmg].filter(Boolean).join(' · '))}</div>${chips(w.tags)}${pre(w.eff)}${pre(w.note)}`);
+      h+=sec('Weapons',ms.mounts.map(mt=>mt.w.length?`<div class="mt">${E(mt.t)} mount</div>`+mt.w.map(wp).join(''):`<div class="mt">${E(mt.t)} mount</div><div class="mut" style="padding:2px 0 4px">Empty</div>`).join('')+ms.integ.map(wp).join(''));
+      h+=sec('Systems',[...ms.systems,...ms.isys].map(x=>det(x.n,[x.t,x.sp?x.sp+' SP':''].filter(Boolean).join(' · '),chips(x.tags)+pre(x.eff))).join(''),ms.systems.length+ms.isys.length);
+      h+=sec('Traits',ms.traits.map(t=>det(t.n,'',pre(t.d))).join(''),ms.traits.length);
+      if(ms.core)h+=sec('Core system',det(ms.core.n,[ms.core.use,ms.core.act].filter(Boolean).join(' · '),(ms.core.pe?`<div class="rk"><b>${E(ms.core.pn||'Passive')}</b>${pre(ms.core.pe)}</div>`:'')+(ms.core.ae?`<div class="rk"><b>${E(ms.core.an||'Active')}</b>${pre(ms.core.ae)}</div>`:'')));
+      h+=sec('Frame',pre(ms.desc));
+    }
+  }
+  $('#sheet').innerHTML=h+'</div>';
+}
+document.addEventListener('click',e=>{const b=e.target.closest('#sheet [data-s]');if(!b)return;const a=b.dataset.s;if(a==='x')closeSheet();else if(a.startsWith('t:')){shTab=a.slice(2);drawSheet()}});
+document.addEventListener('change',e=>{if(e.target.matches('#sheet select[data-s=m]')){shMech=+e.target.value;drawSheet()}});
 function showHov(c,card){
   if(!card)return;
   const p=c.p||{},has=p.pilot||p.callsign||p.mech||p.chassis,st=stOf(c),f=fxFlags(c);
@@ -1104,7 +1197,7 @@ function showHov(c,card){
   if(!f.melt&&!f.dead&&mT>0)h+=`<div class="nt">Overheating check: roll ${mT}d6 and use the lowest. Two or more 1s is a reactor meltdown.</div>`;
   h+='</div>';
   const sheet=!!(p.mechs&&p.mechs.length);
-  h+=`<div class="sec"><div class="ac"><button data-a="dis" class="${p.out?'on':''}">${p.out?'Re-embark':'Disembark'}</button>`+(sheet?`<button data-a="place">${mechTok(c)?'Find mech':'Place mech'}</button>`:`<button disabled title="Import a character sheet first">Place mech</button>`)+
+  h+=`<div class="sec"><div class="ac"><button data-a="sheet" style="grid-column:1/-1"${p.ps?'':' disabled title="Import a character sheet first"'}>Character sheet</button><button data-a="dis" class="${p.out?'on':''}">${p.out?'Re-embark':'Disembark'}</button>`+(sheet?`<button data-a="place">${mechTok(c)?'Find mech':'Place mech'}</button>`:`<button disabled title="Import a character sheet first">Place mech</button>`)+
      `<button data-a="edit">Edit profile</button><button data-a="ren">Rename</button><button data-a="fac"><i style="display:inline-block;width:9px;height:9px;background:${COL[c.fac]};margin-right:5px"></i>${esc(c.fac)}</button><button data-a="del">Remove</button></div>`+
      `<div class="ln" style="font-size:11px;margin-top:7px">Click the portrait to mark ${c.done?'available':'acted'}${sheet?'':'. Import a character sheet to place the mech.'}</div></div>`;
   $('#hov').innerHTML=h;hovCard=c;place($('#hov'),card,'block');
@@ -1122,6 +1215,7 @@ $('#hov').onclick=e=>{
   else if(a==='dz'){setSt(c,{dz:!stOf(c).dz});if(stOf(c).dz)toast((c.p&&c.p.callsign||c.name)+' enters the Danger Zone')}
   else if(a==='cas'){setSt(c,{cas:!stOf(c).cas})}
   else if(a==='hc'){c.hc=!c.hc;render();renderTurns();showHov(c,cardEl(c))}
+  else if(a==='sheet'){hideHov();openSheet(c)}
   else if(a==='edit'){hideHov();openProf(c)}
   else if(a==='ren'){hideHov();const el=cardEl(c);if(el)editName(c,el)}
   else if(a==='fac'){c.fac=FAC[(FAC.indexOf(c.fac)+1)%FAC.length];S.items.forEach(t=>{if(t.link===c.id)t.fac=c.fac});render();renderTurns();showHov(c,cardEl(c))}
@@ -1168,6 +1262,43 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeProf();hideHov
 // COMP/CON pilot files. Field names are my best knowledge of the export format and are read defensively.
 const nice=id=>String(id||'').replace(/^mf_/,'').replace(/[_-]+/g,' ').replace(/\b\w/g,m=>m.toUpperCase());
 const unq=v=>String(v==null?'':v).trim().replace(/^["'“”‘’]+|["'“”‘’]+$/g,'').trim();
+const plain=h=>String(h==null?'':h).replace(/<br\s*\/?>/gi,'\n').replace(/<\/(p|li|div)>/gi,'\n').replace(/<[^>]+>/g,'').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/\n{3,}/g,'\n\n').trim();
+const tagTxt=t=>{const id=String(t.id||t.name||'').replace(/^tg_/,''),n=id.length<=2?id.toUpperCase():nice(id);return t.val!=null&&t.val!==''?n+' '+t.val:n};
+const dmgTxt=a=>(a||[]).map(d=>(d.val!=null?d.val:'')+' '+(d.type||'')).join(' + ').trim();
+const rngTxt=a=>(a||[]).map(d=>(d.type||'')+' '+(d.val!=null?d.val:'')).join(', ').trim();
+function wpn(w,size){
+  const d=(w&&w.data)||{},pr=(d.profiles&&d.profiles[w.selectedProfile||0])||d;
+  return{n:w.flavorName||d.name||nice(w.id),t:d.type||'',sz:size||d.mount||'',dmg:dmgTxt(pr.damage||d.damage),rng:rngTxt(pr.range||d.range),sp:+d.sp||0,
+    tags:(pr.tags||d.tags||[]).map(tagTxt),eff:plain(pr.effect||pr.on_attack||d.effect||d.on_attack||''),note:plain(w.note||'')};
+}
+function mechSheet(m,fd,st,sk,grit){
+  const L=(m.loadouts&&m.loadouts[m.active_loadout_index||0])||(m.loadouts&&m.loadouts[0])||{};
+  const mounts=(L.mounts||[]).map(mt=>({t:mt.mount_type||'Mount',w:[...(mt.slots||[]),...(mt.extra||[])].map(sl=>sl&&sl.weapon?wpn(sl.weapon,sl.size):null).filter(Boolean)}));
+  const integ=[];
+  (L.integratedMounts||[]).forEach(mt=>(mt.slots||[]).forEach(sl=>{if(sl&&sl.weapon)integ.push(wpn(sl.weapon,'Integrated'))}));
+  if(L.integratedWeapon&&L.integratedWeapon.data)integ.push(wpn(L.integratedWeapon,'Integrated'));
+  const sysf=x=>{const d=x.data||{};return{n:x.flavorName||d.name||nice(x.id),t:d.type||'',sp:+d.sp||0,tags:(d.tags||[]).map(tagTxt),eff:plain(d.effect||''),used:x.destroyed?0:1}};
+  const systems=(L.systems||[]).map(sysf),isys=(L.integratedSystems||[]).map(sysf);
+  const used=systems.reduce((a,x)=>a+x.sp,0)+mounts.reduce((a,mt)=>a+mt.w.reduce((b,w)=>b+w.sp,0),0);
+  const cs=fd&&fd.core_system||null;
+  return{frame:fd&&fd.name||'',src:fd&&fd.source||'',lic:fd&&fd.license_level!=null?fd.license_level:'',types:(fd&&fd.mechtype)||[],desc:plain(fd&&fd.description||'').slice(0,900),
+    traits:((fd&&fd.traits)||[]).map(t=>({n:t.name,d:plain(t.description||'')})),
+    core:cs?{n:cs.name,pn:cs.passive_name||'',pe:plain(cs.passive_effect||''),an:cs.active_name||'',ae:plain(cs.active_effect||''),use:cs.use||'',act:cs.activation||''}:null,
+    stats:{size:st.size,armor:+st.armor||0,sensor:st.sensor_range,tech:(+st.tech_attack||0)+sk[2],save:(+st.save||0)+grit,repcap:(+st.repcap||0)+Math.floor(sk[0]/2),sp:(+st.sp||0)+Math.floor(sk[2]/2)+grit,spUsed:used,atk:grit},
+    mounts,integ,systems,isys,skills:sk};
+}
+function pilotSheet(x,sk,grit){
+  const lo=(Array.isArray(x.loadouts)&&x.loadouts[x.active_index||0])||{},gear=a=>(Array.isArray(a)?a:[]).filter(Boolean).map(g=>{const d=g.data||{};return{n:d.name||nice(g.id),d:plain(d.description||d.effect||'').slice(0,400)}});
+  return{callsign:unq(x.callsign),name:x.name||'',player:x.player_name||'',status:x.status||'',bg:x.background||'',level:+x.level||0,grit,hp:6+grit,sk,
+    app:x.text_appearance||'',notes:x.notes||'',hist:x.history||'',quirks:x.quirks||[],
+    skills:(x.skills||[]).map(k=>({n:(k.data&&k.data.name)||nice(k.id),r:+k.rank||1,d:plain((k.data&&k.data.description)||'')})),
+    talents:(x.talents||[]).map(t=>{const d=t.data||{},r=+t.rank||1;return{n:d.name||nice(t.id),r,terse:d.terse||'',ranks:(d.ranks||[]).slice(0,r).map(k=>({n:k.name,d:plain(k.description||'')}))}}),
+    core:(x.core_bonuses||[]).map(b=>{const d=b.data||b;return{n:d.name||nice(b.id),d:plain(d.effect||d.description||'')}}),
+    lic:(x.licenses||[]).map(l=>({n:(l.data&&l.data.name)||nice(String(l.id||'').replace(/^mf_/,'')),r:+l.rank||0})),
+    reserves:(x.reserves||[]).map(r=>({n:r.name||nice(r.id),d:plain(r.description||r.label||'')})),
+    armor:gear(lo.armor),weapons:gear(lo.weapons),gear:gear(lo.gear),
+    bond:x.bond&&typeof x.bond==='object'?{minor:x.bond.minorIdeal||'',stress:x.bond.stress,max:x.bond.maxStress}:null};
+}
 function parseCC(txt){
   let j;try{j=JSON.parse(txt)}catch(e){return[]}
   const found=[];
@@ -1182,7 +1313,7 @@ function parseCC(txt){
   };
   walk(j);
   return found.map(x=>{
-    const sk=Array.isArray(x.mechSkills)?x.mechSkills.map(v=>+v||0):[0,0,0,0],agi=sk[1]||0,grit=Math.ceil((+x.level||0)/2);
+    const sk0=Array.isArray(x.mechSkills)?x.mechSkills.map(v=>+v||0):[],sk=[0,1,2,3].map(i=>sk0[i]||0),agi=sk[1],grit=Math.ceil((+x.level||0)/2);
     const mechs=(Array.isArray(x.mechs)?x.mechs:[]).map(m=>{
       const fd=m.frameData&&typeof m.frameData==='object'?m.frameData:null,f=m.frame;
       const fid=typeof f==='string'?f:(f&&(f.id||f.name))||m.frame_id||'';
@@ -1193,10 +1324,11 @@ function parseCC(txt){
         speed:st.speed!=null?st.speed+Math.floor(agi/2):'',
         hp:st.hp!=null?(+st.hp||0)+2*sk[0]+grit:'',heat:st.heatcap!=null?(+st.heatcap||0)+sk[3]:'',armor:st.armor!=null?+st.armor||0:'',
         evasion:st.evasion!=null?(+st.evasion||0)+agi:'',edef:st.edef!=null?(+st.edef||0)+sk[2]:'',
+        sheet:mechSheet(m,fd,st,sk,grit),
         active:!!m.active||(!!m.id&&(m.id===x.active_mech||m.id===x.favorite_mech))};
     });
     let mi=mechs.findIndex(m=>m.active);if(mi<0)mi=0;
-    return{pilot:unq(x.name),callsign:unq(x.callsign),level:x.level!=null?x.level:'',mechs,mi};
+    return{pilot:unq(x.name),callsign:unq(x.callsign),level:x.level!=null?x.level:'',mechs,mi,ps:pilotSheet(x,sk,grit)};
   }).filter(d=>d.pilot||d.callsign||d.mechs.length);
 }
 function pickMech(c,i){
@@ -1216,7 +1348,7 @@ function syncMechTok(c){
 }
 function applyCC(c,d){
   const p=c.p||(c.p={});
-  Object.assign(p,{pilot:d.pilot,callsign:d.callsign,level:d.level,mechs:d.mechs,mi:d.mi});
+  Object.assign(p,{pilot:d.pilot,callsign:d.callsign,level:d.level,mechs:d.mechs,mi:d.mi,ps:d.ps});
   pickMech(c,d.mi);
   if(d.callsign)setCardName(c,d.callsign);
   syncPilotTok(c);render();
@@ -1557,7 +1689,7 @@ function setSt(c,patch){
   s.hp=Math.max(0,Math.min(s.hpM,s.hp));s.heat=Math.max(0,Math.min(s.heatM,s.heat));
   const now=fxFlags(c),k=['dead','melt','cas'].find(x=>now[x]&&!was[x]);
   if(k)stamp(c,k);
-  render();renderTurns();const el=cardEl(c);if(el)showHov(c,el);
+  render();renderTurns();if(sheetCard===c)drawSheet();const el=cardEl(c);if(el)showHov(c,el);
 }
 const EYE_ON='<svg viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>';
 const EYE_OFF=EYE_ON.replace('</svg>','<path d="M3 3l18 18"/></svg>');
@@ -1756,5 +1888,6 @@ function draw3d(){
 setLook({});
 renderAll();
 </script>
+<div id="sheet"></div>
 </body>
 </html>
