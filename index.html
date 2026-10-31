@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Lancer table</title>
+<title>Lancer table V1.27</title>
+<!-- VERSION: bump LT_VERSION (script) and the title/brand text on every change. Small additions +0.01, larger ones more. Stays in V1.xx for now. -->
 <style>
 :root{color-scheme:dark;--bg:#0f1318;--pn:#181d24;--bt:#232a33;--ln:#313b47;--tx:#e8ebef;--mut:#8f9ba9;--ac:#d9433f;--glass:#0f1318e8;--cut:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))}
 body.light{color-scheme:light;--bg:#e6e9ee;--pn:#f5f6f8;--bt:#e3e7ed;--ln:#bcc5d0;--tx:#1a2028;--mut:#566170;--glass:#f5f6f8ec}
@@ -486,11 +487,18 @@ body.player #v3bar,body.player #v3l{display:none!important}
 #pdet.on{display:block}
 body.player #v3d,body.player #v3d *{pointer-events:none!important}
 body.player{cursor:none}
+
+#stamp q{display:block;quotes:none;font-style:italic;font-size:17px;max-width:640px;margin-top:10px;color:#fff;text-align:center;text-shadow:0 0 8px #000,0 0 3px #000;opacity:.92}
+#qed{position:fixed;inset:0;z-index:7000;background:#000b;display:none;align-items:center;justify-content:center}
+#qed.on{display:flex}
+#qed .bx{width:min(640px,92vw);background:var(--pn);border-top:3px solid var(--ac);padding:14px;display:flex;flex-direction:column;gap:8px;color:var(--tx)}
+#qed textarea{height:46vh;resize:vertical;background:#0006;color:var(--tx);border:1px solid var(--ln);padding:8px;font:13px/1.4 system-ui,sans-serif}
+#qed .row{display:flex;gap:6px;justify-content:flex-end}
 </style>
 </head>
 <body>
 <header id="tools">
-  <span class="brand">LANCER TABLE</span>
+  <span class="brand">LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.27</small></span>
   <div class="mn"><button class="mb">Map ▾</button><div class="pop">
     <div class="rw"><button class="mi" id="bMap">Load map image</button></div>
     <div class="rw"><button class="mi" id="bFit">Fit map to window</button></div>
@@ -539,6 +547,7 @@ body.player{cursor:none}
     <div class="rw"><span>Style</span><select id="skin"><option value="">Compcon</option><option value="sk-98">Windows 98</option><option value="sk-deck">Flight deck</option><option value="sk-term">Terminal</option><option value="sk-bp">Blueprint</option><option value="sk-amber">Amber CRT</option></select></div>
     <div class="rw"><span>Accent</span><div id="sws" style="display:flex;gap:5px"></div></div>
     <div class="rw"><span>Mode</span><select id="mode"><option value="dark">Dark</option><option value="light">Light</option></select></div>
+    <div class="rw"><span>Flavour lines</span><input id="flav" type="checkbox"><button class="mi" id="bQed" title="Edit the quotes that appear on round, cascade, meltdown and other animations">Edit</button></div>
     <div class="rw"><span>Height numbers</span><input id="hnum" type="checkbox"></div>
     <div class="rw"><span>Terrain colours</span><select id="tpal"></select></div>
     <div class="rw"><span>Height colours</span><select id="hpal"></select></div>
@@ -589,12 +598,14 @@ body.player{cursor:none}
   <label>Height scale <input type="range" id="v3hs" min="0.3" max="3" step="0.1" value="1"></label>
   <label><input type="checkbox" id="v3t" checked> Tokens</label><label><input type="checkbox" id="v3g" checked> Grid</label><label><input type="checkbox" id="v3n" checked> Level numbers</label>
   <button id="v3x" style="margin-left:auto">Close</button><div class="hint" id="v3h"></div></div><canvas id="v3c"></canvas><div id="v3l"></div></div>
-<div id="stamp"><div class="sbox"><small id="stU"></small><b id="stT"></b><em id="stS"></em></div></div>
+<div id="stamp"><div class="sbox"><small id="stU"></small><b id="stT"></b><em id="stS"></em><q id="stQ"></q></div></div>
 <div id="fxo"></div>
+<div id="qed"><div class="bx"><b>Flavour lines</b><div class="mut" style="font-size:12px;line-height:1.4">One line per quote. Put a heading in square brackets to say where the lines below it appear: [round] [cascade] [melt] [dead] [combat] [off]. Lines under [any], or with no heading at all, can appear on every animation. Leave a heading empty to use the [any] lines there.</div><textarea id="qta" spellcheck="false"></textarea><div class="row"><button id="qReset">Reset to examples</button><button id="qCancel">Cancel</button><button id="qSave" class="on">Save</button></div></div></div>
 <div id="pblack"><b>STAND BY</b></div>
 <div id="toast"></div>
 <script>
 const $=s=>document.querySelector(s);
+const LT_VERSION='V1.27';
 const PLAYER=location.hash==='#player';
 const PS={win:null,frozen:false,black:false,t:0,sentMap:null,map:null,rect:null};
 let LOOK={};
@@ -1042,7 +1053,7 @@ document.querySelectorAll('.mb').forEach(b=>b.onclick=e=>{e.stopPropagation();co
 document.addEventListener('click',e=>{if(!e.target.closest('.pop')||e.target.classList.contains('mi'))closeMenus()});
 const TH={'Union red':'#d9433f','Cyan':'#2ec4d6','Amber':'#f2a33a','Violet':'#9b72f2','Green':'#4fbf7a'};
 function setLook(o){
-  let l={accent:'Union red',mode:'dark',skin:'',dock:'bottom',cool:false,ctlHide:false,hnum:true,tpal:'default',hpal:'default',fog3:'off',hmax:6,pfog:'sensor',pbars:'friends',penemy:false,pfollow:true,pruler:true};
+  let l={accent:'Union red',mode:'dark',skin:'',dock:'bottom',cool:false,ctlHide:false,hnum:true,tpal:'default',hpal:'default',fog3:'off',hmax:6,pfog:'sensor',pbars:'friends',penemy:false,pfollow:true,pruler:true,flav:true};
   if(PLAYER)Object.assign(l,o);
   else try{Object.assign(l,JSON.parse(localStorage.getItem('lt-look')),o);localStorage.setItem('lt-look',JSON.stringify(l))}catch(e){Object.assign(l,o)}
   LOOK=l;
@@ -1050,7 +1061,7 @@ function setLook(o){
   document.body.classList.toggle('light',l.mode==='light');$('#mode').value=l.mode;
   ['sk-98','sk-deck','sk-term','sk-bp','sk-amber'].forEach(k=>document.body.classList.toggle(k,k===l.skin));$('#skin').value=l.skin;
   document.body.classList.toggle('cool',!!l.cool);$('#bCombat').classList.toggle('on',!!l.cool);
-  $('#tpal').value=l.tpal;$('#hpal').value=l.hpal;$('#fog3').value=l.fog3;$('#pfog').value=l.pfog;$('#pbars').value=l.pbars;$('#penemy').value=l.penemy?'1':'0';$('#pfollow').checked=l.pfollow!==false;$('#pruler').checked=l.pruler!==false;$('#hmax').value=Math.max(2,+l.hmax||6);$('#hmaxv').textContent=$('#hmax').value;applyPal(l);
+  $('#tpal').value=l.tpal;$('#hpal').value=l.hpal;$('#fog3').value=l.fog3;$('#pfog').value=l.pfog;$('#pbars').value=l.pbars;$('#penemy').value=l.penemy?'1':'0';$('#pfollow').checked=l.pfollow!==false;$('#pruler').checked=l.pruler!==false;$('#flav').checked=l.flav!==false;$('#hmax').value=Math.max(2,+l.hmax||6);$('#hmaxv').textContent=$('#hmax').value;applyPal(l);
   document.body.classList.toggle('no-hnum',l.hnum===false);$('#hnum').checked=l.hnum!==false;
   document.body.classList.toggle('ctl-off',!!l.ctlHide);$('#bEye').innerHTML=l.ctlHide?EYE_OFF:EYE_ON;$('#bEye').classList.toggle('on',!l.ctlHide);
   document.body.classList.toggle('dock-left',l.dock==='left');$('#dock').value=l.dock;dockLayout();
@@ -1823,7 +1834,7 @@ function fxBuild(k){
   if(k==='melt')return'<div style="--c1:#ff3b2f"><i class="heat"></i><i class="alarm"></i></div>';
   return'';
 }
-function playFx(k,unit,title,sub){
+function playFx(k,unit,title,sub,q){
   const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
   if(reduce){toast((unit?unit+': ':'')+title);return}
   const body=document.body,o=$('#fxo'),st=$('#stamp'),[pre,hold]=FXSEQ[k];
@@ -1832,7 +1843,7 @@ function playFx(k,unit,title,sub){
   st.className='';o.className='';o.innerHTML='';
   const show=()=>{
     body.classList.remove('pre-'+k);o.className='';o.innerHTML='';
-    $('#stU').textContent=unit;$('#stT').textContent=title;$('#stS').textContent=sub;
+    $('#stU').textContent=unit;$('#stT').textContent=title;$('#stS').textContent=(k==='round'&&q)?q:sub;$('#stQ').textContent=(k!=='round'&&q)?(/^[“"]/.test(q)?q:'“'+q+'”'):'';
     void st.offsetWidth;st.className='go k-'+k;playFx.t2=setTimeout(()=>st.className='',hold);
   };
   if(pre){body.classList.add('pre-'+k);o.innerHTML=fxBuild(k);o.className='on';playFx.t1=setTimeout(show,pre)}else show();
@@ -2044,6 +2055,31 @@ function draw3d(){
   document.addEventListener('keydown',e=>{if(!V3.open)return;if(e.key==='Escape'){if(V3.rule&&R){R=null;drawRuler();redraw3()}else close3d();e.stopPropagation()}else if(e.key==='q'||e.key==='Q'){V3.yaw-=45;redraw3()}else if(e.key==='e'||e.key==='E'){V3.yaw+=45;redraw3()}},true);
 }
 
+
+// ================= FLAVOUR LINES =================
+const QDEF={
+ round:[],cascade:[],melt:[],dead:[],combat:[],off:[],
+ any:["“Trust me.” – BT-7274", "“Protocol 3: Protect the Pilot.” – BT-7274", "“I will not lose another Pilot.” – BT-7274", "“Standby for Titanfall.”", "“I won’t miss.” – V.IV Rusty", "“Rubicon still needs me.” – V.IV Rusty", "“Get in the robot, Shinji.”", "“Anta baka?!” – Asuka Langley Soryu", "“Congratulations!”", "“Eyes up, Guardian.” – Ghost", "“Fight forever, Guardian.” – Lord Shaxx", "“Wake me when you need me.” – Master Chief", "“Nanomachines, son.” – Senator Armstrong", "“Kept you waiting, huh?” – Solid Snake", "“Rip and tear, until it is done.” – DOOM", "“War. War never changes.” – Fallout narrator", "“Snake? Snake?! SNAAAAKE!”", "“Memes. The DNA of the soul.” – Senator Armstrong", "“You must construct additional pylons.”", "“The cake is a lie.” – Portal", "“Praise the sun!” – Solaire of Astora", "“Hey, you. You’re finally awake.” – Ralof", "“Wololo.” – Monk", "“End of line.” – Master Control Program", "“I fight for the Users!” – Tron", "“Greetings, programs!” – Kevin Flynn", "“The Grid. A digital frontier.” – Kevin Flynn", "“You’re messing with my zen thing, man.” – Kevin Flynn", "“Heaven or Hell! Let’s Rock!”", "“Stairs?! NOOOOO!” – Claptrap", "“Needs more struts.”"]
+};
+let QUOTES=(()=>{try{const q=JSON.parse(localStorage.getItem('lt-quotes'));if(q&&typeof q==='object')return Object.assign({},QDEF,q)}catch(e){}return QDEF})();
+const QLAST={};
+function flavour(k){
+  if(PLAYER||LOOK.flav===false)return'';
+  if(k==='cas')k='cascade';
+  const pool=(QUOTES[k]&&QUOTES[k].length?QUOTES[k]:QUOTES.any)||[];
+  if(!pool.length)return'';
+  let q,n=0;do{q=pool[Math.random()*pool.length|0]}while(pool.length>1&&q===QLAST[k]&&n++<8);
+  QLAST[k]=q;return q;
+}
+const qText=()=>Object.keys(QDEF).map(k=>'['+k+']\n'+(QUOTES[k]||[]).join('\n')).join('\n\n');
+function qParse(t){const o={any:[]};let cur='any';t.split('\n').forEach(l=>{l=l.trim();if(!l)return;const m=/^\[(\w+)\]$/.exec(l);if(m){cur=m[1].toLowerCase();o[cur]=o[cur]||[];return}(o[cur]=o[cur]||[]).push(l)});return o}
+if(!PLAYER){
+  $('#bQed').onclick=()=>{$('#qta').value=qText();$('#qed').classList.add('on')};
+  $('#qCancel').onclick=()=>$('#qed').classList.remove('on');
+  $('#qReset').onclick=()=>{$('#qta').value=Object.keys(QDEF).map(k=>'['+k+']\n'+QDEF[k].join('\n')).join('\n\n')};
+  $('#qSave').onclick=()=>{QUOTES=Object.assign({},QDEF,{round:[],cascade:[],melt:[],dead:[],combat:[],off:[]},qParse($('#qta').value));try{localStorage.setItem('lt-quotes',JSON.stringify(QUOTES))}catch(e){}$('#qed').classList.remove('on');toast('Flavour lines saved')};
+}
+
 // ================= PLAYER SCREEN =================
 // The DM window pushes a filtered copy of the scene to a second window. Hidden items, fog of war and DM-only panels never leave this window.
 function sensorOf(it){
@@ -2092,7 +2128,7 @@ function pushPlayer(now){
 function updFreeze(){const b=$('#bFreeze');b.textContent=PS.frozen?'Frozen':'Freeze';b.classList.toggle('on',PS.frozen);$('#bBlack').classList.toggle('on',PS.black)}
 if(!PLAYER){
   ['render','renderTurns','drawInk','drawCells','drawTerrain','drawHeight','drawTpl','apply','draw3d','open3d','close3d','drawRuler'].forEach(n=>{const f=window[n];window[n]=function(){const r=f.apply(this,arguments);pushPlayer();return r}});
-  {const f=playFx;window.playFx=function(...a){if(PS.win&&!PS.win.closed&&!PS.frozen)PS.win.postMessage({t:'fx',a},'*');return f.apply(this,a)}}
+  {const f=playFx;window.playFx=function(...a){a[4]=a[4]||flavour(a[0]);if(PS.win&&!PS.win.closed&&!PS.frozen)PS.win.postMessage({t:'fx',a},'*');return f.apply(this,a)}}
   $('#v3x').addEventListener('click',()=>pushPlayer());$('#b3d').addEventListener('click',()=>pushPlayer());
   $('#bPlayer').onclick=()=>{
     if(PS.win&&!PS.win.closed){PS.win.focus();return}
@@ -2103,11 +2139,11 @@ if(!PLAYER){
   $('#bFreeze').onclick=()=>{PS.frozen=!PS.frozen;updFreeze();if(!PS.frozen)pushPlayer(true);else toast('Player screen frozen. Changes stay hidden until you unfreeze.')};
   $('#bBlack').onclick=()=>{PS.black=!PS.black;updFreeze();if(PS.win&&!PS.win.closed)PS.win.postMessage({t:'black',on:PS.black},'*')};
   $('#pfog').onchange=e=>setLook({pfog:e.target.value});$('#pbars').onchange=e=>setLook({pbars:e.target.value});
-  $('#penemy').onchange=e=>setLook({penemy:e.target.value==='1'});$('#pfollow').onchange=e=>setLook({pfollow:e.target.checked});$('#pruler').onchange=e=>setLook({pruler:e.target.checked});
+  $('#penemy').onchange=e=>setLook({penemy:e.target.value==='1'});$('#pfollow').onchange=e=>setLook({pfollow:e.target.checked});$('#pruler').onchange=e=>setLook({pruler:e.target.checked});$('#flav').onchange=e=>setLook({flav:e.target.checked});
   window.addEventListener('message',e=>{if(PS.win&&e.source===PS.win&&e.data&&e.data.t==='ready'){PS.sentMap=null;PS.frozen=false;updFreeze();pushPlayer(true)}});
   setInterval(()=>{if(PS.win&&PS.win.closed){PS.win=null;PS.frozen=false;$('#bFreeze').style.display='none'}},1500);
 }else{
-  document.body.classList.add('player');document.title='Lancer Table - Player screen';
+  document.body.classList.add('player');document.title='Lancer Table '+LT_VERSION+' - Player screen';
   let lastRect=null;
   {const d=document.createElement('div');d.id='pdet';d.innerHTML='<div id="losOut"></div>';document.body.append(d)}
   window.losCalc=()=>PS.L;window.losVerdict=()=>PS.V;
