@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kyubisan's Lancer Table V1.50</title>
+<title>Kyubisan's Lancer Table V1.52</title>
 <!-- Copyright (c) 2026 Fox Murray. All rights reserved. -->
 <!-- VERSION: bump LT_VERSION (script) and the title/brand text on every change. Small additions +0.01, larger ones more. Stays in V1.xx for now. -->
 <style>
@@ -23,6 +23,33 @@ input[type=number]{width:74px}input[type=color]{padding:0;width:34px;height:26px
 .sep{width:1px;height:22px;background:var(--ln);margin:0 4px}.sp{flex:1}
 .mn{position:relative}
 .pop{display:none;position:absolute;top:calc(100% + 8px);left:0;min-width:290px;flex-direction:column;gap:7px;padding:10px;background:var(--pn);border:1px solid var(--ln);border-top:3px solid var(--ac);box-shadow:0 12px 32px #0009;z-index:30}
+.aptabs{display:flex;gap:4px;border-bottom:1px solid var(--ln);padding-bottom:7px}
+.aptab{flex:1;padding:5px 4px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:var(--bt);color:var(--tx);border:1px solid var(--ln);cursor:pointer}
+.aptab.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.apg{display:none;flex-direction:column;gap:7px}.apg.on{display:flex}
+/* combat tickers */
+.tk{display:none;position:absolute;left:0;right:0;height:17px;overflow:hidden;pointer-events:none;z-index:6;font:600 10px/17px "Cascadia Mono",Consolas,"Courier New",monospace;letter-spacing:.22em;text-transform:uppercase;color:var(--ac);opacity:.42;white-space:nowrap;text-shadow:0 0 6px var(--ac);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.tk.t{top:0;border-bottom:1px solid color-mix(in srgb,var(--ac) 35%,transparent)}.tk.b{bottom:0;border-top:1px solid color-mix(in srgb,var(--ac) 35%,transparent)}
+body.cool .tk{display:block}body.player.cool .tk{opacity:.34}
+.tk i{display:inline-block;font-style:normal;will-change:transform;animation:tkL 70s linear infinite}.tk.b i{animation-name:tkR;animation-duration:90s}
+@keyframes tkL{to{transform:translateX(-50%)}}@keyframes tkR{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+@media (prefers-reduced-motion:reduce){.tk i{animation-duration:400s}}
+/* Edgerunners */
+body.sk-edge{--bg:#0a0710;--pn:#120b1c;--bt:#1a1028;--ln:#ff2a6d;--tx:#f6f1ff;--mut:#b79ad6;--ac:#fcee0a;--hl:#00f0ff;--glass:#0e0817ee;font:13px/1.3 "Rajdhani","Bahnschrift","Segoe UI",Tahoma,sans-serif;letter-spacing:.04em}
+.sk-edge .sel,.sk-edge #tools,.sk-edge .pop,.sk-edge #ctl,.sk-edge #insp,.sk-edge #tpanel,.sk-edge #sheet,.sk-edge #hov,.sk-edge #prof,.sk-edge #ref,.sk-edge #pdet,.sk-edge #qed .bx{background:repeating-linear-gradient(135deg,#ffffff06 0 2px,transparent 2px 7px),linear-gradient(180deg,#1a0f2a,#0d0816);border:1px solid #ff2a6d;border-radius:0;box-shadow:3px 3px 0 #00f0ff55,0 0 16px #ff2a6d44}
+.sk-edge #tools{border-width:0 0 2px;border-color:#fcee0a;box-shadow:0 3px 0 #ff2a6d,0 6px 18px #ff2a6d55}
+.sk-edge .brand{color:#fcee0a;text-shadow:2px 0 #ff2a6d,-2px 0 #00f0ff;border-right-color:#ff2a6d}
+.sk-edge button,.sk-edge select,.sk-edge input{background:#0d0816;border:1px solid #ff2a6d;border-radius:0;color:#f6f1ff;text-shadow:none}
+.sk-edge button{text-transform:uppercase;letter-spacing:.1em;font-weight:700}
+.sk-edge button:hover:not(.on):not(.sw){border-color:#fcee0a;color:#fcee0a;box-shadow:2px 2px 0 #00f0ff,0 0 10px #fcee0a55}
+.sk-edge button.on{background:#fcee0a;color:#120b1c;text-shadow:none;border-color:#fcee0a;box-shadow:3px 3px 0 #ff2a6d}
+.sk-edge #bCombat.on,.sk-edge #bFreeze.on{background:#ff2a6d;border-color:#ff2a6d;color:#fff;box-shadow:3px 3px 0 #00f0ff,0 0 16px #ff2a6d}
+.sk-edge .pf{border-radius:0;box-shadow:3px 3px 0 #ff2a6d}
+.sk-edge .token{box-shadow:0 0 10px currentColor}
+.sk-edge #sheet h4,.sk-edge #sheet .rk b{color:#fcee0a;text-shadow:1px 0 #ff2a6d,-1px 0 #00f0ff}
+.sk-edge #sheet .tl,.sk-edge #sheet .dt{border-color:#ff2a6d88;background:#ff2a6d0d}
+.sk-edge .aptab.on{box-shadow:2px 2px 0 #ff2a6d}
+.sk-edge #vp{background:#07040c}.sk-edge #world{background:radial-gradient(ellipse at 30% 20%,#2a0f3a,#07040c 75%)}.sk-edge #gp{stroke:#00f0ff!important;stroke-opacity:.3}
 .pop.open{display:flex}.pop .sec{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);border-top:1px solid var(--ln);padding-top:6px;margin-top:2px}.pop .sec:first-child{border-top:0;padding-top:0;margin-top:0}.tplrow{display:flex;gap:4px}.tplrow .mi{flex:1;padding-left:4px;padding-right:4px;text-align:center}.mn.r .pop{left:auto;right:0}
 .rw{display:flex;align-items:center;gap:8px}
 .rw>span{flex:1;color:var(--mut)}.rw .mi{flex:1;text-align:left}
@@ -564,7 +591,7 @@ body.player #gmq{display:none!important}
 </head>
 <body>
 <header id="tools">
-  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.50</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
+  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.52</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
   <div class="mn"><button class="mb">Map ▾</button><div class="pop">
     <div class="rw"><button class="mi" id="bMap">Load map image</button></div>
     <div class="rw"><button class="mi" id="bFit">Fit map to window</button></div>
@@ -609,27 +636,36 @@ body.player #gmq{display:none!important}
   <span class="sp"></span>
   <button id="bRef" title="Turn options, template shapes, cover, terrain and statuses">Rules</button>
   <div class="mn r"><button class="mb">Appearance ▾</button><div class="pop">
-    <div class="rw"><span>Style</span><select id="skin"><option value="">Compcon</option><option value="sk-98">Windows 98</option><option value="sk-term">Terminal</option><option value="sk-tron">Tron</option><option value="sk-amber">Amber CRT</option></select></div>
+    <div class="aptabs"><button type="button" class="aptab on" data-g="look">Look</button><button type="button" class="aptab" data-g="map">Map</button><button type="button" class="aptab" data-g="players">Players</button><button type="button" class="aptab" data-g="fx">Effects</button></div>
+    <div class="apg on" data-g="look">
+    <div class="rw"><span>Style</span><select id="skin"><option value="">Compcon</option><option value="sk-98">Windows 98</option><option value="sk-term">Terminal</option><option value="sk-tron">Tron</option><option value="sk-edge">Edgerunners</option><option value="sk-amber">Amber CRT</option></select></div>
     <div class="rw"><span>Accent</span><div id="sws" style="display:flex;gap:5px"></div></div>
     <div class="rw"><span>Mode</span><select id="mode"><option value="dark">Dark</option><option value="light">Light</option></select></div>
+    <div class="rw"><span>Turn bar</span><select id="dock"><option value="bottom">Bottom</option><option value="left">Left</option></select></div>
     <div class="rw"><span>Hover summary</span><input id="tipt" type="checkbox"><i class="q" data-tip="Rest the pointer on a token for a moment (2D or 3D) to see its mech, weapons, HP and heat."></i></div>
-    <div class="rw"><span>Hover summary on player screen</span><input id="ptip" type="checkbox"></div>
     <div class="rw"><span>Flavour lines</span><input id="flav" type="checkbox"><button class="mi" id="bQed" title="Edit the quotes that appear on round, cascade, meltdown and other animations">Edit</button></div>
+    </div>
+    <div class="apg" data-g="map">
     <div class="rw"><span>Height numbers</span><input id="hnum" type="checkbox"></div>
     <div class="rw"><span>Terrain colours</span><select id="tpal"></select></div>
     <div class="rw"><span>Height colours</span><select id="hpal"></select></div>
     <div class="rw"><span>Colour levels</span><input id="hmax" type="range" min="2" max="20" step="1" value="6" style="flex:1"><b id="hmaxv" style="min-width:18px;text-align:right">6</b><i class="q" data-tip="How many height levels the colour gradient spreads over. Set it to the highest level you use so the steps look as different as possible."></i></div>
+    <div class="rw"><span>Fog in 3D</span><select id="fog3"><option value="off">Normal</option><option value="dark">Darkened</option><option value="black">Black</option></select></div>
+    </div>
+    <div class="apg" data-g="players">
     <div class="rw"><span>Player screen</span><button class="mi" id="bPlayer" title="Opens a second window for your players. Drag it to the second monitor or share just that window.">Open window</button><button class="mi" id="bBlack" title="Blank the player screen between scenes">Blackout</button></div>
     <div class="rw"><span>Fog for players</span><select id="pfog"><option value="sensor">Revealed by sensors</option><option value="stay">Always hidden</option></select><i class="q" data-tip="Fog of war tiles are black on the player screen. With sensors, anything within a player or ally mech's sensor range is uncovered. Vapour and smoke are separate tiles and never hide anything."></i></div>
     <div class="rw"><span>HP and heat bars</span><select id="pbars"><option value="friends">Players and allies</option><option value="all">Everyone</option><option value="none">Nobody</option></select></div>
     <div class="rw"><span>Enemy portraits</span><select id="penemy"><option value="0">Show in turn bar</option><option value="1">Hide from players</option></select></div>
     <div class="rw"><span>Follow my view</span><input id="pfollow" type="checkbox"><i class="q" data-tip="The player screen shows whatever part of the map you are looking at. Turn off to show the whole map."></i></div>
     <div class="rw"><span>Show my ruler</span><input id="pruler" type="checkbox"><i class="q" data-tip="Players see your ruler and line of sight result, in 2D and 3D. The result is worked out on your screen, so hidden cover still counts."></i></div>
+    <div class="rw"><span>Hover summary on player screen</span><input id="ptip" type="checkbox"></div>
+    </div>
+    <div class="apg" data-g="fx">
     <div class="rw"><span>Weather</span><select id="wx_k"><option value="none">None</option><option value="rain">Rain</option><option value="snow">Snow</option><option value="sand">Sand</option><option value="soot">Soot and ash</option><option value="embers">Embers</option></select><select id="wx_i"><option value="1">Light</option><option value="2">Medium</option><option value="3">Heavy</option></select></div>
     <div class="rw"><span>Weather shows on</span><select id="wx_w"><option value="player">Player screen</option><option value="both">Both screens</option><option value="gm">My screen only</option></select></div>
     <div class="rw"><span>Glitch effects</span><select id="fxq"><option value="full">Full (colour glitching)</option><option value="light">Light (shake only, for huge maps)</option></select><i class="q" data-tip="Full distorts and recolours the whole map during the effects before COMBAT ENGAGED, cascade and so on. On a very large map that can stutter, so switch to Light if it does.">?</i></div>
-    <div class="rw"><span>Fog in 3D</span><select id="fog3"><option value="off">Normal</option><option value="dark">Darkened</option><option value="black">Black</option></select></div>
-    <div class="rw"><span>Turn bar</span><select id="dock"><option value="bottom">Bottom</option><option value="left">Left</option></select></div>
+    </div>
   </div></div>
   <div class="mn r"><button class="mb">File ▾</button><div class="pop">
     <div class="rw"><span>Scene name</span><input type="text" id="sname" placeholder="lancer-scene"></div>
@@ -641,7 +677,7 @@ body.player #gmq{display:none!important}
 </header>
 <div id="insp"></div>
 <div id="tpanel"></div>
-<div id="vp">
+<div id="vp"><div class="tk t" id="tkT"><i></i></div><div class="tk b" id="tkB"><i></i></div>
   <div id="tedPill" title="Click to lock terrain again">TERRAIN EDIT · click to lock</div>
   <div id="world"><img id="mapimg" alt=""><svg id="grid"><defs><clipPath id="mapclip"><rect id="mcr" x="0" y="0" width="2000" height="1400"/></clipPath><pattern id="pt" patternUnits="userSpaceOnUse"><path id="gp" fill="none"/></pattern></defs><rect width="100%" height="100%" fill="url(#pt)"/></svg><svg id="terr"><defs>
 <pattern id="p-rough" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" style="fill:var(--tr)" fill-opacity=".3"/><path d="M0 10L10 0" style="stroke:var(--tr)" stroke-width="1.6" stroke-opacity=".8"/><circle cx="3" cy="3" r="1.2" style="fill:var(--tr)"/><circle cx="8" cy="7.5" r="1.2" style="fill:var(--tr)"/></pattern>
@@ -679,7 +715,7 @@ body.player #gmq{display:none!important}
 <div id="toast"></div>
 <script>
 const $=s=>document.querySelector(s);
-const LT_VERSION='V1.50';
+const LT_VERSION='V1.52';
 const PLAYER=location.hash==='#player';
 const PS={win:null,frozen:false,black:false,t:0,sentMap:null,map:null,rect:null};
 let LOOK={};
@@ -880,7 +916,7 @@ function renderTurns(){
     d.draggable=false;d.onpointerdown=e=>tcDown(e,c,d);
     t.append(d);
   });
-  $('#count').textContent=`Round ${S.round}: ${S.turns.filter(c=>!c.done).length} of ${S.turns.length} ready`;
+  tkBuild();$('#count').textContent=`Round ${S.round}: ${S.turns.filter(c=>!c.done).length} of ${S.turns.length} ready`;
   t.dataset.round=String(S.round).padStart(2,'0');t.dataset.ready=S.turns.filter(c=>!c.done).length+'/'+S.turns.length;
   dockLayout();
 }
@@ -1224,7 +1260,7 @@ function editName(c,d){
 }
 function toast(t){const e=$('#toast');e.textContent=t;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',3000)}
 const closeMenus=()=>document.querySelectorAll('.pop.open').forEach(p=>p.classList.remove('open'));
-document.querySelectorAll('.mb').forEach(b=>b.onclick=e=>{e.stopPropagation();const p=b.nextElementSibling,o=p.classList.contains('open');closeMenus();if(!o)p.classList.add('open')});
+document.querySelectorAll('.mb').forEach(b=>b.onclick=e=>{e.stopPropagation();const p=b.nextElementSibling,o=p.classList.contains('open');closeMenus();p.style.left=p.style.right='';if(!o){p.classList.add('open');const r=p.getBoundingClientRect();if(r.left<4){p.style.left='0';p.style.right='auto'}else if(r.right>innerWidth-4){p.style.left='auto';p.style.right='0'}}});
 document.addEventListener('click',e=>{if(!e.target.closest('.pop')||e.target.classList.contains('mi'))closeMenus()});
 const TH={'Union red':'#d9433f','Cyan':'#2ec4d6','Amber':'#f2a33a','Violet':'#9b72f2','Green':'#4fbf7a'};
 // weather: light particle overlay, optional per screen
@@ -1280,6 +1316,17 @@ function wxApply(l){
   if(W.cv)W.cv.style.display=on?'block':'none';
   if(on&&!W.raf){W.t0=performance.now();W.raf=requestAnimationFrame(wxFrame)}
 }
+const TKL=['SYSTEM ENGAGED','COMBAT MODE ACTIVE','LANCER COMMS ONLINE','ALL UNITS HOLD FOR ORDERS','HOSTILE CONTACT','WEAPONS FREE','NHP LINK STABLE','TACTICAL NET SYNC','STAND BY FOR TURN ORDER','REACTOR TELEMETRY NOMINAL','IFF TRANSPONDERS LIVE','PROTOCOL 3: PROTECT THE PILOT'];
+function tkBuild(){
+  if(!document.body.classList.contains('cool'))return;
+  const n=(typeof S!=='undefined'&&S.turns)?S.turns.length:0,r=(typeof S!=='undefined')?S.round:1;
+  const a=['ROUND '+String(r).padStart(2,'0'),n+' UNITS ON THE BOARD'].concat(TKL),sp='  ◆  ';
+  const mk=(arr)=>{const t=arr.join(sp)+sp;return t+t};
+  const b=a.slice().reverse();
+  const T=$('#tkT i'),B=$('#tkB i');if(!T||!B)return;
+  const k=a.join('|');if(tkBuild.k===k)return;tkBuild.k=k;
+  T.textContent=mk(a);B.textContent=mk(b);
+}
 function setLook(o){
   let l={accent:'Union red',mode:'dark',skin:'',dock:'bottom',cool:false,ctlHide:false,hnum:true,tpal:'default',hpal:'default',fog3:'off',hmax:6,pfog:'sensor',pbars:'friends',penemy:false,pfollow:true,pruler:true,flav:true,tip:true,ptip:false,wx:'none',wint:2,wwho:'player',fxq:'full'};
   if(PLAYER)Object.assign(l,o);
@@ -1287,9 +1334,9 @@ function setLook(o){
   LOOK=l;
   document.documentElement.style.setProperty('--ac',TH[l.accent]||TH['Union red']);
   document.body.classList.toggle('light',l.mode==='light');$('#mode').value=l.mode;
-  if(!['','sk-98','sk-term','sk-amber','sk-tron'].includes(l.skin))l.skin='';
-  ['sk-98','sk-term','sk-amber','sk-tron'].forEach(k=>document.body.classList.toggle(k,k===l.skin));$('#skin').value=l.skin;
-  document.body.classList.toggle('cool',!!l.cool);$('#bCombat').classList.toggle('on',!!l.cool);
+  if(!['','sk-98','sk-term','sk-amber','sk-tron','sk-edge'].includes(l.skin))l.skin='';
+  ['sk-98','sk-term','sk-amber','sk-tron','sk-edge'].forEach(k=>document.body.classList.toggle(k,k===l.skin));$('#skin').value=l.skin;
+  document.body.classList.toggle('cool',!!l.cool);tkBuild();$('#bCombat').classList.toggle('on',!!l.cool);
   $('#tpal').value=l.tpal;$('#hpal').value=l.hpal;$('#fog3').value=l.fog3;$('#pfog').value=l.pfog;$('#pbars').value=l.pbars;$('#penemy').value=l.penemy?'1':'0';$('#pfollow').checked=l.pfollow!==false;$('#pruler').checked=l.pruler!==false;$('#flav').checked=l.flav!==false;$('#tipt').checked=l.tip!==false;$('#ptip').checked=!!l.ptip;$('#hmax').value=Math.max(2,+l.hmax||6);$('#hmaxv').textContent=$('#hmax').value;applyPal(l);
   document.body.classList.toggle('no-hnum',l.hnum===false);$('#hnum').checked=l.hnum!==false;
   document.body.classList.toggle('ctl-off',!!l.ctlHide);$('#bEye').innerHTML=l.ctlHide?EYE_OFF:EYE_ON;$('#bEye').classList.toggle('on',!l.ctlHide);
@@ -1302,6 +1349,7 @@ function setLook(o){
 }
 $('#sws').innerHTML=Object.entries(TH).map(([n,c])=>`<button class="sw" data-t="${n}" style="--s:${c}" title="${n}"></button>`).join('');
 $('#sws').onclick=e=>{if(e.target.dataset.t)setLook({accent:e.target.dataset.t})};
+document.querySelectorAll('.aptab').forEach(b=>b.onclick=e=>{e.stopPropagation();const g=b.dataset.g;document.querySelectorAll('.aptab').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('.apg').forEach(x=>x.classList.toggle('on',x.dataset.g===g))});
 $('#fxq').onchange=e=>setLook({fxq:e.target.value});
 $('#wx_k').onchange=e=>setLook({wx:e.target.value});$('#wx_i').onchange=e=>setLook({wint:+e.target.value});$('#wx_w').onchange=e=>setLook({wwho:e.target.value});
 $('#mode').onchange=e=>setLook({mode:e.target.value});
