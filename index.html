@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Lancer table V1.30</title>
+<title>Kyubisan's Lancer Table V1.39</title>
+<!-- Copyright (c) 2026 Fox Murray. All rights reserved. -->
 <!-- VERSION: bump LT_VERSION (script) and the title/brand text on every change. Small additions +0.01, larger ones more. Stays in V1.xx for now. -->
 <style>
 :root{color-scheme:dark;--bg:#0f1318;--pn:#181d24;--bt:#232a33;--ln:#313b47;--tx:#e8ebef;--mut:#8f9ba9;--ac:#d9433f;--glass:#0f1318e8;--cut:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))}
@@ -56,6 +57,20 @@ label{display:flex;align-items:center;gap:5px;color:var(--mut)}
 #count{color:var(--mut);font-size:12px}
 #turns{display:flex;flex-wrap:wrap;gap:12px;flex:1;padding:10px 6px 4px;align-items:flex-end;pointer-events:none}
 #turns .mut{text-shadow:0 1px 3px #000}
+#fogNote{position:fixed;right:14px;bottom:14px;z-index:30;display:none;align-items:center;gap:8px;padding:7px 12px;background:var(--pn);color:var(--tx);border:1px solid var(--ln);border-left:3px solid var(--ac);font-size:11px;letter-spacing:.06em;cursor:pointer;box-shadow:0 6px 18px #0009;max-width:300px}
+#fogNote.on{display:flex}#fogNote b{letter-spacing:.14em;text-transform:uppercase}#fogNote i{font-style:normal;opacity:.75}
+body.player #fogNote{display:none!important}
+body:not(.tedit) #layer .it:not(.token):not(.tpl):not(.rot){pointer-events:none}
+.it.token{z-index:2}.tooling .it.token{cursor:move}
+#tedPill{position:absolute;top:58px;left:50%;transform:translateX(-50%);z-index:12;display:none;padding:4px 12px;border-radius:12px;background:var(--pn);border:1px solid var(--ac);color:var(--tx);font-size:11px;font-weight:700;letter-spacing:.1em;cursor:pointer;box-shadow:0 4px 14px #0008}
+body.tedit #tedPill{display:block}body.player #tedPill{display:none!important}
+.tc{touch-action:none;user-select:none;-webkit-user-select:none}.tc .pf{cursor:grab}
+body.tc-dragging,body.tc-dragging *{cursor:grabbing!important}
+body.tc-dragging .tc:hover .pf{transform:none}
+.tc.tc-src{opacity:.35}
+#tcGhost{position:fixed;z-index:9999;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:3px;border:3px solid var(--c);background:#2a323c center/cover no-repeat;display:grid;place-items:center;font-size:26px;font-weight:700;color:#e8ebef;pointer-events:none;box-shadow:0 8px 24px #000a;opacity:.92;transition:transform .12s}
+#tcGhost.map{transform:scale(1.12) rotate(-3deg);border-style:dashed}
+#tcMark{position:fixed;z-index:9998;display:none;background:var(--acc,#6fd3ff);border-radius:2px;box-shadow:0 0 10px var(--acc,#6fd3ff);pointer-events:none}
 .tc{position:relative;width:76px;flex:none;cursor:pointer;text-align:center;pointer-events:auto}
 .pf{width:76px;height:76px;border-radius:3px;border:3px solid var(--c);background:#2a323c center/cover no-repeat;display:grid;place-items:center;font-size:28px;font-weight:700;color:#e8ebef;box-shadow:0 0 16px color-mix(in srgb,var(--c) 75%,transparent);transition:filter .2s,opacity .2s,box-shadow .2s,transform .15s}
 .tc:hover .pf{transform:translateY(-2px)}
@@ -502,11 +517,23 @@ body.sk-tron{--bg:#000;--pn:#03080d;--bt:#06121a;--ln:#1b8aa6;--tx:#d8f6ff;--mut
 #tip .tbar div i{position:absolute;inset:0 auto 0 0}
 #tip .tbar div b{position:absolute;inset:0;text-align:center;font-size:10px;line-height:12px;color:#fff;text-shadow:0 1px 2px #000}
 #tip hr{border:0;border-top:1px solid var(--ln);margin:6px 0 2px}
+
+#tg,#cg,#cgt,#hg,#hbg{clip-path:url(#mapclip)}
+#gmq{position:fixed;right:0;top:38%;z-index:5300;display:flex;align-items:flex-start;flex-direction:row-reverse}
+#gmqb{writing-mode:vertical-rl;padding:10px 4px;letter-spacing:.2em;font-weight:700}
+#gmqp{display:none;width:232px;padding:10px 12px;background:var(--pn);color:var(--tx);border:1px solid var(--ln);border-right:0;border-top:3px solid var(--ac);box-shadow:0 10px 28px #000a;flex-direction:column;gap:6px;font-size:12px}
+#gmq.open #gmqp{display:flex}
+#gmqp b{font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+#gmqp label{display:flex;align-items:center;gap:6px;justify-content:flex-start}
+#gmqp label input[type=checkbox]{order:-1;margin-right:2px}
+#gmqp label:has(select){justify-content:space-between}
+#gmqp .qr{display:flex;gap:6px}#gmqp .qr button{flex:1}
+body.player #gmq{display:none!important}
 </style>
 </head>
 <body>
 <header id="tools">
-  <span class="brand">LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.30</small></span>
+  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.39</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
   <div class="mn"><button class="mb">Map ▾</button><div class="pop">
     <div class="rw"><button class="mi" id="bMap">Load map image</button></div>
     <div class="rw"><button class="mi" id="bFit">Fit map to window</button></div>
@@ -543,6 +570,7 @@ body.sk-tron{--bg:#000;--pn:#03080d;--bt:#06121a;--ln:#1b8aa6;--tx:#d8f6ff;--mut
     <div class="rw"><button class="mi" id="bTerr" title="Paint difficult terrain, dangerous terrain and obstructions">Terrain</button></div>
     <div class="rw"><button class="mi" id="bHt" title="Paint height levels over cells">Height</button></div>
     <div class="rw"><button class="mi" id="bStop">Stop drawing</button></div>
+    <div class="rw"><button class="mi" id="bTEdit" title="Unlock map objects, cover and terrain pieces so they can be selected, moved and resized. Tokens always stay movable.">Terrain edit: locked</button></div>
   </div></div>
   <button id="bSnap" title="Snap tokens, objects and the ruler to the grid">Snap</button>
   <span class="sp"></span>
@@ -556,6 +584,7 @@ body.sk-tron{--bg:#000;--pn:#03080d;--bt:#06121a;--ln:#1b8aa6;--tx:#d8f6ff;--mut
     <div class="rw"><span>Accent</span><div id="sws" style="display:flex;gap:5px"></div></div>
     <div class="rw"><span>Mode</span><select id="mode"><option value="dark">Dark</option><option value="light">Light</option></select></div>
     <div class="rw"><span>Hover summary</span><input id="tipt" type="checkbox"><i class="q" data-tip="Rest the pointer on a token for a moment (2D or 3D) to see its mech, weapons, HP and heat."></i></div>
+    <div class="rw"><span>Hover summary on player screen</span><input id="ptip" type="checkbox"></div>
     <div class="rw"><span>Flavour lines</span><input id="flav" type="checkbox"><button class="mi" id="bQed" title="Edit the quotes that appear on round, cascade, meltdown and other animations">Edit</button></div>
     <div class="rw"><span>Height numbers</span><input id="hnum" type="checkbox"></div>
     <div class="rw"><span>Terrain colours</span><select id="tpal"></select></div>
@@ -567,6 +596,8 @@ body.sk-tron{--bg:#000;--pn:#03080d;--bt:#06121a;--ln:#1b8aa6;--tx:#d8f6ff;--mut
     <div class="rw"><span>Enemy portraits</span><select id="penemy"><option value="0">Show in turn bar</option><option value="1">Hide from players</option></select></div>
     <div class="rw"><span>Follow my view</span><input id="pfollow" type="checkbox"><i class="q" data-tip="The player screen shows whatever part of the map you are looking at. Turn off to show the whole map."></i></div>
     <div class="rw"><span>Show my ruler</span><input id="pruler" type="checkbox"><i class="q" data-tip="Players see your ruler and line of sight result, in 2D and 3D. The result is worked out on your screen, so hidden cover still counts."></i></div>
+    <div class="rw"><span>Weather</span><select id="wx_k"><option value="none">None</option><option value="rain">Rain</option><option value="snow">Snow</option><option value="sand">Sand</option><option value="soot">Soot and ash</option><option value="embers">Embers</option></select><select id="wx_i"><option value="1">Light</option><option value="2">Medium</option><option value="3">Heavy</option></select></div>
+    <div class="rw"><span>Weather shows on</span><select id="wx_w"><option value="player">Player screen</option><option value="both">Both screens</option><option value="gm">My screen only</option></select></div>
     <div class="rw"><span>Fog in 3D</span><select id="fog3"><option value="off">Normal</option><option value="dark">Darkened</option><option value="black">Black</option></select></div>
     <div class="rw"><span>Turn bar</span><select id="dock"><option value="bottom">Bottom</option><option value="left">Left</option></select></div>
   </div></div>
@@ -581,7 +612,8 @@ body.sk-tron{--bg:#000;--pn:#03080d;--bt:#06121a;--ln:#1b8aa6;--tx:#d8f6ff;--mut
 <div id="insp"></div>
 <div id="tpanel"></div>
 <div id="vp">
-  <div id="world"><img id="mapimg" alt=""><svg id="grid"><defs><pattern id="pt" patternUnits="userSpaceOnUse"><path id="gp" fill="none"/></pattern></defs><rect width="100%" height="100%" fill="url(#pt)"/></svg><svg id="terr"><defs>
+  <div id="tedPill" title="Click to lock terrain again">TERRAIN EDIT · click to lock</div>
+  <div id="world"><img id="mapimg" alt=""><svg id="grid"><defs><clipPath id="mapclip"><rect id="mcr" x="0" y="0" width="2000" height="1400"/></clipPath><pattern id="pt" patternUnits="userSpaceOnUse"><path id="gp" fill="none"/></pattern></defs><rect width="100%" height="100%" fill="url(#pt)"/></svg><svg id="terr"><defs>
 <pattern id="p-rough" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" style="fill:var(--tr)" fill-opacity=".3"/><path d="M0 10L10 0" style="stroke:var(--tr)" stroke-width="1.6" stroke-opacity=".8"/><circle cx="3" cy="3" r="1.2" style="fill:var(--tr)"/><circle cx="8" cy="7.5" r="1.2" style="fill:var(--tr)"/></pattern>
 <pattern id="p-dang" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="12" height="12" style="fill:var(--td)" fill-opacity=".28"/><rect width="5" height="12" style="fill:var(--td)" fill-opacity=".7"/></pattern>
 <pattern id="p-block" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#0a0d11" fill-opacity=".78"/><path d="M0 0L8 8M8 0L0 8" style="stroke:var(--tb)" stroke-width="1" stroke-opacity=".7"/></pattern>
@@ -615,7 +647,7 @@ body.sk-tron{--bg:#000;--pn:#03080d;--bt:#06121a;--ln:#1b8aa6;--tx:#d8f6ff;--mut
 <div id="toast"></div>
 <script>
 const $=s=>document.querySelector(s);
-const LT_VERSION='V1.30';
+const LT_VERSION='V1.39';
 const PLAYER=location.hash==='#player';
 const PS={win:null,frozen:false,black:false,t:0,sentMap:null,map:null,rect:null};
 let LOOK={};
@@ -624,7 +656,7 @@ const COL={player:'#4aa3ff',enemy:'#ff5a4d',ally:'#5fd38d',neutral:'#c9b458'},FA
 const HPALS={default:{n:'Blue to orange',h0:205,h1:30,s:78,l0:58,l1:46},earth:{n:'Earth tones',h0:130,h1:25,s:48,l0:44,l1:36},heat:{n:'Cold to hot',h0:240,h1:0,s:80,l0:52,l1:48},ice:{n:'Ice to violet',h0:190,h1:290,s:70,l0:62,l1:44},mono:{n:'Greyscale',h0:0,h1:0,s:0,l0:70,l1:28}};
 let HP=HPALS.default;
 let HMAX=6;
-const hpal=h=>{const t=Math.min(h,HMAX)/HMAX;return[HP.h0+(HP.h1-HP.h0)*t,HP.s,HP.l0+(HP.l1-HP.l0)*t]};
+const hpal=h=>{if(h<0){const t=Math.min(-h,3)/3;return[196+14*t,64,46-18*t]}const t=Math.min(h,HMAX)/HMAX;return[HP.h0+(HP.h1-HP.h0)*t,HP.s,HP.l0+(HP.l1-HP.l0)*t]};
 const TPALS={default:{n:'Default',r:'#d9a74a',d:'#ff5a3d',b:'#8a95a3'},safe:{n:'Colour-blind safe',r:'#f0e442',d:'#0072b2',b:'#cc79a7'},arctic:{n:'Arctic',r:'#9fd8ff',d:'#ff4d6d',b:'#dfe9f5'},toxic:{n:'Toxic',r:'#9be04a',d:'#c44dff',b:'#6fe0b0'},neon:{n:'Neon',r:'#00ffd0',d:'#ff2bd6',b:'#ffee00'},mono:{n:'Monochrome',r:'#bfbfbf',d:'#ffffff',b:'#7a7a7a'}};
 let T3={rough:'rgba(217,167,74,.5)',danger:'rgba(255,70,50,.55)',block:'rgba(10,12,16,.82)'},FOG3='off';
 function applyPal(l){
@@ -702,6 +734,7 @@ function mk(it){
 function ensureVitals(){S.turns.forEach(c=>{if(c.p&&c.p.mechs&&c.p.mechs.length&&(!c.st||c.st.hpM==null))stOf(c)})}
 function render(){
   ensureVitals();
+  {const r=$('#mcr');if(r){r.setAttribute('width',S.mw);r.setAttribute('height',S.mh)}}
   const g=S.grid,w=$('#world'),m=$('#mapimg'),gr=$('#grid');
   w.style.width=S.mw+'px';w.style.height=S.mh+'px';
   if(S.map!==lastMap){lastMap=S.map;if(S.map)m.src=S.map}
@@ -712,6 +745,69 @@ function render(){
   w.classList.toggle('fogsee',!!S.fogSee);drawCells();drawTerrain();drawHeight();drawMove();drawTpl();drawInk();
   apply();
 }
+
+// pointer-based portrait drag: grab any portrait, drop on the bar to reorder or on the map to place
+let tcG=null,tcSuppress=false;
+function tcDown(e,c,d){
+  if(e.button!==0||e.target.closest('input,.tb'))return;
+  tcG={c,d,x:e.clientX,y:e.clientY,on:false,id:e.pointerId};
+  clearTimeout(hovT);
+}
+function tcIdx(x,y){
+  const cards=[...document.querySelectorAll('#turns .tc')],left=document.body.classList.contains('dock-left');
+  if(!cards.length)return {i:0,r:null,after:false};
+  let best=0,bd=1e9;
+  cards.forEach((el,i)=>{const r=el.getBoundingClientRect(),dx=x-(r.left+r.width/2),dy=y-(r.top+r.height/2),dd=dx*dx+dy*dy;if(dd<bd){bd=dd;best=i}});
+  const r=cards[best].getBoundingClientRect(),after=left?y>r.top+r.height/2:x>r.left+r.width/2;
+  return {i:best+(after?1:0),r,after,left};
+}
+function tcBarRect(){
+  const r=$('#turns').getBoundingClientRect(),pad=26;
+  return {l:r.left-pad,t:r.top-pad,r:r.right+pad,b:r.bottom+pad};
+}
+document.addEventListener('pointermove',e=>{
+  const g=tcG;if(!g)return;
+  if(!g.on){
+    if(Math.hypot(e.clientX-g.x,e.clientY-g.y)<6)return;
+    g.on=true;hideHov();document.body.classList.add('tc-dragging');
+    g.d.classList.add('tc-src');
+    const gh=document.createElement('div');gh.id='tcGhost';gh.style.setProperty('--c',COL[g.c.fac]);
+    if(g.c.img)gh.style.backgroundImage=`url("${g.c.img}")`;else gh.textContent=(g.c.name||'?')[0];
+    document.body.append(gh);g.gh=gh;
+    const m=document.createElement('div');m.id='tcMark';document.body.append(m);g.m=m;
+  }
+  g.gh.style.left=e.clientX+'px';g.gh.style.top=e.clientY+'px';
+  const b=tcBarRect(),inBar=e.clientX>=b.l&&e.clientX<=b.r&&e.clientY>=b.t&&e.clientY<=b.b;
+  g.inBar=inBar;
+  if(inBar){
+    const k=tcIdx(e.clientX,e.clientY);g.to=k.i;
+    if(k.r){const m=g.m.style;m.display='block';
+      if(k.left){m.width=k.r.width+'px';m.height='4px';m.left=k.r.left+'px';m.top=((k.after?k.r.bottom:k.r.top)-2)+'px'}
+      else{m.width='4px';m.height=k.r.height+'px';m.top=k.r.top+'px';m.left=((k.after?k.r.right:k.r.left)-2+(k.after?6:-6))+'px'}}
+    g.gh.classList.remove('map');
+  }else{g.m.style.display='none';g.gh.classList.add('map')}
+  e.preventDefault();
+},{passive:false});
+function tcEnd(e,cancel){
+  const g=tcG;tcG=null;if(!g)return;
+  if(!g.on)return;
+  document.body.classList.remove('tc-dragging');g.d.classList.remove('tc-src');
+  g.gh.remove();g.m.remove();
+  tcSuppress=true;setTimeout(()=>tcSuppress=false,0);
+  if(cancel)return;
+  if(g.inBar){
+    const from=S.turns.indexOf(g.c);let to=g.to;
+    if(from<0||to==null)return;
+    S.turns.splice(from,1);if(to>from)to--;S.turns.splice(to,0,g.c);renderTurns();
+  }else{
+    const el=document.elementFromPoint(e.clientX,e.clientY);
+    if(el&&vp.contains(el)&&!el.closest('#turns')){placeMech(g.c,wpt(e))}
+  }
+}
+document.addEventListener('pointerup',e=>tcEnd(e,false));
+document.addEventListener('pointercancel',e=>tcEnd(e,true));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&tcG&&tcG.on)tcEnd(e,true)});
+document.addEventListener('click',e=>{if(tcSuppress){e.stopPropagation();e.preventDefault()}},true);
 function renderTurns(){
   ensureVitals();
   const t=$('#turns');t.innerHTML='';
@@ -728,12 +824,9 @@ function renderTurns(){
     if(c.hc)d.insertAdjacentHTML('beforeend','<span class="hcc">HC</span>');
     d.insertAdjacentHTML('beforeend',`<span class="nm">${esc(c.name)}</span>`);
     d.onclick=()=>{const open=hovCard===c;c.done=!c.done;render();renderTurns();if(open)showHov(c,cardEl(c))};
-    d.onmouseenter=()=>{if(hovCard&&hovCard!==c)hideHov();hlLink(c.id,true);clearTimeout(hovHide);clearTimeout(hovT);hovT=setTimeout(()=>showHov(c,d),600)};
+    d.onmouseenter=()=>{if(hovCard&&hovCard!==c)hideHov();hlLink(c.id,true);clearTimeout(hovHide);clearTimeout(hovT);if(!tcG||!tcG.on)hovT=setTimeout(()=>showHov(c,d),600)};
     d.onmouseleave=()=>{hlLink(c.id,false);clearTimeout(hovT);hovHide=setTimeout(hideHov,250)};
-    d.ondragstart=e=>{dragT=i;e.dataTransfer.setData('text/plain',c.id);e.dataTransfer.effectAllowed='copyMove';hideHov()};
-    d.ondragend=()=>{dragT=null};
-    d.ondragover=e=>e.preventDefault();
-    d.ondrop=e=>{e.preventDefault();if(dragT==null)return;const[m]=S.turns.splice(dragT,1);S.turns.splice(i,0,m);dragT=null;renderTurns()};
+    d.draggable=false;d.onpointerdown=e=>tcDown(e,c,d);
     t.append(d);
   });
   $('#count').textContent=`Round ${S.round}: ${S.turns.filter(c=>!c.done).length} of ${S.turns.length} ready`;
@@ -741,8 +834,10 @@ function renderTurns(){
   dockLayout();
 }
 function syncGrid(){const g=S.grid;$('#hshow').checked=S.showH!==false;$('#gt').value=g.type;$('#glock').checked=g.lock;$('#diag').value=g.diag;$('#diag').parentElement.style.display=g.type==='sq'?'':'none';$('#gs').value=g.size;$('#gx').value=g.ox;$('#gy').value=g.oy;$('#gshow').checked=g.show;$('#bSnap').classList.toggle('on',g.snap)}
-function renderAll(){syncGrid();render();renderTurns();inspect();$('#sname').value=S.name||''}
+function renderAll(){if(!PLAYER)pruneOutside();syncGrid();render();renderTurns();inspect();$('#sname').value=S.name||''}
 
+const inMap=q=>q.cx>=0&&q.cy>=0&&q.cx<=S.mw&&q.cy<=S.mh;
+function pruneOutside(){['cells','terrain','height'].forEach(n=>{const o=S[n];for(const k in o){const[x,y]=keyCtr(k);if(!inMap({cx:x,cy:y}))delete o[k]}})}
 function inspect(){
   drawHeight();
   const b=$('#insp'),it=find(sel);
@@ -763,7 +858,7 @@ $('#insp').oninput=e=>{
 };
 $('#insp').onclick=e=>{
   const a=e.target.dataset.act,it=find(sel);if(!a||!it)return;
-  if(a==='stamp'){if(it.type!=='tpl')return;pushH('c',{...S.cells});const ty={fire:'fire',smoke:'smoke'}[it.fx]||'mark';tplCells(it).forEach(q=>S.cells[q.key]=ty);drawCells();toast('Stamped '+ty+' onto the map. The template is still here.');return}
+  if(a==='stamp'){if(it.type!=='tpl')return;pushH('c',{...S.cells});const ty={fire:'fire',smoke:'smoke'}[it.fx]||'mark';tplCells(it).filter(inMap).forEach(q=>S.cells[q.key]=ty);drawCells();toast('Stamped '+ty+' onto the map. The template is still here.');return}
   if(a==='hide'){it.hidden=!it.hidden;render();inspect();return}
   if(a==='unlink'){delete it.link;delete it.role;render();inspect();return}
   if(a==='mv'){
@@ -776,11 +871,23 @@ $('#insp').onclick=e=>{
   render();inspect();
 };
 
+// terrain edit mode: map objects and cover are locked unless this is on; tokens always stay interactive
+function setTEdit(v){
+  v=!!v;document.body.classList.toggle('tedit',v);
+  const b=$('#bTEdit');if(b){b.classList.toggle('on',v);b.textContent='Terrain edit: '+(v?'unlocked':'locked')}
+  const q=$('#q_tedit');if(q)q.checked=v;
+  if(!v&&(tool==='terrain'||tool==='height'))setTool('sel');
+  if(!v){const k=find(sel);if(k&&k.type!=='token'){sel=null;inspect();document.querySelectorAll('.it.sel').forEach(x=>x.classList.remove('sel'))}}
+  if(window.drawCur)try{drawCur(null)}catch(e){}
+}
+document.addEventListener('DOMContentLoaded',()=>{});
 // pointer: pan, move, resize
 vp.addEventListener('pointerdown',e=>{
   if(ruling&&e.button===0){const p=wpt(e);R={a:p,b:p};drag={k:'ruler'};vp.setPointerCapture(e.pointerId);drawRuler();return}
-  if((tool==='brush'||tool==='pen'||tool==='terrain'||tool==='height')&&e.button===0){startPaint(e);return}
-  const t=e.target.closest('.it');
+  let t=e.target.closest('.it');
+  if(t&&!t.classList.contains('token')&&!t.classList.contains('tpl')&&!t.classList.contains('rot')&&!document.body.classList.contains('tedit'))t=null;
+  const onTok=t&&t.classList.contains('token')&&e.button===0;
+  if(!onTok&&(tool==='brush'||tool==='pen'||tool==='terrain'||tool==='height')&&e.button===0){startPaint(e);return}
   if(e.button===1||!t){sel=null;drag={k:'pan',sx:e.clientX,sy:e.clientY,vx:S.view.x,vy:S.view.y}}
   else{
     const it=find(t.dataset.id);sel=it.id;
@@ -829,7 +936,7 @@ document.addEventListener('keydown',e=>{
 function setMap(f){read(f).then(url=>{
   const im=new Image();im.onload=()=>{S.map=url;S.mw=im.naturalWidth;S.mh=im.naturalHeight;fit();render()};im.src=url;
 })}
-function put(it){const c=centre();it.x=c.x;it.y=c.y;snapIt(it);S.items.push(it);sel=it.id;render();inspect()}
+function put(it){if(it.type==='obj'&&!document.body.classList.contains('tedit')){setTEdit(true);toast('Terrain edit unlocked so you can place it. Lock it again from Draw when done.')}const c=centre();it.x=c.x;it.y=c.y;snapIt(it);S.items.push(it);sel=it.id;render();inspect()}
 $('#bMap').onclick=()=>pick(setMap);
 $('#bFit').onclick=fit;
 $('#bTok').onclick=()=>pick(f=>read(f).then(img=>put({id:uid(),type:'token',size:1,name:base(f),fac:$('#side').value,img})),true);
@@ -1029,7 +1136,8 @@ function drawRuler(){
   const bdg=V?`<g transform="translate(${b.x} ${b.y}) scale(${k})"><g transform="translate(0 -58)"><rect x="-124" y="-27" width="248" height="54" rx="7" fill="#0b0f14" fill-opacity=".94" stroke="${V.col}" stroke-width="2.5"/>${iconSvg(V.k,V.n,'x="-118" y="-23" width="46" height="46"')}<text x="-66" y="-3" fill="#fff" font-size="17" font-weight="800">${V.title}</text><text x="-66" y="15" fill="${V.col}" font-size="11" font-weight="700">${esc(V.short)}</text></g></g>`:'';
   s.innerHTML=`<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" style="stroke:${lc}" stroke-width="${3*k}" stroke-linecap="round"/>${xs}<circle cx="${a.x}" cy="${a.y}" r="${6*k}" style="fill:${lc}"/><circle cx="${b.x}" cy="${b.y}" r="${6*k}" style="fill:${lc}"/><g transform="translate(${(a.x+b.x)/2} ${(a.y+b.y)/2}) scale(${k})"><rect x="${-lw/2}" y="-32" width="${lw}" height="24" rx="5" fill="#12161b" style="stroke:${lc}"/><text y="-15" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">${lab}</text></g>${bdg}`;
 }
-$('#bRule').onclick=()=>setTool(tool==='rule'?'sel':'rule');$('#bBrush').onclick=()=>setTool(tool==='brush'?'sel':'brush');$('#bPen').onclick=()=>setTool(tool==='pen'?'sel':'pen');$('#bTerr').onclick=()=>setTool(tool==='terrain'?'sel':'terrain');$('#bHt').onclick=()=>setTool(tool==='height'?'sel':'height');
+$('#bRule').onclick=()=>setTool(tool==='rule'?'sel':'rule');$('#bBrush').onclick=()=>setTool(tool==='brush'?'sel':'brush');$('#bTEdit').onclick=()=>setTEdit(!document.body.classList.contains('tedit'));$('#tedPill').onclick=()=>setTEdit(false);
+$('#bPen').onclick=()=>setTool(tool==='pen'?'sel':'pen');$('#bTerr').onclick=()=>setTool(tool==='terrain'?'sel':'terrain');$('#bHt').onclick=()=>setTool(tool==='height'?'sel':'height');
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){R=null;drawRuler()}if((e.ctrlKey||e.metaKey)&&e.key==='z'&&!/INPUT/.test(document.activeElement.tagName)){e.preventDefault();undo()}});
 
 // save / load
@@ -1065,8 +1173,61 @@ const closeMenus=()=>document.querySelectorAll('.pop.open').forEach(p=>p.classLi
 document.querySelectorAll('.mb').forEach(b=>b.onclick=e=>{e.stopPropagation();const p=b.nextElementSibling,o=p.classList.contains('open');closeMenus();if(!o)p.classList.add('open')});
 document.addEventListener('click',e=>{if(!e.target.closest('.pop')||e.target.classList.contains('mi'))closeMenus()});
 const TH={'Union red':'#d9433f','Cyan':'#2ec4d6','Amber':'#f2a33a','Violet':'#9b72f2','Green':'#4fbf7a'};
+// weather: light particle overlay, optional per screen
+var WX={k:'none',n:2,cv:null,ps:[],raf:0,t0:0,w:0,h:0,L:0,T:0};
+const WXK={rain:'Rain',snow:'Snow',sand:'Sand',soot:'Soot and ash',embers:'Embers'};
+function wxShow(l){const k=l.wx||'none';if(k==='none')return false;const who=l.wwho||'player';return PLAYER?(who==='player'||who==='both'):(who==='gm'||who==='both')}
+function wxMake(k,w,h,first){
+  const r=Math.random,o={x:r()*w,y:first?r()*h:-20,ph:r()*6.28};
+  if(k==='rain'){o.v=900+r()*500;o.l=12+r()*14;o.dx=-.18}
+  else if(k==='snow'){o.v=35+r()*55;o.s=1+r()*2.4;o.sw=14+r()*26}
+  else if(k==='sand'){o.x=first?r()*w:-10;o.y=r()*h;o.v=380+r()*420;o.s=.8+r()*1.4;o.dy=(r()-.4)*40}
+  else if(k==='soot'){o.v=14+r()*34;o.s=1+r()*2.6;o.sw=10+r()*20;o.g=r()<.5?96:140}
+  else{o.y=first?r()*h:h+10;o.v=-(30+r()*70);o.s=1+r()*2;o.sw=10+r()*24}
+  return o;
+}
+function wxFrame(t){
+  const W=WX,cv=W.cv;if(!cv||!W.k||W.k==='none'){W.raf=0;return}
+  const l=LOOK||{},k=W.k;let r={left:0,top:0,width:innerWidth,height:innerHeight};
+  const v3=$('#v3d');const in3=v3&&v3.classList.contains('open');
+  if(!in3){const b=vp.getBoundingClientRect();r={left:b.left,top:b.top,width:b.width,height:b.height}}
+  cv.style.zIndex=in3?5001:8;
+  if(Math.abs(r.width-W.w)>1||Math.abs(r.height-W.h)>1||r.left!==W.L||r.top!==W.T){W.w=r.width;W.h=r.height;W.L=r.left;W.T=r.top;
+    cv.style.left=r.left+'px';cv.style.top=r.top+'px';cv.width=Math.max(1,r.width|0);cv.height=Math.max(1,r.height|0)}
+  const dt=Math.min(.05,(t-W.t0)/1000||.016);W.t0=t;
+  const calm=matchMedia('(prefers-reduced-motion:reduce)').matches?.4:1;
+  const base={rain:1,snow:.7,sand:1.2,soot:.55,embers:.35}[k]*[0,.5,1,1.9][W.n||2]*calm;
+  const want=Math.round(W.w*W.h/9000*base);
+  while(W.ps.length<want)W.ps.push(wxMake(k,W.w,W.h,true));
+  if(W.ps.length>want)W.ps.length=want;
+  const c=cv.getContext('2d');c.clearRect(0,0,W.w,W.h);
+  const wind=k==='sand'?1:0;
+  for(let i=0;i<W.ps.length;i++){
+    const p=W.ps[i];
+    if(k==='rain'){p.y+=p.v*dt;p.x+=p.v*p.dx*dt;
+      c.strokeStyle='rgba(185,210,235,.38)';c.lineWidth=1;c.beginPath();c.moveTo(p.x,p.y);c.lineTo(p.x+p.l*p.dx,p.y-p.l);c.stroke()}
+    else if(k==='snow'){p.y+=p.v*dt;p.ph+=dt*.8;p.x+=Math.sin(p.ph)*p.sw*dt;
+      c.fillStyle='rgba(255,255,255,.7)';c.beginPath();c.arc(p.x,p.y,p.s,0,6.283);c.fill()}
+    else if(k==='sand'){p.x+=p.v*dt;p.y+=(p.dy+Math.sin(p.ph+t/700)*30)*dt;
+      c.fillStyle='rgba(214,178,118,.45)';c.fillRect(p.x,p.y,p.s*2.2,p.s*.8)}
+    else if(k==='soot'){p.y+=p.v*dt;p.ph+=dt*.6;p.x+=Math.sin(p.ph)*p.sw*dt+8*dt;
+      c.fillStyle=`rgba(${p.g},${p.g},${p.g},.55)`;c.beginPath();c.ellipse(p.x,p.y,p.s*1.3,p.s*.8,p.ph,0,6.283);c.fill()}
+    else{p.y+=p.v*dt;p.ph+=dt*1.4;p.x+=Math.sin(p.ph)*p.sw*dt;
+      const a=.4+.4*Math.sin(p.ph*2);c.fillStyle=`rgba(255,${130+((p.ph*40)%80)|0},40,${a})`;c.shadowColor='#ff7a1a';c.shadowBlur=6;c.beginPath();c.arc(p.x,p.y,p.s,0,6.283);c.fill();c.shadowBlur=0}
+    if(p.y>W.h+30||p.y<-40||p.x>W.w+30||p.x<-40){W.ps[i]=wxMake(k,W.w,W.h,false);if(k==='sand'){W.ps[i].x=-10}else if(k==='rain'){W.ps[i].x=Math.random()*(W.w+200)}}
+  }
+  W.raf=requestAnimationFrame(wxFrame);
+}
+function wxApply(l){
+  const W=WX;W.n=Math.max(1,Math.min(3,+l.wint||2));
+  const on=wxShow(l),k=on?l.wx:'none';
+  if(k!==W.k){W.ps=[];W.k=k}
+  if(on&&!W.cv){const c=document.createElement('canvas');c.id='wx';c.style.cssText='position:fixed;pointer-events:none;z-index:8';document.body.append(c);W.cv=c}
+  if(W.cv)W.cv.style.display=on?'block':'none';
+  if(on&&!W.raf){W.t0=performance.now();W.raf=requestAnimationFrame(wxFrame)}
+}
 function setLook(o){
-  let l={accent:'Union red',mode:'dark',skin:'',dock:'bottom',cool:false,ctlHide:false,hnum:true,tpal:'default',hpal:'default',fog3:'off',hmax:6,pfog:'sensor',pbars:'friends',penemy:false,pfollow:true,pruler:true,flav:true,tip:true};
+  let l={accent:'Union red',mode:'dark',skin:'',dock:'bottom',cool:false,ctlHide:false,hnum:true,tpal:'default',hpal:'default',fog3:'off',hmax:6,pfog:'sensor',pbars:'friends',penemy:false,pfollow:true,pruler:true,flav:true,tip:true,ptip:false,wx:'none',wint:2,wwho:'player'};
   if(PLAYER)Object.assign(l,o);
   else try{Object.assign(l,JSON.parse(localStorage.getItem('lt-look')),o);localStorage.setItem('lt-look',JSON.stringify(l))}catch(e){Object.assign(l,o)}
   LOOK=l;
@@ -1075,16 +1236,18 @@ function setLook(o){
   if(!['','sk-98','sk-term','sk-amber','sk-tron'].includes(l.skin))l.skin='';
   ['sk-98','sk-term','sk-amber','sk-tron'].forEach(k=>document.body.classList.toggle(k,k===l.skin));$('#skin').value=l.skin;
   document.body.classList.toggle('cool',!!l.cool);$('#bCombat').classList.toggle('on',!!l.cool);
-  $('#tpal').value=l.tpal;$('#hpal').value=l.hpal;$('#fog3').value=l.fog3;$('#pfog').value=l.pfog;$('#pbars').value=l.pbars;$('#penemy').value=l.penemy?'1':'0';$('#pfollow').checked=l.pfollow!==false;$('#pruler').checked=l.pruler!==false;$('#flav').checked=l.flav!==false;$('#tipt').checked=l.tip!==false;$('#hmax').value=Math.max(2,+l.hmax||6);$('#hmaxv').textContent=$('#hmax').value;applyPal(l);
+  $('#tpal').value=l.tpal;$('#hpal').value=l.hpal;$('#fog3').value=l.fog3;$('#pfog').value=l.pfog;$('#pbars').value=l.pbars;$('#penemy').value=l.penemy?'1':'0';$('#pfollow').checked=l.pfollow!==false;$('#pruler').checked=l.pruler!==false;$('#flav').checked=l.flav!==false;$('#tipt').checked=l.tip!==false;$('#ptip').checked=!!l.ptip;$('#hmax').value=Math.max(2,+l.hmax||6);$('#hmaxv').textContent=$('#hmax').value;applyPal(l);
   document.body.classList.toggle('no-hnum',l.hnum===false);$('#hnum').checked=l.hnum!==false;
   document.body.classList.toggle('ctl-off',!!l.ctlHide);$('#bEye').innerHTML=l.ctlHide?EYE_OFF:EYE_ON;$('#bEye').classList.toggle('on',!l.ctlHide);
   document.body.classList.toggle('dock-left',l.dock==='left');$('#dock').value=l.dock;dockLayout();
   ['#mode','#sws'].forEach(i=>$(i).closest('.rw').style.display=l.skin?'none':'');
   document.querySelectorAll('.sw').forEach(b=>b.classList.toggle('on',b.dataset.t===l.accent));
-  pushPlayer();
+  $('#wx_k').value=l.wx||'none';$('#wx_i').value=String(l.wint||2);$('#wx_w').value=l.wwho||'player';wxApply(l);
+  pushPlayer();syncQuick();
 }
 $('#sws').innerHTML=Object.entries(TH).map(([n,c])=>`<button class="sw" data-t="${n}" style="--s:${c}" title="${n}"></button>`).join('');
 $('#sws').onclick=e=>{if(e.target.dataset.t)setLook({accent:e.target.dataset.t})};
+$('#wx_k').onchange=e=>setLook({wx:e.target.value});$('#wx_i').onchange=e=>setLook({wint:+e.target.value});$('#wx_w').onchange=e=>setLook({wwho:e.target.value});
 $('#mode').onchange=e=>setLook({mode:e.target.value});
 $('#skin').onchange=e=>setLook({skin:e.target.value});
 // grid cells, paint, ink, templates
@@ -1107,14 +1270,23 @@ function keyCtr(k){const g=S.grid,s=g.size,[a,b]=k.slice(2).split(',').map(Numbe
 function poly(cx,cy){const s=S.grid.size,h=s/2;
   if(S.grid.type==='hex'){const R_=s/Math.sqrt(3);return[[cx,cy-R_],[cx+h,cy-R_/2],[cx+h,cy+R_/2],[cx,cy+R_],[cx-h,cy+R_/2],[cx-h,cy-R_/2]].map(q=>q.map(v=>+v.toFixed(1)).join(',')).join(' ')}
   return`${cx-h},${cy-h} ${cx+h},${cy-h} ${cx+h},${cy+h} ${cx-h},${cy+h}`}
-function drawCells(){
+function fogNote(){
+  if(PLAYER)return;let n=$('#fogNote');
+  if(!n){n=document.createElement('div');n.id='fogNote';n.title='Click to switch between seeing through the fog and seeing it as players do';
+    n.onclick=()=>{S.fogSee=!S.fogSee;$('#world').classList.toggle('fogsee',S.fogSee);fogNote();if(tool==='brush')panel()};document.body.append(n)}
+  const c=Object.values(S.cells).filter(t=>t==='fog').length;
+  n.classList.toggle('on',c>0);
+  n.innerHTML=`<b>Fog of war</b><span>${c} cell${c==1?'':'s'} hidden</span><i>${S.fogSee?'You can see through it':'Full fog shown'} · click to toggle</i>`;
+}
+setInterval(()=>{try{fogNote()}catch(e){}},600);
+function drawCells(){fogNote();
   const pre=S.grid.type==='hex'?'h':'s',G={};
   for(const k in S.cells){if(k[0]!==pre)continue;const t=S.cells[k],[x,y]=keyCtr(k);(G[t]=G[t]||[]).push(`<polygon class="c-${t}" points="${poly(x,y)}"/>`)}
   const f=ts=>ts.map(t=>G[t]?`<g class="g-${t}">${G[t].join('')}</g>`:'').join('');
   $('#cg').innerHTML=f(['mark','soft','hard','fire']);$('#cgt').innerHTML=f(['smoke','vent','fog'])}
 function cellCtr(p){const g=S.grid,s=g.size;if(g.type==='hex')return hexNear(p.x,p.y);return[g.ox+(Math.floor((p.x-g.ox)/s)+.5)*s,g.oy+(Math.floor((p.y-g.oy)/s)+.5)*s]}
 function paintAt(p){const s=S.grid.size,[cx,cy]=cellCtr(p),r=B.size-1;
-  cellList(cx,cy,r*s*1.1).filter(q=>Math.hypot(q.cx-cx,q.cy-cy)<=r*s*1.05+1).forEach(q=>{if(B.erase)delete S.cells[q.key];else S.cells[q.key]=B.t})}
+  cellList(cx,cy,r*s*1.1).filter(q=>Math.hypot(q.cx-cx,q.cy-cy)<=r*s*1.05+1).filter(inMap).forEach(q=>{if(B.erase)delete S.cells[q.key];else S.cells[q.key]=B.t})}
 function paintLine(a,b){const n=Math.max(1,Math.ceil(Math.hypot(b.x-a.x,b.y-a.y)/(S.grid.size/3)));for(let i=1;i<=n;i++)paintAt({x:a.x+(b.x-a.x)*i/n,y:a.y+(b.y-a.y)*i/n});drawCells()}
 function drawInk(){$('#ink').innerHTML=S.ink.map(st=>`<path d="M${st.p.map(q=>q[0].toFixed(1)+' '+q[1].toFixed(1)).join('L')}${st.p.length===1?'l.1 0':''}" fill="none" stroke="${st.c}" stroke-width="${st.w}" stroke-opacity="${st.o}" stroke-linecap="round" stroke-linejoin="round"/>`).join('')}
 function eraseAt(p){const r=10/S.view.z,n=S.ink.length;S.ink=S.ink.filter(st=>!st.p.some(q=>Math.hypot(q[0]-p.x,q[1]-p.y)<r+st.w/2));if(S.ink.length!==n)drawInk()}
@@ -1127,6 +1299,7 @@ function startPaint(e){
   else{pushH('i',S.ink.slice());const st={c:P.color,w:P.mode==='marker'?P.w*3:P.w,o:P.mode==='marker'?.4:1,p:[[p.x,p.y]]};S.ink.push(st);drag={k:'ink',st};drawInk()}
 }
 function setTool(t){
+  if((t==='terrain'||t==='height')&&!document.body.classList.contains('tedit')){toast('Terrain edit is locked. Unlock it from Draw or the GM panel first.');return}
   tool=t;ruling=t==='rule';if(!ruling){R=null;drawRuler()}
   [['bRule','rule'],['bBrush','brush'],['bTerr','terrain'],['bPen','pen'],['bHt','height']].forEach(([i,k])=>$('#'+i).classList.toggle('on',tool===k));
   if(t==='height'&&S.showH===false){S.showH=true;$('#hshow').checked=true;drawHeight()}
@@ -1558,15 +1731,16 @@ function disembark(c){
 const HT={lv:2,size:1,erase:false};
 function htPanel(){
   const o=(a,cur,z)=>a.map(n=>`<option value="${n}"${n===cur?' selected':''}>${n===0?'off':n}</option>`).join('');
-  const L=Array.from({length:12},(_,i)=>i+1);
-  return '<b>Height</b>'+`<label>Level <select data-i="hl">${o(L,HT.lv)}</select></label>`+
+  const L=Array.from({length:12},(_,i)=>i+1),LL=[-2,-1].concat(L);
+  const ol=LL.map(n=>`<option value="${n}"${n===HT.lv?' selected':''}>${n<0?'−'+(-n)+(n===-1?' (shallow)':' (deep)'):n}</option>`).join('');
+  return '<b>Height</b>'+`<label title="Negative levels sink below the ground: use them for water, ditches and trenches">Level <select data-i="hl">${ol}</select></label>`+
     `<button data-a="ht:erase"${HT.erase?' class="on"':''}>Erase</button><label>Size <select data-i="hs">${[1,2,3,4].map(n=>`<option${n===HT.size?' selected':''}>${n}</option>`).join('')}</select></label>`+
     `<label title="A cell gets the hard cover outline when it rises this many levels above the selected token (or above ground if nothing is selected)">Hard cover at + <select data-i="hc">${o([0].concat(L),S.hcLevel)}</select></label>`+
     `<button data-a="hshow">${S.showH?'Hide':'Show'} heights</button><button data-a="undo">Undo</button><button data-a="clrh">Clear heights</button>`;
 }
 function paintHt(p){
   const s=S.grid.size,[cx,cy]=cellCtr(p),r=HT.size-1;
-  cellList(cx,cy,r*s*1.1).filter(q=>Math.hypot(q.cx-cx,q.cy-cy)<=r*s*1.05+1).forEach(q=>{if(HT.erase)delete S.height[q.key];else S.height[q.key]=HT.lv});
+  cellList(cx,cy,r*s*1.1).filter(q=>Math.hypot(q.cx-cx,q.cy-cy)<=r*s*1.05+1).filter(inMap).forEach(q=>{if(HT.erase)delete S.height[q.key];else S.height[q.key]=HT.lv});
 }
 function htLine(a,b){const n=Math.max(1,Math.ceil(Math.hypot(b.x-a.x,b.y-a.y)/(S.grid.size/3)));for(let i=1;i<=n;i++)paintHt({x:a.x+(b.x-a.x)*i/n,y:a.y+(b.y-a.y)*i/n});drawHeight()}
 const hAt=(x,y)=>S.height[cellKeyAt(x,y)]||0;
@@ -1596,7 +1770,7 @@ function drawHeight(){
   for(const k in S.height){
     if(k[0]!==pre)continue;
     const h=S.height[k],[x,y]=keyCtr(k),pt=poly(x,y);
-    a+=`<polygon points="${pt}" fill="${hcol(h)}" fill-opacity="${(.2+Math.min(h,HMAX)/HMAX*.42).toFixed(2)}"/>`;
+    a+=`<polygon points="${pt}" fill="${hcol(h)}" fill-opacity="${(h<0?.34+.1*Math.min(-h,3):.2+Math.min(h,HMAX)/HMAX*.42).toFixed(2)}"/>`;
     if(isHC(h,ref))a+=`<polygon class="hc" points="${pt}"/>`;
     const bx=x+s*.24,by=y-s*.26,r=fs*.78;
     c+=`<circle cx="${bx.toFixed(1)}" cy="${by.toFixed(1)}" r="${r.toFixed(1)}" class="hbg"${isHC(h,ref)?' style="stroke:var(--hl);stroke-width:2"':''}/><text x="${bx.toFixed(1)}" y="${by.toFixed(1)}" class="hb" style="font-size:${fs.toFixed(1)}px">${h}</text>`;
@@ -1619,7 +1793,7 @@ function drawTerrain(){
 }
 function paintTerr(p){
   const s=S.grid.size,[cx,cy]=cellCtr(p),r=T.size-1;
-  cellList(cx,cy,r*s*1.1).filter(q=>Math.hypot(q.cx-cx,q.cy-cy)<=r*s*1.05+1).forEach(q=>{if(T.erase)delete S.terrain[q.key];else S.terrain[q.key]=T.t});
+  cellList(cx,cy,r*s*1.1).filter(q=>Math.hypot(q.cx-cx,q.cy-cy)<=r*s*1.05+1).filter(inMap).forEach(q=>{if(T.erase)delete S.terrain[q.key];else S.terrain[q.key]=T.t});
 }
 function terrLine(a,b){const n=Math.max(1,Math.ceil(Math.hypot(b.x-a.x,b.y-a.y)/(S.grid.size/3)));for(let i=1;i<=n;i++)paintTerr({x:a.x+(b.x-a.x)*i/n,y:a.y+(b.y-a.y)*i/n});drawTerrain()}
 
@@ -1964,6 +2138,29 @@ function draw3d(){
   const path=pts=>{ctx.beginPath();pts.forEach((v,i)=>i?ctx.lineTo(v[0],v[1]):ctx.moveTo(v[0],v[1]));ctx.closePath()};
   ent.forEach(e=>{if(e.h)return;const pts=polyPts(e.x,e.y),fg=e.c==='fog'&&FOG3!=='off';[T3[e.t],fg?(FOG3==='black'?'#000':'rgba(0,0,0,.88)'):C3[e.c]].forEach(f=>{if(f){path(pts);ctx.fillStyle=f;ctx.fill()}})});
   ground(0);
+  // sunken cells (levels below zero): cut out of the ground, then draw back walls and the floor inside the cut
+  const pits=ent.filter(e=>e.h<0);
+  if(pits.length){
+    base();ctx.save();
+    const cp=new Path2D();
+    pits.forEach(e=>{polyPts(e.x,e.y).forEach((v,i)=>{const q=C.P(v[0],v[1],0);i?cp.lineTo(q[0],q[1]):cp.moveTo(q[0],q[1])});cp.closePath()});
+    ctx.clip(cp);ctx.fillStyle='#04070a';ctx.fillRect(0,0,W,H);
+    pits.slice().sort((a,b)=>C.d(a.x,a.y)-C.d(b.x,b.y)).forEach(e=>{
+      const pts=polyPts(e.x,e.y),fg=e.c==='fog'&&FOG3!=='off',col=fg?(FOG3==='black'?[0,0,0]:lvRGB(e.h).map(v=>v*.22)):lvRGB(e.h),n=pts.length;
+      let cx=0,cy=0;pts.forEach(q=>{cx+=q[0];cy+=q[1]});cx/=n;cy/=n;
+      for(let i=0;i<n;i++){
+        const a=pts[i],b=pts[(i+1)%n],mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2,nx=mx-cx,ny=my-cy,len=Math.hypot(nx,ny)||1,vy=(C.sn*nx+C.c*ny)/len;
+        if(vy>=-.01)continue;
+        const hi=Math.min(0,hAt(cx+(mx-cx)*2.05,cy+(my-cy)*2.05));if(hi<=e.h)continue;
+        const A=C.P(a[0],a[1],hi),B=C.P(b[0],b[1],hi),B2=C.P(b[0],b[1],e.h),A2=C.P(a[0],a[1],e.h);
+        ctx.beginPath();ctx.moveTo(A[0],A[1]);ctx.lineTo(B[0],B[1]);ctx.lineTo(B2[0],B2[1]);ctx.lineTo(A2[0],A2[1]);ctx.closePath();
+        ctx.fillStyle=rgbs(col,.55+.2*vy);ctx.fill();ctx.strokeStyle='rgba(0,0,0,.3)';ctx.lineWidth=1;ctx.stroke();
+      }
+      top(pts,e.h,col,false,0,[fg?null:T3[e.t],fg?null:C3[e.c]],false);
+      if(V3.num&&C.z*s>20){const p=C.P(e.x,e.y,e.h),sz=Math.max(10,Math.min(22,C.z*s*.34));ctx.textAlign='center';ctx.textBaseline='middle';ctx.lineJoin='round';ctx.font=`700 ${sz}px system-ui,sans-serif`;ctx.lineWidth=3;ctx.strokeStyle='#000';ctx.strokeText(e.h,p[0],p[1]);ctx.fillStyle='#fff';ctx.fillText(e.h,p[0],p[1])}
+    });
+    ctx.restore();
+  }
   S.ink.forEach(st=>{ctx.beginPath();st.p.forEach((q,i)=>i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1]));if(st.p.length===1)ctx.lineTo(st.p[0][0]+.1,st.p[0][1]);ctx.strokeStyle=st.c;ctx.globalAlpha=st.o;ctx.lineWidth=st.w;ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke();ctx.globalAlpha=1});
   base();
   const list=[],labels=[];V3.hits=[];
@@ -1997,7 +2194,7 @@ function draw3d(){
   }
   // columns from painted heights
   ent.forEach(e=>{
-    if(!e.h)return;
+    if(!e.h||e.h<0)return;
     const pts=polyPts(e.x,e.y),fg=e.c==='fog'&&FOG3!=='off',col=fg?(FOG3==='black'?[0,0,0]:lvRGB(e.h).map(v=>v*.22)):lvRGB(e.h);
     list.push({d:C.d(e.x,e.y),o:0,f:()=>{
       sides(pts,e.h,(cx,cy,mx,my)=>hAt(cx+(mx-cx)*2.05,cy+(my-cy)*2.05),col);
@@ -2072,6 +2269,48 @@ function draw3d(){
 
 
 
+
+// ================= GM QUICK TOGGLES (experimental) =================
+// Every control here writes through the same setters as its Appearance / ruler counterpart, and syncQuick() redraws it from the one source of truth.
+function syncQuick(){
+  const q=$('#gmq');if(!q||PLAYER)return;
+  const set=(id,v,chk)=>{const e=$('#'+id);if(!e)return;if(chk)e.checked=!!v;else e.value=v};
+  set('q_wx',LOOK.wx||'none');set('q_ptip',LOOK.ptip,1);set('q_pfog',LOOK.pfog||'sensor');set('q_penemy',LOOK.penemy,1);set('q_pbars',LOOK.pbars||'friends');
+  set('q_pruler',LOOK.pruler!==false,1);set('q_share',LOOK.share!==undefined?LOOK.share:LOS.share,1);set('q_pfollow',LOOK.pfollow!==false,1);
+  $('#q_share').checked=!!LOS.share;$('#q_tedit').checked=document.body.classList.contains('tedit');
+  const open=!!(PS.win&&!PS.win.closed);
+  $('#q_win').textContent=open?'Player window: open':'Open player window';
+  $('#q_frz').classList.toggle('on',PS.frozen);$('#q_frz').textContent=PS.frozen?'Frozen':'Freeze';
+  $('#q_blk').classList.toggle('on',PS.black);
+}
+if(!PLAYER){
+  const d=document.createElement('div');d.id='gmq';
+  d.innerHTML=`<button id="gmqb" title="Quick toggles for the player screen (experimental)">GM</button><div id="gmqp">
+   <b>Table</b>
+   <label><input type="checkbox" id="q_tedit"> Terrain edit (unlock objects)</label>
+   <label>Weather <select id="q_wx"><option value="none">None</option><option value="rain">Rain</option><option value="snow">Snow</option><option value="sand">Sand</option><option value="soot">Soot and ash</option><option value="embers">Embers</option></select></label>
+   <b>Player screen</b>
+   <label><input type="checkbox" id="q_ptip"> Hover summary</label>
+   <label><input type="checkbox" id="q_penemy"> Hide enemies in turn order</label>
+   <label><input type="checkbox" id="q_pruler"> My ruler</label>
+   <label><input type="checkbox" id="q_share"> LOS details</label>
+   <label><input type="checkbox" id="q_pfollow"> Follow my view</label>
+   <label>Fog <select id="q_pfog"><option value="sensor">Sensors reveal</option><option value="stay">Always hidden</option></select></label>
+   <label>Bars <select id="q_pbars"><option value="friends">Players and allies</option><option value="all">Everyone</option><option value="none">Nobody</option></select></label>
+   <div class="qr"><button id="q_frz">Freeze</button><button id="q_blk">Blackout</button></div>
+   <button id="q_win" style="width:100%"></button></div>`;
+  document.body.append(d);
+  $('#gmqb').onclick=()=>d.classList.toggle('open');
+  const on=(id,fn)=>$('#'+id).addEventListener('change',e=>{fn(e.target);syncQuick()});
+  on('q_ptip',e=>setLook({ptip:e.checked}));on('q_penemy',e=>setLook({penemy:e.checked}));on('q_pruler',e=>setLook({pruler:e.checked}));
+  on('q_wx',e=>setLook({wx:e.value}));on('q_tedit',e=>setTEdit(e.checked));on('q_pfollow',e=>setLook({pfollow:e.checked}));on('q_pfog',e=>setLook({pfog:e.value}));on('q_pbars',e=>setLook({pbars:e.value}));
+  on('q_share',e=>{LOS.share=e.checked;try{panel()}catch(x){}try{if(V3.open)l3Panel()}catch(x){}drawRuler()});
+  $('#q_frz').onclick=()=>{if(!(PS.win&&!PS.win.closed)){toast('Open the player window first');return}$('#bFreeze').click();syncQuick()};
+  $('#q_blk').onclick=()=>{$('#bBlack').click();syncQuick()};
+  $('#q_win').onclick=()=>{$('#bPlayer').click();setTimeout(syncQuick,300)};
+  setInterval(syncQuick,1500);
+}
+
 // ================= HOVER SUMMARY =================
 function tipHTML(it){
   const c=S.turns.find(x=>x.id===it.link);if(!c)return'';
@@ -2088,10 +2327,11 @@ function tipHTML(it){
   return h;
 }
 const TIPD={t:0,on:false};
-function tipHide(){clearTimeout(TIPD.t);TIPD.on=false;const e=$('#tip');if(e)e.classList.remove('on')}
+function tipSend(id,html){if(PLAYER||!PS.win||PS.win.closed||PS.frozen)return;PS.win.postMessage({t:'tip',id:LOOK.ptip?id:null,html:html||''},'*')}
+function tipHide(){clearTimeout(TIPD.t);if(TIPD.on)tipSend(null);TIPD.on=false;const e=$('#tip');if(e)e.classList.remove('on')}
 function tipArm(it,place){
   clearTimeout(TIPD.t);if(PLAYER||LOOK.tip===false||!it||!it.link)return;
-  TIPD.t=setTimeout(()=>{const h=tipHTML(it);if(!h)return;const e=$('#tip');e.innerHTML=h;e.classList.add('on');TIPD.on=true;
+  TIPD.t=setTimeout(()=>{const h=tipHTML(it);if(!h)return;const e=$('#tip');e.innerHTML=h;e.classList.add('on');TIPD.on=true;tipSend(it.id,h);
     const r=place(),w=e.offsetWidth,hh=e.offsetHeight;
     e.style.left=Math.max(6,Math.min(innerWidth-w-6,r.x))+'px';e.style.top=Math.max(6,Math.min(innerHeight-hh-6,r.y))+'px'},1300);
 }
@@ -2181,9 +2421,9 @@ function pushPlayer(now){
   if(R&&LOOK.pruler!==false){const a=rsnap(R.a),b=rsnap(R.b);ruler={a:R.a,b:R.b};L=LOS.on&&Math.hypot(b.x-a.x,b.y-a.y)>1?losCalc(a,b):null;V=L?losVerdict(L):null}
   PS.win.postMessage({t:'state',S:playerState(),look:LOOK,rect,black:PS.black,v3,ruler,L,V,los:LOS.on,share:!!LOS.share},'*');
 }
-function updFreeze(){const b=$('#bFreeze');b.textContent=PS.frozen?'Frozen':'Freeze';b.classList.toggle('on',PS.frozen);$('#bBlack').classList.toggle('on',PS.black)}
+function updFreeze(){syncQuick();const b=$('#bFreeze');b.textContent=PS.frozen?'Frozen':'Freeze';b.classList.toggle('on',PS.frozen);$('#bBlack').classList.toggle('on',PS.black)}
 if(!PLAYER){
-  ['render','renderTurns','drawInk','drawCells','drawTerrain','drawHeight','drawTpl','apply','draw3d','open3d','close3d','drawRuler'].forEach(n=>{const f=window[n];window[n]=function(){const r=f.apply(this,arguments);pushPlayer();return r}});
+  ['render','renderTurns','drawInk','drawCells','drawTerrain','drawHeight','drawTpl','apply','draw3d','open3d','close3d','drawRuler'].forEach(n=>{const f=window[n];window[n]=function(){const r=f.apply(this,arguments);pushPlayer();if(n==='drawRuler')syncQuick();return r}});
   {const f=playFx;window.playFx=function(...a){a[4]=a[4]||flavour(a[0]);if(PS.win&&!PS.win.closed&&!PS.frozen)PS.win.postMessage({t:'fx',a},'*');return f.apply(this,a)}}
   $('#v3x').addEventListener('click',()=>pushPlayer());$('#b3d').addEventListener('click',()=>pushPlayer());
   $('#bPlayer').onclick=()=>{
@@ -2195,11 +2435,11 @@ if(!PLAYER){
   $('#bFreeze').onclick=()=>{PS.frozen=!PS.frozen;updFreeze();if(!PS.frozen)pushPlayer(true);else toast('Player screen frozen. Changes stay hidden until you unfreeze.')};
   $('#bBlack').onclick=()=>{PS.black=!PS.black;updFreeze();if(PS.win&&!PS.win.closed)PS.win.postMessage({t:'black',on:PS.black},'*')};
   $('#pfog').onchange=e=>setLook({pfog:e.target.value});$('#pbars').onchange=e=>setLook({pbars:e.target.value});
-  $('#penemy').onchange=e=>setLook({penemy:e.target.value==='1'});$('#pfollow').onchange=e=>setLook({pfollow:e.target.checked});$('#pruler').onchange=e=>setLook({pruler:e.target.checked});$('#flav').onchange=e=>setLook({flav:e.target.checked});$('#tipt').onchange=e=>setLook({tip:e.target.checked});
+  $('#penemy').onchange=e=>setLook({penemy:e.target.value==='1'});$('#pfollow').onchange=e=>setLook({pfollow:e.target.checked});$('#pruler').onchange=e=>setLook({pruler:e.target.checked});$('#flav').onchange=e=>setLook({flav:e.target.checked});$('#tipt').onchange=e=>setLook({tip:e.target.checked});$('#ptip').onchange=e=>setLook({ptip:e.target.checked});
   window.addEventListener('message',e=>{if(PS.win&&e.source===PS.win&&e.data&&e.data.t==='ready'){PS.sentMap=null;PS.frozen=false;updFreeze();pushPlayer(true)}});
   setInterval(()=>{if(PS.win&&PS.win.closed){PS.win=null;PS.frozen=false;$('#bFreeze').style.display='none'}},1500);
 }else{
-  document.body.classList.add('player');document.title='Lancer Table '+LT_VERSION+' - Player screen';
+  document.body.classList.add('player');document.title='Kyubisan\'s Lancer Table '+LT_VERSION+' - Player screen';
   let lastRect=null;
   {const d=document.createElement('div');d.id='pdet';d.innerHTML='<div id="losOut"></div>';document.body.append(d)}
   window.losCalc=()=>PS.L;window.losVerdict=()=>PS.V;
@@ -2209,6 +2449,15 @@ if(!PLAYER){
     if(m.t==='map')PS.map=m.map;
     else if(m.t==='black')$('#pblack').classList.toggle('on',!!m.on);
     else if(m.t==='fx')playFx(...m.a);
+    else if(m.t==='tip'){
+      const e=$('#tip');if(!m.id){e.classList.remove('on');return}
+      let r=null;
+      if(V3.open){const h=(V3.hits||[]).find(q=>q.id===m.id),c=$('#v3c').getBoundingClientRect();if(h)r={left:c.left+h.x1+8,top:c.top+h.y0}}
+      else{const t=document.querySelector('.token[data-id="'+m.id+'"]');if(t){const b=t.getBoundingClientRect();r={left:b.right+10,top:b.top}}}
+      if(!r){e.classList.remove('on');return}
+      e.innerHTML=m.html;e.classList.add('on');const w=e.offsetWidth,hh=e.offsetHeight;
+      e.style.left=Math.max(6,Math.min(innerWidth-w-6,r.left))+'px';e.style.top=Math.max(6,Math.min(innerHeight-hh-6,r.top))+'px';
+    }
     else if(m.t==='state'){
       S=Object.assign(blank(),m.S);S.grid=Object.assign(blank().grid,S.grid);S.map=PS.map;S.fogSee=false;sel=null;
       if(m.look)setLook(m.look);
