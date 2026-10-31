@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kyubisan's Lancer Table V1.47</title>
+<title>Kyubisan's Lancer Table V1.49</title>
 <!-- Copyright (c) 2026 Fox Murray. All rights reserved. -->
 <!-- VERSION: bump LT_VERSION (script) and the title/brand text on every change. Small additions +0.01, larger ones more. Stays in V1.xx for now. -->
 <style>
@@ -131,6 +131,7 @@ body.dock-left #ctl{order:2;min-width:0}
 .token.hl{box-shadow:0 0 0 4px var(--hl),0 0 26px 6px var(--hl);z-index:3}
 .token.acted{filter:grayscale(1);opacity:.6}
 .token.vacant{border-style:dashed}
+.tc.shc .pf{outline:3px solid var(--ac);outline-offset:3px}
 .tc.hl .pf{box-shadow:0 0 0 3px var(--hl),0 0 20px var(--hl)}
 #hov,#prof{position:fixed;z-index:60;display:none;background:var(--pn);border:1px solid var(--ln);border-top:3px solid var(--ac);box-shadow:0 12px 32px #0009;padding:10px 12px;color:var(--tx)}
 #hov .cs{font-size:16px;font-weight:700}
@@ -305,7 +306,7 @@ body.dock-left.ctl-off #bar{align-items:flex-start}
 #fxo{position:fixed;inset:0;z-index:9997;pointer-events:none;display:none;overflow:hidden}
 #fxo.on{display:block}
 #fxo *{position:absolute;pointer-events:none}
-#fxo .sl{left:-5%;width:110%;mix-blend-mode:screen;opacity:0;animation:slice .22s steps(2) infinite}
+#fxo .sl{left:-5%;width:110%;opacity:0;animation:slice .22s steps(2) infinite}
 #fxo .scn{inset:0;background:repeating-linear-gradient(0deg,#0000 0 3px,var(--c1) 3px 4px);animation:scnf .1s steps(2) infinite}
 #fxo .flash{inset:0;background:var(--c1);opacity:0;animation:dflash 1s ease-out forwards}
 #fxo .vig{inset:0;background:radial-gradient(ellipse at center,transparent 30%,#000d 100%);opacity:0;animation:fadein 1s ease-in forwards}
@@ -314,6 +315,12 @@ body.dock-left.ctl-off #bar{align-items:flex-start}
 #fxo .alarm{inset:0;background:radial-gradient(ellipse at center,transparent 22%,#ff1f1fbb 100%);opacity:0;animation:alarm .36s ease-in-out 3}
 #fxo .heat{inset:0;background:linear-gradient(0deg,#ff6a0077,transparent 65%);opacity:0;animation:fadein 1.1s ease-in forwards}
 #fxo .scanline{left:0;right:0;height:4px;top:0;background:var(--c1);box-shadow:0 0 26px 8px var(--c1);animation:scanmove .9s ease-in-out forwards}
+#fxo .gl{inset:0;opacity:0;animation:glfl .9s steps(1) forwards}
+#fxo .dimf{inset:0;background:#000;opacity:0;animation:dimfa 1s linear forwards}
+#fxo .hot{inset:0;background:#ff5a00;opacity:0;animation:hotf 1.1s ease-in forwards}
+@keyframes glfl{0%{opacity:0}10%{opacity:.16;background:#00e5ff}18%{opacity:.14;background:#ff2bd6}26%{opacity:0}34%{opacity:.28;background:#fff}42%{opacity:0}56%{opacity:.2;background:#00e5ff}64%{opacity:.15;background:#ff2bd6}72%{opacity:0}84%{opacity:.32;background:#fff}92%{opacity:.2;background:#00e5ff}100%{opacity:0}}
+@keyframes dimfa{to{opacity:.55}}
+@keyframes hotf{to{opacity:.3}}
 @keyframes slice{0%{opacity:0;transform:translateX(0)}30%{opacity:.85;transform:translateX(var(--dx))}60%{opacity:0}100%{opacity:.7;transform:translateX(calc(var(--dx)*-1))}}
 @keyframes scnf{to{transform:translateY(4px)}}
 @keyframes dflash{0%{opacity:0}12%{opacity:.6}24%{opacity:0}42%{opacity:.55}54%{opacity:0}78%{opacity:.75}100%{opacity:.25}}
@@ -325,9 +332,9 @@ body.pre-cas #tools,body.pre-cas #vp,body.pre-cas #bar,body.pre-cas #insp,body.p
 body.pre-combat #tools,body.pre-combat #vp,body.pre-combat #bar,body.pre-round #tools,body.pre-round #vp,body.pre-round #bar{animation:prglitch 0.9s steps(1) forwards}
 body.pre-dead #tools,body.pre-dead #vp,body.pre-dead #bar,body.pre-dead #insp,body.pre-dead #tpanel{animation:prshake 1s linear forwards}
 body.pre-melt #tools,body.pre-melt #vp,body.pre-melt #bar,body.pre-melt #insp,body.pre-melt #tpanel{animation:prmelt 1.1s ease-in forwards}
-@keyframes prglitch{0%{transform:none;filter:none}10%{transform:translate(-8px,2px) skewX(2deg);filter:drop-shadow(-6px 0 #00e5ff) drop-shadow(6px 0 #ff2bd6)}18%{transform:translate(10px,-3px);filter:hue-rotate(90deg) contrast(1.5)}26%{transform:none;filter:none}34%{transform:translate(-12px,0) skewX(-4deg);filter:invert(1) hue-rotate(180deg)}42%{transform:none;filter:none}56%{transform:translate(14px,4px) skewX(3deg);filter:drop-shadow(8px 0 #00e5ff) drop-shadow(-8px 0 #ff2bd6) saturate(2)}64%{transform:translate(-6px,-6px);filter:hue-rotate(-90deg) contrast(1.6)}72%{transform:none;filter:none}84%{transform:translate(18px,0) skewX(-5deg);filter:drop-shadow(-10px 0 #00e5ff) drop-shadow(10px 0 #ff2bd6) brightness(1.6)}92%{transform:translate(-4px,3px);filter:invert(1)}100%{transform:none;filter:none}}
-@keyframes prshake{0%{transform:none;filter:none}10%{transform:translate(-4px,3px) rotate(-.2deg)}20%{transform:translate(7px,-4px) rotate(.3deg);filter:brightness(.8)}30%{transform:translate(-10px,6px) rotate(-.4deg)}40%{transform:translate(12px,-7px) rotate(.5deg);filter:brightness(.65) grayscale(.3)}55%{transform:translate(-14px,8px) rotate(-.6deg)}70%{transform:translate(16px,-9px) rotate(.7deg);filter:brightness(.5) grayscale(.6)}85%{transform:translate(-12px,6px) rotate(-.5deg)}100%{transform:none;filter:brightness(.4) grayscale(.8)}}
-@keyframes prmelt{0%{transform:none;filter:none}30%{transform:skewX(.6deg);filter:sepia(.6) saturate(3) hue-rotate(-40deg) brightness(1.2)}45%{transform:skewX(-.6deg);filter:none}65%{transform:skewX(.8deg);filter:sepia(.9) saturate(4) hue-rotate(-50deg) brightness(1.4)}100%{transform:skewX(-1deg);filter:sepia(1) saturate(5) hue-rotate(-50deg) brightness(1.7)}}
+@keyframes prglitch{0%{transform:none}10%{transform:translate(-8px,2px) skewX(2deg)}18%{transform:translate(10px,-3px)}26%{transform:none}34%{transform:translate(-12px,0) skewX(-4deg)}42%{transform:none}56%{transform:translate(14px,4px) skewX(3deg)}64%{transform:translate(-6px,-6px)}72%{transform:none}84%{transform:translate(18px,0) skewX(-5deg)}92%{transform:translate(-4px,3px)}100%{transform:none}}
+@keyframes prshake{0%{transform:none}10%{transform:translate(-4px,3px) rotate(-.2deg)}20%{transform:translate(7px,-4px) rotate(.3deg)}30%{transform:translate(-10px,6px) rotate(-.4deg)}40%{transform:translate(12px,-7px) rotate(.5deg)}55%{transform:translate(-14px,8px) rotate(-.6deg)}70%{transform:translate(16px,-9px) rotate(.7deg)}85%{transform:translate(-12px,6px) rotate(-.5deg)}100%{transform:none}}
+@keyframes prmelt{0%{transform:none}30%{transform:skewX(.6deg)}45%{transform:skewX(-.6deg)}65%{transform:skewX(.8deg)}100%{transform:skewX(-1deg)}}
 #stamp{position:fixed;inset:0;z-index:9998;pointer-events:none;display:none;place-items:center;text-align:center;overflow:hidden}
 #stamp.go{display:grid;animation:stbg var(--dur,3.8s) ease-out forwards}
 #stamp .sbox{display:flex;flex-direction:column;gap:8px;align-items:center;animation:stin var(--dur,3.8s) cubic-bezier(.2,.9,.2,1) forwards}
@@ -343,10 +350,10 @@ body.pre-melt #tools,body.pre-melt #vp,body.pre-melt #bar,body.pre-melt #insp,bo
 #stamp.k-combat::before{top:0;border-bottom:3px solid var(--ac);box-shadow:0 0 22px var(--ac);animation:barT 3.4s ease-in-out forwards}
 #stamp.k-combat::after{bottom:0;border-top:3px solid var(--ac);box-shadow:0 0 22px var(--ac);animation:barB 3.4s ease-in-out forwards}
 #stamp.k-off{--sc:#8d99a8;--dur:1.8s}#stamp.k-off b{font-size:54px;color:#c9d1db}
-@keyframes cbspace{from{letter-spacing:1em;opacity:0}to{letter-spacing:.16em;opacity:1}}
+@keyframes cbspace{0%{letter-spacing:1em;opacity:0}20%{opacity:1}100%{letter-spacing:.16em;opacity:1}}
 @keyframes barT{0%{transform:translateY(-100%)}10%{transform:none}88%{transform:none}100%{transform:translateY(-100%)}}
 @keyframes barB{0%{transform:translateY(100%)}10%{transform:none}88%{transform:none}100%{transform:translateY(100%)}}
-@keyframes stbg{0%{background-color:#fff}6%{background-color:color-mix(in srgb,var(--sc) 55%,transparent)}72%{background-color:#0000}100%{background-color:#0000;opacity:0}}
+@keyframes stbg{0%{background-color:#fff;opacity:1}5%{background-color:color-mix(in srgb,var(--sc) 40%,transparent)}30%{background-color:#0000}82%{opacity:1}100%{background-color:#0000;opacity:0}}
 @keyframes stin{0%{transform:scale(2.8);opacity:0}14%{transform:scale(1);opacity:1}86%{opacity:1}100%{opacity:0;transform:scale(1.05)}}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-12px)}75%{transform:translateX(12px)}}
 @media (prefers-reduced-motion:reduce){[class*=fx-],.fx-dz .fxl,.fx-melt .fxl,.fx-dead .fxl::before,.fx-dead .fxl::after,.chip.melt,.fxt{animation:none!important}#stamp,#fxo{display:none!important}body[class*=pre-] *{animation:none!important}}
@@ -549,7 +556,7 @@ body.player #gmq{display:none!important}
 </head>
 <body>
 <header id="tools">
-  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.47</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
+  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.49</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
   <div class="mn"><button class="mb">Map ▾</button><div class="pop">
     <div class="rw"><button class="mi" id="bMap">Load map image</button></div>
     <div class="rw"><button class="mi" id="bFit">Fit map to window</button></div>
@@ -663,7 +670,7 @@ body.player #gmq{display:none!important}
 <div id="toast"></div>
 <script>
 const $=s=>document.querySelector(s);
-const LT_VERSION='V1.47';
+const LT_VERSION='V1.49';
 const PLAYER=location.hash==='#player';
 const PS={win:null,frozen:false,black:false,t:0,sentMap:null,map:null,rect:null};
 let LOOK={};
@@ -847,7 +854,7 @@ function renderTurns(){
   if(!S.turns.length)t.innerHTML='<span class="mut">Add portraits to build the turn bar. Click one when that unit has acted.</span>';
   t.insertAdjacentHTML('afterbegin','<i class="scan"><b></b></i>');
   S.turns.forEach((c,i)=>{
-    const d=document.createElement('div');d.className='tc'+(c.done?' done':'');d.draggable=true;
+    const d=document.createElement('div');d.className='tc'+(c.done?' done':'')+(sheetCard===c?' shc':'');d.draggable=true;
     d.style.setProperty('--c',COL[c.fac]);d.dataset.cid=c.id;
     const p=document.createElement('div');p.className='pf';
     if(c.img)p.style.backgroundImage=`url("${c.img}")`;else p.textContent=(c.name||'?')[0];
@@ -856,7 +863,9 @@ function renderTurns(){
     {const m=fxMain(fxFlags(c));if(m){d.classList.add('fx-'+m);d.dataset.fx=FXC[m];d.insertAdjacentHTML('beforeend',`<span class="fxb">${FXC[m]}</span>`)}}
     if(c.hc)d.insertAdjacentHTML('beforeend','<span class="hcc">HC</span>');
     d.insertAdjacentHTML('beforeend',`<span class="nm">${esc(c.name)}</span>`);
-    d.onclick=()=>{const open=hovCard===c;c.done=!c.done;render();renderTurns();if(open)showHov(c,cardEl(c))};
+    d.onclick=e=>{
+      if(sheetCard&&!e.shiftKey){if(c.p&&c.p.ps){hideHov();openSheet(c);renderTurns()}else toast(c.name+' has no character sheet. Shift-click to mark acted.');return}
+      const open=hovCard===c;c.done=!c.done;render();renderTurns();if(open)showHov(c,cardEl(c))};
     d.onmouseenter=()=>{if(hovCard&&hovCard!==c)hideHov();hlLink(c.id,true);clearTimeout(hovHide);clearTimeout(hovT);if(!tcG||!tcG.on)hovT=setTimeout(()=>showHov(c,d),600)};
     d.onmouseleave=()=>{hlLink(c.id,false);clearTimeout(hovT);hovHide=setTimeout(hideHov,250)};
     d.draggable=false;d.onpointerdown=e=>tcDown(e,c,d);
@@ -1524,7 +1533,8 @@ function fixPop(){
 }
 let vAmt=1,vOpen='',sheetCard=null,shTab='pilot',shMech=0;
 function openSheet(c){if(!c.p||!c.p.ps)return;sheetCard=c;shMech=c.p.mi||0;if(shTab!=='pilot'&&shTab!=='mech')shTab='pilot';$('#sheet').style.display='flex';document.body.classList.add('sheet-open');drawSheet()}
-function closeSheet(){sheetCard=null;$('#sheet').style.display='none';document.body.classList.remove('sheet-open')}
+function closeSheet(){sheetCard=null;if(window.renderTurns)try{renderTurns()}catch(e){}
+  $('#sheet').style.display='none';document.body.classList.remove('sheet-open')}
 function drawSheet(){
   const c=sheetCard;if(!c||!c.p||!c.p.ps){closeSheet();return}
   const p=c.p,ps=p.ps,st=stOf(c),E=esc,pre=t=>t?`<div class="tx">${E(t)}</div>`:'';
@@ -2152,14 +2162,14 @@ const STAMP={dead:['DESTROYED','Structure 0. The mech is a wreck.'],melt:['MELTD
 const FXSEQ={cas:[1000,4300],dead:[1000,4400],melt:[1100,4400],combat:[900,3500],round:[800,2800],off:[0,1900]};
 function fxBuild(k){
   const R=(a,b)=>a+Math.random()*(b-a),sl=(n,cols)=>Array.from({length:n},()=>`<i class="sl" style="top:${R(0,95).toFixed(1)}%;height:${R(8,46).toFixed(0)}px;background:${cols[Math.random()*cols.length|0]};--dx:${R(-90,90).toFixed(0)}px;animation-delay:${R(0,.9).toFixed(2)}s"></i>`).join('');
-  if(k==='cas')return`<div style="--c1:#00e5ff22">`+sl(16,['#00e5ffaa','#ff2bd6aa','#ffffff66'])+'<i class="scn"></i></div>';
-  if(k==='round')return`<div style="--c1:var(--ac)">`+sl(14,['color-mix(in srgb,var(--ac) 80%,transparent)','#ffffff66'])+'<i class="scn" style="opacity:.5"></i><i class="scanline"></i><i class="rsw"></i></div>';
-  if(k==='combat')return`<div style="--c1:var(--ac)">`+sl(10,['color-mix(in srgb,var(--ac) 70%,transparent)','#ffffff55'])+'<i class="scn" style="opacity:.5"></i><i class="scanline"></i></div>';
+  if(k==='cas')return`<div style="--c1:#00e5ff22"><i class="gl"></i>`+sl(16,['#00e5ffaa','#ff2bd6aa','#ffffff66'])+'<i class="scn"></i></div>';
+  if(k==='round')return`<div style="--c1:var(--ac)"><i class="gl"></i>`+sl(14,['color-mix(in srgb,var(--ac) 80%,transparent)','#ffffff66'])+'<i class="scn" style="opacity:.5"></i><i class="scanline"></i><i class="rsw"></i></div>';
+  if(k==='combat')return`<div style="--c1:var(--ac)"><i class="gl"></i>`+sl(10,['color-mix(in srgb,var(--ac) 70%,transparent)','#ffffff55'])+'<i class="scn" style="opacity:.5"></i><i class="scanline"></i></div>';
   if(k==='dead'){
     let cr='';for(let n=0;n<9;n++){let x=50,y=50,d=`M50 50`;const a=n/9*6.283+R(-.2,.2);for(let t=0;t<7;t++){const l=R(5,11);x+=Math.cos(a+R(-.5,.5))*l*1.5;y+=Math.sin(a+R(-.5,.5))*l;d+=`L${x.toFixed(1)} ${y.toFixed(1)}`}cr+=`<path d="${d}" style="animation-delay:${R(.1,.5).toFixed(2)}s"/>`}
-    return`<div style="--c1:#ff3b2f"><i class="vig"></i><i class="flash"></i><svg viewBox="0 0 100 100" preserveAspectRatio="none">${cr}</svg></div>`;
+    return`<div style="--c1:#ff3b2f"><i class="dimf"></i><i class="vig"></i><i class="flash"></i><svg viewBox="0 0 100 100" preserveAspectRatio="none">${cr}</svg></div>`;
   }
-  if(k==='melt')return'<div style="--c1:#ff3b2f"><i class="heat"></i><i class="alarm"></i></div>';
+  if(k==='melt')return'<div style="--c1:#ff3b2f"><i class="hot"></i><i class="heat"></i><i class="alarm"></i></div>';
   return'';
 }
 function playFx(k,unit,title,sub,q){
