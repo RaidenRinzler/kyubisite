@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kyubisan's Lancer Table V1.60</title>
+<title>Kyubisan's Lancer Table V1.61</title>
 <!-- Copyright (c) 2026 Fox Murray. All rights reserved. -->
 <!-- VERSION: bump LT_VERSION (script) and the title/brand text on every change. Small additions +0.01, larger ones more. Stays in V1.xx for now. -->
 <style>
@@ -592,7 +592,7 @@ body.player #gmq{display:none!important}
 </head>
 <body>
 <header id="tools">
-  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.60</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
+  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.61</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
   <div class="mn"><button class="mb">Map ▾</button><div class="pop">
     <div class="rw"><button class="mi" id="bMap">Load map image</button></div>
     <div class="rw"><button class="mi" id="bFit">Fit map to window</button></div>
@@ -719,7 +719,7 @@ body.player #gmq{display:none!important}
 <div id="toast"></div>
 <script>
 const $=s=>document.querySelector(s);
-const LT_VERSION='V1.60';
+const LT_VERSION='V1.61';
 const PLAYER=location.hash==='#player';
 const PS={win:null,frozen:false,black:false,t:0,sentMap:null,map:null,rect:null};
 let LOOK={};
@@ -770,6 +770,11 @@ function drawGrid(){
   d.setAttribute('stroke',g.lock?'rgba(255,255,255,.55)':'rgba(255,255,255,.2)');
   d.setAttribute('stroke-width',g.lock?Math.max(1,1.4/S.view.z):1)}
 function drawCrd(){
+  drawCrd0();
+  const cv=$('#crd');if(!cv)return;const g=cv.getContext('2d'),vr=vp.getBoundingClientRect();
+  document.querySelectorAll('#bar > *,#ctl,#gmq,#tedPill,#fogNote,#toast').forEach(e=>{const r=e.getBoundingClientRect(),cs=getComputedStyle(e);if(!r.width||!r.height||cs.display==='none'||cs.visibility==='hidden')return;g.clearRect(r.left-vr.left-6,r.top-vr.top-6,r.width+12,r.height+12)});
+}
+function drawCrd0(){
   const cv=$('#crd');if(!cv)return;const L=typeof LOOK!=='undefined'?LOOK:{},W=vp.clientWidth,H=vp.clientHeight,dpr=window.devicePixelRatio||1;
   if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr)}
   const g=cv.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,W,H);
@@ -951,7 +956,7 @@ function renderTurns(){
     d.draggable=false;d.onpointerdown=e=>tcDown(e,c,d);
     t.append(d);
   });
-  tkBuild();$('#count').textContent=`Round ${S.round}: ${S.turns.filter(c=>!c.done).length} of ${S.turns.length} ready`;
+  tkBuild();requestAnimationFrame(drawCrd);$('#count').textContent=`Round ${S.round}: ${S.turns.filter(c=>!c.done).length} of ${S.turns.length} ready`;
   t.dataset.round=String(S.round).padStart(2,'0');t.dataset.ready=S.turns.filter(c=>!c.done).length+'/'+S.turns.length;
   dockLayout();
 }
