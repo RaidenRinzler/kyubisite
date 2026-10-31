@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kyubisan's Lancer Table V1.42</title>
+<title>Kyubisan's Lancer Table V1.46</title>
 <!-- Copyright (c) 2026 Fox Murray. All rights reserved. -->
 <!-- VERSION: bump LT_VERSION (script) and the title/brand text on every change. Small additions +0.01, larger ones more. Stays in V1.xx for now. -->
 <style>
@@ -23,7 +23,7 @@ input[type=number]{width:74px}input[type=color]{padding:0;width:34px;height:26px
 .sep{width:1px;height:22px;background:var(--ln);margin:0 4px}.sp{flex:1}
 .mn{position:relative}
 .pop{display:none;position:absolute;top:calc(100% + 8px);left:0;min-width:290px;flex-direction:column;gap:7px;padding:10px;background:var(--pn);border:1px solid var(--ln);border-top:3px solid var(--ac);box-shadow:0 12px 32px #0009;z-index:30}
-.pop.open{display:flex}.mn.r .pop{left:auto;right:0}
+.pop.open{display:flex}.pop .sec{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);border-top:1px solid var(--ln);padding-top:6px;margin-top:2px}.pop .sec:first-child{border-top:0;padding-top:0;margin-top:0}.tplrow{display:flex;gap:4px}.tplrow .mi{flex:1;padding-left:4px;padding-right:4px;text-align:center}.mn.r .pop{left:auto;right:0}
 .rw{display:flex;align-items:center;gap:8px}
 .rw>span{flex:1;color:var(--mut)}.rw .mi{flex:1;text-align:left}
 .q{flex:none;position:relative;width:17px;height:17px;border:1px solid var(--ln);border-radius:50%;display:grid;place-items:center;font:700 10px system-ui,sans-serif;font-style:normal;color:var(--mut);cursor:help}
@@ -533,7 +533,7 @@ body.player #gmq{display:none!important}
 </head>
 <body>
 <header id="tools">
-  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.42</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
+  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.46</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
   <div class="mn"><button class="mb">Map ▾</button><div class="pop">
     <div class="rw"><button class="mi" id="bMap">Load map image</button></div>
     <div class="rw"><button class="mi" id="bFit">Fit map to window</button></div>
@@ -548,19 +548,17 @@ body.player #gmq{display:none!important}
     <div class="rw"><span>Keep visible when zoomed out</span><input id="glock" type="checkbox"></div>
     <div class="rw"><span>Diagonals (squares)</span><select id="diag"><option value="cheb">diagonal = 1</option><option value="alt">1-2-1</option><option value="euc">straight line</option></select><i class="q " data-tip="How the ruler counts diagonal steps on a square grid. 1-2-1 alternates 1 and 2 spaces. Hexes ignore this.">?</i></div>
   </div></div>
-  <div class="mn stops"><button class="mb">Add ▾</button><div class="pop">
-    <div class="rw"><button class="mi" id="bTok">Token</button></div>
-    <div class="rw"><select id="opre"><option value="crate">Cargo crate (hard cover)</option><option value="wall">Concrete wall (hard cover)</option><option value="foliage">Foliage (soft cover, terrain)</option><option value="rubble">Rubble (soft cover, terrain)</option><option value="blank">Blank object</option></select><button class="mi" id="bObj">Add</button></div>
-  </div></div>
-  <div class="mn stops"><button class="mb">Template ▾</button><div class="pop">
+  <div class="mn stops"><button class="mb" id="bPlace">Place ▾</button><div class="pop" id="placemenu">
+    <div class="sec">Token</div>
+    <div class="rw"><button class="mi" id="bTok">Token from image</button></div>
+    <div class="sec">Objects</div>
+    <div class="rw"><select id="opre"><option value="crate">Cargo crate (hard cover)</option><option value="wall">Concrete wall (hard cover)</option><option value="foliage">Foliage (soft cover, terrain)</option><option value="rubble">Rubble (soft cover, terrain)</option><option value="tree">Tree, oak (soft cover, scalable)</option><option value="pine">Tree, pine (soft cover, scalable)</option><option value="blank">Blank object</option></select><button class="mi" id="bObj">Place</button></div>
+    <div class="rw"><button class="mi" id="bOLine" title="Drag from one cell to another to lay a whole line of the chosen piece, including 45 degree diagonals. Works for walls, crates, rubble and trees.">Brush a line of them</button></div>
+    <div class="sec">Templates</div>
     <div class="help" style="border:0;padding:0">Select a token first to centre a template on it, then pick a shape. Drag the round handle to move it. Line and cone also have a dotted handle for rotating.</div>
     <div class="rw"><span>Size</span><input id="tn" type="number" min="1" max="30" value="2"></div>
     <div class="rw"><span>Effect</span><select id="tfx"><option>none</option><option>fire</option><option>smoke</option><option>energy</option></select><i class="q" data-tip="The look of new templates. Fire and smoke animate and blur. Use Stamp to map in the editing panel to leave them on the map afterwards.">?</i></div>
-    <div class="rw"><button class="mi" data-tpl="burst">Burst</button></div>
-    <div class="rw"><button class="mi" data-tpl="blast">Blast</button></div>
-    <div class="rw"><button class="mi" data-tpl="line">Line</button></div>
-    <div class="rw"><button class="mi" data-tpl="cone">Cone</button></div>
-    <div class="rw"><button class="mi" data-tpl="threat">Threat</button></div>
+    <div class="rw tplrow"><button class="mi" data-tpl="burst">Burst</button><button class="mi" data-tpl="blast">Blast</button><button class="mi" data-tpl="line">Line</button><button class="mi" data-tpl="cone">Cone</button><button class="mi" data-tpl="threat">Threat</button></div>
   </div></div>
   <span class="sep"></span>
   <button id="bRule" title="Drag between two points to measure. Esc clears">Ruler</button>
@@ -569,7 +567,6 @@ body.player #gmq{display:none!important}
     <div class="rw"><button class="mi" id="bBrush" title="Paint cover, smoke, fire, fog or highlights over cells">Paint cells</button></div>
     <div class="rw"><button class="mi" id="bTerr" title="Paint difficult terrain, dangerous terrain and obstructions">Terrain</button></div>
     <div class="rw"><button class="mi" id="bHt" title="Paint height levels over cells">Height</button></div>
-    <div class="rw"><button class="mi" id="bOLine" title="Drag from one cell to another to lay a whole line of wall or crate pieces, including 45 degree diagonals">Object line (diagonals)</button></div>
     <div class="rw"><button class="mi" id="bStop">Stop drawing</button></div>
     <div class="rw"><button class="mi" id="bTEdit" title="Unlock map objects, cover and terrain pieces so they can be selected, moved and resized. Tokens always stay movable.">Terrain edit: locked</button></div>
   </div></div>
@@ -648,7 +645,7 @@ body.player #gmq{display:none!important}
 <div id="toast"></div>
 <script>
 const $=s=>document.querySelector(s);
-const LT_VERSION='V1.42';
+const LT_VERSION='V1.46';
 const PLAYER=location.hash==='#player';
 const PS={win:null,frozen:false,black:false,t:0,sentMap:null,map:null,rect:null};
 let LOOK={};
@@ -706,6 +703,19 @@ function miniBars(s){
   const pc=(a,b)=>b?Math.max(0,Math.min(100,a/b*100)):0;
   return`<span class="mbar"><i class="h" style="width:${pc(s.hp,s.hpM)}%"></i></span><span class="mbar t"><i class="t" style="width:${pc(s.heat,s.heatM)}%"></i></span>`;
 }
+// trees: fixed palettes so the 2D and 3D views always match
+const TREEC={oak:{trunk:'#6b4a2e',sh:'#1a2d1f',layers:['#2b5535','#3a7348','#58a066']},pine:{trunk:'#5a3f27',sh:'#14241f',layers:['#1f4a3c','#2a5d49','#36735a','#4a8a6c']}};
+function treeSvg(sp){
+  const c=TREEC[sp]||TREEC.oak;let g='';
+  if(sp==='pine'){
+    const star=(r,n)=>{let p='';for(let i=0;i<n*2;i++){const a=i*Math.PI/n,rr=i%2?r*.62:r;p+=(i?'L':'M')+(50+rr*Math.cos(a)).toFixed(1)+' '+(50+rr*Math.sin(a)).toFixed(1)}return p+'Z'};
+    g=`<path d="${star(46,9)}" fill="${c.layers[0]}"/><path d="${star(35,9)}" fill="${c.layers[1]}" transform="rotate(10 50 50)"/><path d="${star(24,9)}" fill="${c.layers[2]}"/><path d="${star(13,9)}" fill="${c.layers[3]}" transform="rotate(10 50 50)"/>`;
+  }else{
+    const lobes=(r,n,k)=>{let o='';for(let i=0;i<n;i++){const a=i*2*Math.PI/n+k;o+=`<circle cx="${(50+r*Math.cos(a)).toFixed(1)}" cy="${(50+r*Math.sin(a)).toFixed(1)}" r="${(r*.62).toFixed(1)}"/>`}return o};
+    g=`<g fill="${c.layers[0]}">${lobes(30,8,0)}<circle cx="50" cy="50" r="34"/></g><g fill="${c.layers[1]}">${lobes(20,7,.4)}<circle cx="50" cy="50" r="24"/></g><g fill="${c.layers[2]}">${lobes(11,6,.9)}<circle cx="50" cy="50" r="12"/></g>`;
+  }
+  return `<svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible"><circle cx="53" cy="55" r="46" fill="#000" fill-opacity=".22"/>${g}<circle cx="50" cy="50" r="3.2" fill="${c.trunk}"/></svg>`;
+}
 function mk(it){
   const gs=S.grid.size,d=document.createElement('div');
   d.className='it '+it.type+(it.id===sel?' sel':'')+(it.hidden?' hid':'');d.dataset.id=it.id;
@@ -720,6 +730,10 @@ function mk(it){
         if(c.hc&&it.role!=='pilot'){d.classList.add('hc-tok');d.insertAdjacentHTML('beforeend','<i class="hcb">HC</i>')}
         const m=it.role!=='pilot'?fxMain(fxFlags(c)):'';if(m){d.classList.add('fx-'+m);d.insertAdjacentHTML('beforeend',`<i class="fxl"></i><u class="fxt">${FXN[m]}</u>`)}}
       if(it.link===hoverId)d.classList.add('hl')}
+  }else if(it.type==='obj'&&it.kind==='tree'){
+    const hx=S.grid.type==='hex',R=hexR();
+    d.style.width=(hx?it.w+.5:it.w)*gs+'px';d.style.height=(hx?(1.5*it.h+.5)*R:it.h*gs)+'px';
+    d.style.background='none';d.style.border='none';d.style.opacity='1';d.innerHTML=treeSvg(it.sp)+'<i class="rs"></i>';
   }else if(it.type==='obj'){
     d.style.width=it.w*gs+'px';d.style.height=it.h*gs+'px';d.style.background=it.color;
     const cv=it.cover||'none';if(cv==='hard')d.style.backgroundImage='repeating-linear-gradient(135deg,#dfe6ee33 0 5px,#dfe6ee99 5px 8px)';d.style.borderStyle=cv==='soft'?'dashed':'solid';d.style.borderWidth=cv==='hard'?'4px':cv==='soft'?'2px':'1px';d.style.borderColor=cv==='none'?'#fff5':'#e8edf2';
@@ -943,7 +957,7 @@ function put(it){if(it.type==='obj'&&!document.body.classList.contains('tedit'))
 $('#bMap').onclick=()=>pick(setMap);
 $('#bFit').onclick=fit;
 $('#bTok').onclick=()=>pick(f=>read(f).then(img=>put({id:uid(),type:'token',size:1,name:base(f),fac:$('#side').value,img})),true);
-const PRE={crate:{name:'Crate',w:1,h:1,color:'#7a6446',cat:'object',cover:'hard'},wall:{name:'Wall',w:3,h:1,color:'#6b7480',cat:'object',cover:'hard'},foliage:{name:'Foliage',w:2,h:2,color:'#3f7a4a',cat:'terrain',cover:'soft'},rubble:{name:'Rubble',w:2,h:1,color:'#6f655a',cat:'terrain',cover:'soft'},blank:{name:'Object',w:2,h:1,color:'#5b6b7d',cat:'object',cover:'none'}};
+const PRE={crate:{name:'Crate',w:1,h:1,color:'#7a6446',cat:'object',cover:'hard'},wall:{name:'Wall',w:3,h:1,color:'#6b7480',cat:'object',cover:'hard'},foliage:{name:'Foliage',w:2,h:2,color:'#3f7a4a',cat:'terrain',cover:'soft'},rubble:{name:'Rubble',w:2,h:1,color:'#6f655a',cat:'terrain',cover:'soft'},tree:{name:'Tree',w:2,h:2,color:'#3a7348',cat:'terrain',cover:'soft',kind:'tree',sp:'oak',lv:2.4},pine:{name:'Pine',w:2,h:2,color:'#2a5d49',cat:'terrain',cover:'soft',kind:'tree',sp:'pine',lv:3},blank:{name:'Object',w:2,h:1,color:'#5b6b7d',cat:'object',cover:'none'}};
 $('#bObj').onclick=()=>put({id:uid(),type:'obj',...PRE[$('#opre').value]});
 $('#bAdd').onclick=()=>pick(f=>read(f).then(img=>{S.turns.push({id:uid(),name:base(f),fac:$('#side').value,img,done:false});renderTurns()}),true);
 $('#bNew').onclick=newRound;
@@ -1762,9 +1776,9 @@ function disembark(c){
 const HT={lv:2,size:1,erase:false};
 function htPanel(){
   const o=(a,cur,z)=>a.map(n=>`<option value="${n}"${n===cur?' selected':''}>${n===0?'off':n}</option>`).join('');
-  const L=Array.from({length:12},(_,i)=>i+1),LL=[-2,-1].concat(L);
-  const ol=LL.map(n=>`<option value="${n}"${n===HT.lv?' selected':''}>${n<0?'−'+(-n)+(n===-1?' (shallow)':' (deep)'):n}</option>`).join('');
-  return '<b>Height</b>'+`<label title="Negative levels sink below the ground: use them for water, ditches and trenches">Level <select data-i="hl">${ol}</select></label>`+
+  const L=Array.from({length:12},(_,i)=>i+1),LL=[-2,-1,0].concat(L);
+  const ol=LL.map(n=>`<option value="${n}"${n===HT.lv?' selected':''}>${n<0?'−'+(-n)+(n===-1?' (shallow water)':' (deep water)'):n===0?'0 (ground)':n}</option>`).join('');
+  return '<b>Height</b>'+`<label title="Negative levels sink below the ground and count as water: each space costs 2 movement, so no difficult terrain paint is needed. Level 0 sets cells to flat ground.">Level <select data-i="hl">${ol}</select></label>`+
     `<button data-a="ht:erase"${HT.erase?' class="on"':''}>Erase</button><label>Size <select data-i="hs">${[1,2,3,4].map(n=>`<option${n===HT.size?' selected':''}>${n}</option>`).join('')}</select></label>`+
     `<label title="A cell gets the hard cover outline when it rises this many levels above the selected token (or above ground if nothing is selected)">Hard cover at + <select data-i="hc">${o([0].concat(L),S.hcLevel)}</select></label>`+
     `<button data-a="hshow">${S.showH?'Hide':'Show'} heights</button><button data-a="undo">Undo</button><button data-a="clrh">Clear heights</button>`;
@@ -1854,7 +1868,7 @@ function drawMove(){
     for(const r of rects){const inn=r.keys?r.keys.has(key):!(x<r.x||x>r.x+r.w||y<r.y||y>r.y+r.h);if(!inn)continue;
       if(r.t==='obj'&&r.blk&&MV.obj)blk=true;
       if(r.t==='tok'){occ=true;if(r.foe&&MV.foe)blk=true}}
-    const f={blk,occ,cost:ter==='rough'?2:1,dz:ter==='danger',x,y};memo.set(key,f);return f;
+    const wet=(S.height[key]||0)<0,f={blk,occ,cost:ter==='rough'||wet?2:1,dz:ter==='danger',x,y};memo.set(key,f);return f;
   }
   const start=cellKeyAt(tok.x+tok.size*s/2,tok.y+tok.size*s/2),dist=new Map([[start,0]]),B=[[start]];
   for(let c=0;c<=max;c++){
@@ -1926,7 +1940,7 @@ const REF={
   <dt>Checking</dt><dd>Draw a line from the centre of the attacker's space to the target. For a Blast, draw it from the centre of the blast.</dd>
   <dt>Line of sight</dt><dd>Hard cover at least 1 Size larger than the target blocks it.</dd></dl>
  <h4>Terrain</h4><dl>
-  <dt>Difficult</dt><dd>Each space you enter costs 2 movement.</dd>
+  <dt>Difficult</dt><dd>Each space you enter costs 2 movement. Water (height levels −1 and −2) counts automatically, no terrain paint needed.</dd>
   <dt>Dangerous</dt><dd>Enter it for the first time in a round, or start your turn in it: Engineering save or take 5 damage (kinetic, energy or explosive).</dd>
   <dt>Obstruction</dt><dd>Blocks movement. Flying ignores it.</dd>
   <dt>Wrecks</dt><dd>Become difficult terrain and hard cover, but do not block line of sight.</dd>
@@ -2233,10 +2247,42 @@ function draw3d(){
       if(V3.num&&C.z*s>20){const p=C.P(e.x,e.y,e.h),sz=Math.max(10,Math.min(22,C.z*s*.34));ctx.textAlign='center';ctx.textBaseline='middle';ctx.lineJoin='round';ctx.font=`700 ${sz}px system-ui,sans-serif`;ctx.lineWidth=3;ctx.strokeStyle='#000';ctx.strokeText(e.h,p[0],p[1]);ctx.fillStyle='#fff';ctx.fillText(e.h,p[0],p[1])}
     }});
   });
+  // trees: trunk plus stacked canopy tiers in fixed colours
+  function tree3(it){
+    const g=S.grid;let cx,cy;
+    if(hex){const ks=objKeys(it);cx=0;cy=0;ks.forEach(k=>{const[x,y]=keyCtr(k);cx+=x;cy+=y});cx/=ks.length;cy/=ks.length}
+    else{cx=it.x+it.w*s/2;cy=it.y+it.h*s/2}
+    const key=cellKeyAt(cx,cy),bl=S.height[key]||0,fg=S.cells[key]==='fog'&&FOG3!=='off',pal=TREEC[it.sp]||TREEC.oak,
+      r=Math.min(it.w,it.h)*s/2*.7,tot=Math.max(.8,objLv(it)),pine=it.sp==='pine';
+    const shade=c=>{const v=hex2rgb(c);return fg?(FOG3==='black'?[0,0,0]:v.map(x=>x*.22)):v};
+    list.push({d:C.d(cx,cy)+Math.max(it.w,it.h)*s*.7,o:1,f:()=>{
+      const rx0=r*C.z,ry0=rx0*C.sp,Bt=C.P(cx,cy,bl),tr=Math.max(2,r*.13*C.z);
+      // ground shadow
+      ctx.fillStyle='rgba(0,0,0,.28)';ctx.beginPath();ctx.ellipse(Bt[0]+rx0*.12,Bt[1],rx0*.95,ry0*.95,0,0,7);ctx.fill();
+      // trunk
+      const tT=C.P(cx,cy,bl+tot*.5);ctx.fillStyle=rgbs(shade(pal.trunk),.85);ctx.fillRect(Bt[0]-tr,tT[1],tr*2,Bt[1]-tT[1]);
+      ctx.fillStyle=rgbs(shade(pal.trunk),1.05);ctx.beginPath();ctx.ellipse(Bt[0],Bt[1],tr,tr*C.sp,0,0,Math.PI);ctx.fill();
+      const n=pal.layers.length;
+      for(let i=0;i<n;i++){
+        const l0=bl+tot*(.4+.42*i/n),l1=bl+tot*(.4+.42*(i+1)/n)+tot*.14,rr=r*(1-i*(pine?.2:.24)),
+          B=C.P(cx,cy,l0),T=C.P(cx,cy,l1),rx=rr*C.z,ry=rx*C.sp,col=shade(pal.layers[i]);
+        if(pine){
+          ctx.fillStyle=rgbs(col,.7);ctx.beginPath();ctx.moveTo(B[0]-rx,B[1]);ctx.ellipse(B[0],B[1],rx,ry,0,Math.PI,0,true);ctx.lineTo(T[0],T[1]-ry*.2);ctx.closePath();ctx.fill();
+          ctx.fillStyle=rgbs(col,1.05);ctx.beginPath();ctx.moveTo(B[0]-rx,B[1]);ctx.ellipse(B[0],B[1],rx,ry,0,Math.PI,Math.PI*2);ctx.lineTo(T[0],T[1]-ry*.2);ctx.closePath();ctx.fill();
+        }else{
+          ctx.fillStyle=rgbs(col,.7);ctx.beginPath();ctx.ellipse(B[0],B[1],rx,ry,0,0,Math.PI);ctx.lineTo(T[0]-rx,T[1]);ctx.ellipse(T[0],T[1],rx,ry,0,Math.PI,0,true);ctx.closePath();
+          ctx.fillRect(B[0]-rx,T[1],rx*2,B[1]-T[1]);ctx.fill();
+          ctx.fillStyle=rgbs(col,1.08);ctx.beginPath();ctx.ellipse(T[0],T[1],rx,ry,0,0,7);ctx.fill();
+        }
+        ctx.strokeStyle='rgba(0,0,0,.25)';ctx.lineWidth=1;ctx.beginPath();ctx.ellipse(pine?B[0]:T[0],pine?B[1]:T[1],rx,ry,0,0,7);ctx.stroke();
+      }
+    }});
+  }
   // objects stand as low blocks. Each cell of an object is its own piece resting on that cell's height,
   // and is drawn straight after the column it sits on, so the surface below can never paint over it.
   S.items.forEach(it=>{
     if(it.type!=='obj')return;
+    if(it.kind==='tree'){tree3(it);return}
     const col=hex2rgb(it.color),oh=objLv(it),pieces=[],g=S.grid;
     if(hex)objKeys(it).forEach(k=>{const[x,y]=keyCtr(k);pieces.push({pts:polyPts(x,y),key:k,ax:x,ay:y})});
     else{
@@ -2317,7 +2363,7 @@ function draw3d(){
 function syncQuick(){
   const q=$('#gmq');if(!q||PLAYER)return;
   const set=(id,v,chk)=>{const e=$('#'+id);if(!e)return;if(chk)e.checked=!!v;else e.value=v};
-  set('q_wx',LOOK.wx||'none');set('q_ptip',LOOK.ptip,1);set('q_pfog',LOOK.pfog||'sensor');set('q_penemy',LOOK.penemy,1);set('q_pbars',LOOK.pbars||'friends');
+  set('q_wx',LOOK.wx||'none');set('q_hnum',LOOK.hnum!==false,1);set('q_ptip',LOOK.ptip,1);set('q_pfog',LOOK.pfog||'sensor');set('q_penemy',LOOK.penemy,1);set('q_pbars',LOOK.pbars||'friends');
   set('q_pruler',LOOK.pruler!==false,1);set('q_share',LOOK.share!==undefined?LOOK.share:LOS.share,1);set('q_pfollow',LOOK.pfollow!==false,1);
   $('#q_share').checked=!!LOS.share;$('#q_tedit').checked=document.body.classList.contains('tedit');
   const open=!!(PS.win&&!PS.win.closed);
@@ -2330,6 +2376,7 @@ if(!PLAYER){
   d.innerHTML=`<button id="gmqb" title="Quick toggles for the player screen (experimental)">GM</button><div id="gmqp">
    <b>Table</b>
    <label><input type="checkbox" id="q_tedit"> Terrain edit (unlock objects)</label>
+   <label><input type="checkbox" id="q_hnum"> Height numbers</label>
    <label>Weather <select id="q_wx"><option value="none">None</option><option value="rain">Rain</option><option value="snow">Snow</option><option value="sand">Sand</option><option value="soot">Soot and ash</option><option value="embers">Embers</option></select></label>
    <b>Player screen</b>
    <label><input type="checkbox" id="q_ptip"> Hover summary</label>
@@ -2345,7 +2392,7 @@ if(!PLAYER){
   $('#gmqb').onclick=()=>d.classList.toggle('open');
   const on=(id,fn)=>$('#'+id).addEventListener('change',e=>{fn(e.target);syncQuick()});
   on('q_ptip',e=>setLook({ptip:e.checked}));on('q_penemy',e=>setLook({penemy:e.checked}));on('q_pruler',e=>setLook({pruler:e.checked}));
-  on('q_wx',e=>setLook({wx:e.value}));on('q_tedit',e=>setTEdit(e.checked));on('q_pfollow',e=>setLook({pfollow:e.checked}));on('q_pfog',e=>setLook({pfog:e.value}));on('q_pbars',e=>setLook({pbars:e.value}));
+  on('q_wx',e=>setLook({wx:e.value}));on('q_hnum',e=>setLook({hnum:e.checked}));on('q_tedit',e=>setTEdit(e.checked));on('q_pfollow',e=>setLook({pfollow:e.checked}));on('q_pfog',e=>setLook({pfog:e.value}));on('q_pbars',e=>setLook({pbars:e.value}));
   on('q_share',e=>{LOS.share=e.checked;try{panel()}catch(x){}try{if(V3.open)l3Panel()}catch(x){}drawRuler()});
   $('#q_frz').onclick=()=>{if(!(PS.win&&!PS.win.closed)){toast('Open the player window first');return}$('#bFreeze').click();syncQuick()};
   $('#q_blk').onclick=()=>{$('#bBlack').click();syncQuick()};
