@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kyubisan's Lancer Table V1.59</title>
+<title>Kyubisan's Lancer Table V1.60</title>
 <!-- Copyright (c) 2026 Fox Murray. All rights reserved. -->
 <!-- VERSION: bump LT_VERSION (script) and the title/brand text on every change. Small additions +0.01, larger ones more. Stays in V1.xx for now. -->
 <style>
@@ -592,7 +592,7 @@ body.player #gmq{display:none!important}
 </head>
 <body>
 <header id="tools">
-  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.59</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
+  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.60</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
   <div class="mn"><button class="mb">Map ▾</button><div class="pop">
     <div class="rw"><button class="mi" id="bMap">Load map image</button></div>
     <div class="rw"><button class="mi" id="bFit">Fit map to window</button></div>
@@ -719,7 +719,7 @@ body.player #gmq{display:none!important}
 <div id="toast"></div>
 <script>
 const $=s=>document.querySelector(s);
-const LT_VERSION='V1.59';
+const LT_VERSION='V1.60';
 const PLAYER=location.hash==='#player';
 const PS={win:null,frozen:false,black:false,t:0,sentMap:null,map:null,rect:null};
 let LOOK={};
@@ -1353,10 +1353,22 @@ function wxApply(l){
 }
 const TKL=['SYSTEM ENGAGED','COMBAT MODE ACTIVE','LANCER COMMS ONLINE','ALL UNITS HOLD FOR ORDERS','HOSTILE CONTACT','WEAPONS FREE','NHP LINK STABLE','TACTICAL NET SYNC','STAND BY FOR TURN ORDER','REACTOR TELEMETRY NOMINAL','IFF TRANSPONDERS LIVE','PROTOCOL 3: PROTECT THE PILOT'];
 function tkPos(){
-  const b=document.body,bar=$('#bar'),tb=$('#tkB');if(!tb)return;
+  const b=document.body,tb=$('#tkB'),vpe=$('#vp');if(!tb||!vpe)return;
   b.classList.toggle('crd-edge',(LOOK.crd||'off')==='edge');
-  const bh=(!b.classList.contains('dock-left')&&bar&&bar.offsetHeight>20)?bar.offsetHeight+6:12;
-  tb.style.bottom=bh+'px';
+  tb.style.bottom='3px';tb.style.webkitMaskImage=tb.style.maskImage='';
+  if(!b.classList.contains('cool'))return;
+  const tr=tb.getBoundingClientRect(),vr=vpe.getBoundingClientRect(),iv=[];
+  document.querySelectorAll('#bar > *,#ctl,#hint').forEach(e=>{
+    const r=e.getBoundingClientRect(),cs=getComputedStyle(e);
+    if(!r.width||!r.height||cs.display==='none'||cs.visibility==='hidden')return;
+    if(r.bottom>tr.top&&r.top<tr.bottom)iv.push([Math.max(0,r.left-vr.left-10),Math.min(vr.width,r.right-vr.left+10)]);
+  });
+  if(!iv.length)return;
+  iv.sort((x,y)=>x[0]-y[0]);const m=[];iv.forEach(q=>{const l=m[m.length-1];if(l&&q[0]<=l[1])l[1]=Math.max(l[1],q[1]);else m.push(q.slice())});
+  let g='linear-gradient(90deg',p=0;
+  m.forEach(q=>{g+=`,#000 ${p}px,#000 ${q[0]}px,transparent ${q[0]}px,transparent ${q[1]}px`;p=q[1]});
+  g+=`,#000 ${p}px,#000 100%)`;
+  tb.style.webkitMaskImage=tb.style.maskImage=g;
 }
 function tkBuild(){
   if(!document.body.classList.contains('cool'))return;tkPos();requestAnimationFrame(tkPos);
