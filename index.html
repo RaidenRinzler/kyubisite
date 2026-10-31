@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kyubisan's Lancer Table V1.52</title>
+<title>Kyubisan's Lancer Table V1.54</title>
 <!-- Copyright (c) 2026 Fox Murray. All rights reserved. -->
 <!-- VERSION: bump LT_VERSION (script) and the title/brand text on every change. Small additions +0.01, larger ones more. Stays in V1.xx for now. -->
 <style>
@@ -177,6 +177,7 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid 
 body.sk-98 button:hover:not(.on):not(.sw){background:#dcdcdc;border-color:#fff #404040 #404040 #fff}
 body.sk-term button:hover:not(.on):not(.sw){background:#123420;border-color:#8dffaa}
 #hov .ac{flex-wrap:wrap}
+#crd{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:5}
 #terr,#mv,#cur{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
 .t-rough{fill:url(#p-rough);stroke:var(--tr);stroke-opacity:.6;stroke-width:1}
 .t-danger{fill:url(#p-dang);stroke:var(--td);stroke-opacity:.8;stroke-width:1.5}
@@ -591,7 +592,7 @@ body.player #gmq{display:none!important}
 </head>
 <body>
 <header id="tools">
-  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.52</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
+  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.54</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
   <div class="mn"><button class="mb">Map ▾</button><div class="pop">
     <div class="rw"><button class="mi" id="bMap">Load map image</button></div>
     <div class="rw"><button class="mi" id="bFit">Fit map to window</button></div>
@@ -646,6 +647,8 @@ body.player #gmq{display:none!important}
     <div class="rw"><span>Flavour lines</span><input id="flav" type="checkbox"><button class="mi" id="bQed" title="Edit the quotes that appear on round, cascade, meltdown and other animations">Edit</button></div>
     </div>
     <div class="apg" data-g="map">
+    <div class="rw"><span>Grid coordinates</span><select id="crd_m"><option value="off">Off</option><option value="edge">Edges</option><option value="hex">Every cell</option></select><i class="q" data-tip="Row and column labels like B7 so players can call out a cell. Edges pins labels to the top and left of the screen and follows pan and zoom. Every cell labels each cell when zoomed in (and falls back to edges when zoomed out). Players see them too."></i></div>
+    <div class="rw"><span>Repeat every</span><select id="crd_n"><option value="8">8</option><option value="10">10</option><option value="12">12</option><option value="16">16</option><option value="20">20</option><option value="26">26</option></select><i class="q" data-tip="Big maps reuse the labels: letters go A to this many, then start again at A. Numbers do the same."></i></div>
     <div class="rw"><span>Height numbers</span><input id="hnum" type="checkbox"></div>
     <div class="rw"><span>Terrain colours</span><select id="tpal"></select></div>
     <div class="rw"><span>Height colours</span><select id="hpal"></select></div>
@@ -658,6 +661,7 @@ body.player #gmq{display:none!important}
     <div class="rw"><span>HP and heat bars</span><select id="pbars"><option value="friends">Players and allies</option><option value="all">Everyone</option><option value="none">Nobody</option></select></div>
     <div class="rw"><span>Enemy portraits</span><select id="penemy"><option value="0">Show in turn bar</option><option value="1">Hide from players</option></select></div>
     <div class="rw"><span>Follow my view</span><input id="pfollow" type="checkbox"><i class="q" data-tip="The player screen shows whatever part of the map you are looking at. Turn off to show the whole map."></i></div>
+    <div class="rw"><span>Show movement range</span><input id="pmove" type="checkbox"><i class="q" data-tip="When you switch on Move for a token, players see its movement range on their screen too. Hidden tokens and tokens in fog stay hidden."></i></div>
     <div class="rw"><span>Show my ruler</span><input id="pruler" type="checkbox"><i class="q" data-tip="Players see your ruler and line of sight result, in 2D and 3D. The result is worked out on your screen, so hidden cover still counts."></i></div>
     <div class="rw"><span>Hover summary on player screen</span><input id="ptip" type="checkbox"></div>
     </div>
@@ -677,7 +681,7 @@ body.player #gmq{display:none!important}
 </header>
 <div id="insp"></div>
 <div id="tpanel"></div>
-<div id="vp"><div class="tk t" id="tkT"><i></i></div><div class="tk b" id="tkB"><i></i></div>
+<div id="vp"><canvas id="crd"></canvas><div class="tk t" id="tkT"><i></i></div><div class="tk b" id="tkB"><i></i></div>
   <div id="tedPill" title="Click to lock terrain again">TERRAIN EDIT · click to lock</div>
   <div id="world"><img id="mapimg" alt=""><svg id="grid"><defs><clipPath id="mapclip"><rect id="mcr" x="0" y="0" width="2000" height="1400"/></clipPath><pattern id="pt" patternUnits="userSpaceOnUse"><path id="gp" fill="none"/></pattern></defs><rect width="100%" height="100%" fill="url(#pt)"/></svg><svg id="terr"><defs>
 <pattern id="p-rough" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" style="fill:var(--tr)" fill-opacity=".3"/><path d="M0 10L10 0" style="stroke:var(--tr)" stroke-width="1.6" stroke-opacity=".8"/><circle cx="3" cy="3" r="1.2" style="fill:var(--tr)"/><circle cx="8" cy="7.5" r="1.2" style="fill:var(--tr)"/></pattern>
@@ -715,7 +719,7 @@ body.player #gmq{display:none!important}
 <div id="toast"></div>
 <script>
 const $=s=>document.querySelector(s);
-const LT_VERSION='V1.52';
+const LT_VERSION='V1.54';
 const PLAYER=location.hash==='#player';
 const PS={win:null,frozen:false,black:false,t:0,sentMap:null,map:null,rect:null};
 let LOOK={};
@@ -765,7 +769,38 @@ function drawGrid(){
   else{p.setAttribute('height',w);d.setAttribute('d',`M0 0H${w}M0 0V${w}M${w} 0V${w}M0 ${w}H${w}`)}
   d.setAttribute('stroke',g.lock?'rgba(255,255,255,.55)':'rgba(255,255,255,.2)');
   d.setAttribute('stroke-width',g.lock?Math.max(1,1.4/S.view.z):1)}
-function apply(){const v=S.view;$('#world').style.transform=`translate(${v.x}px,${v.y}px) scale(${v.z})`;if(S.grid.lock)drawGrid();drawRuler()}
+function drawCrd(){
+  const cv=$('#crd');if(!cv)return;const L=typeof LOOK!=='undefined'?LOOK:{},W=vp.clientWidth,H=vp.clientHeight,dpr=window.devicePixelRatio||1;
+  if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr)}
+  const g=cv.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,W,H);
+  const mode=L.crd||'off';if(mode==='off'||(typeof V3!=='undefined'&&V3.open))return;
+  const G=S.grid,s=G.size,z=S.view.z,v=S.view,C=Math.max(4,Math.min(26,+L.crdn||12)),hex=G.type==='hex',R_=s/Math.sqrt(3);
+  const cs=getComputedStyle(document.body),ac=cs.getPropertyValue('--ac').trim()||'#fff';
+  const x0=-v.x/z,y0=-v.y/z,x1=(W-v.x)/z,y1=(H-v.y)/z,mw=S.mw||1e9,mh=S.mh||1e9;
+  const lt=i=>String.fromCharCode(65+(((i%C)+C)%C)),nm=i=>(((i%C)+C)%C)+1;
+  const bmin=Math.ceil(-G.ox/s-.5),rmin=hex?Math.ceil((-G.oy-R_)/(1.5*R_)):Math.ceil(-G.oy/s-.5);
+  const cx=k=>G.ox+(k+.5)*s,cyR=r=>hex?G.oy+R_+1.5*R_*r:G.oy+(r+.5)*s;
+  const kA=Math.max(bmin,Math.floor((x0-G.ox)/s)-1),kB=Math.min(Math.floor((Math.min(x1,mw)-G.ox)/s)+1,Math.ceil((mw-G.ox)/s)-1);
+  const rA=Math.max(rmin,hex?Math.floor((y0-G.oy-R_)/(1.5*R_))-1:Math.floor((y0-G.oy)/s)-1),rB=hex?Math.min(Math.floor((Math.min(y1,mh)-G.oy-R_)/(1.5*R_))+1,Math.ceil((mh-G.oy-R_)/(1.5*R_))):Math.min(Math.floor((Math.min(y1,mh)-G.oy)/s)+1,Math.ceil((mh-G.oy)/s)-1);
+  g.textAlign='center';g.textBaseline='middle';g.lineJoin='round';
+  const txt=(t,x,y,f)=>{g.font='700 '+f+'px "Cascadia Mono",Consolas,monospace';g.lineWidth=3;g.strokeStyle='rgba(0,0,0,.75)';g.strokeText(t,x,y);g.fillStyle=ac;g.fillText(t,x,y)};
+  const sz=s*z;
+  if(mode==='hex'&&sz>=30){
+    const f=Math.max(8,Math.min(15,sz*.24));g.globalAlpha=.8;let n=0;
+    for(let r=rA;r<=rB&&n<6000;r++)for(let k=kA;k<=kB;k++,n++){
+      const px=hex?G.ox+(((r%2)+2)%2?0:s/2)+k*s:cx(k),py=cyR(r);
+      if(px<0||py<0||px>mw||py>mh)continue;
+      const X=px*z+v.x,Y=py*z+v.y;if(X<-sz||Y<-sz||X>W+sz||Y>H+sz)continue;
+      txt(lt(k-bmin)+nm(r-rmin),X,Y,f)}
+    g.globalAlpha=1;return}
+  // edge labels pinned to the viewport
+  const topY=(document.body.classList.contains('cool')?17:0),stepK=Math.max(1,Math.ceil(18/sz)),stepR=Math.max(1,Math.ceil(18/(hex?sz*.87:sz)));
+  g.globalAlpha=1;g.fillStyle='rgba(0,0,0,.45)';g.fillRect(0,topY,W,16);g.fillRect(0,topY,26,H-topY);
+  const f=Math.max(9,Math.min(13,sz*.3));
+  for(let k=kA;k<=kB;k+=stepK){const px=cx(k)*z+v.x;if(px>26&&px<W-6)txt(lt(k-bmin),px,topY+8,f)}
+  for(let r=rA;r<=rB;r+=stepR){const py=cyR(r)*z+v.y;if(py>topY+16&&py<H-6)txt(String(nm(r-rmin)),13,py,f)}
+}
+function apply(){const v=S.view;$('#world').style.transform=`translate(${v.x}px,${v.y}px) scale(${v.z})`;if(S.grid.lock)drawGrid();drawRuler();drawCrd()}
 function fit(){const z=Math.min(vp.clientWidth/S.mw,vp.clientHeight/S.mh)*.96;S.view={z,x:(vp.clientWidth-S.mw*z)/2,y:(vp.clientHeight-S.mh*z)/2};apply()}
 
 function miniBars(s){
@@ -827,7 +862,7 @@ function render(){
   gr.style.display=g.show?'block':'none';
   drawGrid();w.classList.toggle('hex',g.type==='hex');
   const L=$('#layer');L.innerHTML='';S.items.forEach(it=>{L.appendChild(mk(it));if(it.type==='tpl'&&(it.kind==='line'||it.kind==='cone'))L.appendChild(rotEl(it))});
-  w.classList.toggle('fogsee',!!S.fogSee);drawCells();drawTerrain();drawHeight();drawMove();drawTpl();drawInk();
+  w.classList.toggle('fogsee',!!S.fogSee);drawCells();drawTerrain();drawHeight();drawMove();drawTpl();drawInk();drawCrd();
   apply();
 }
 
@@ -1328,7 +1363,7 @@ function tkBuild(){
   T.textContent=mk(a);B.textContent=mk(b);
 }
 function setLook(o){
-  let l={accent:'Union red',mode:'dark',skin:'',dock:'bottom',cool:false,ctlHide:false,hnum:true,tpal:'default',hpal:'default',fog3:'off',hmax:6,pfog:'sensor',pbars:'friends',penemy:false,pfollow:true,pruler:true,flav:true,tip:true,ptip:false,wx:'none',wint:2,wwho:'player',fxq:'full'};
+  let l={accent:'Union red',mode:'dark',skin:'',dock:'bottom',cool:false,ctlHide:false,hnum:true,tpal:'default',hpal:'default',fog3:'off',hmax:6,pfog:'sensor',pbars:'friends',penemy:false,pfollow:true,pruler:true,pmove:true,crd:'off',crdn:12,flav:true,tip:true,ptip:false,wx:'none',wint:2,wwho:'player',fxq:'full'};
   if(PLAYER)Object.assign(l,o);
   else try{Object.assign(l,JSON.parse(localStorage.getItem('lt-look')),o);localStorage.setItem('lt-look',JSON.stringify(l))}catch(e){Object.assign(l,o)}
   LOOK=l;
@@ -1337,7 +1372,7 @@ function setLook(o){
   if(!['','sk-98','sk-term','sk-amber','sk-tron','sk-edge'].includes(l.skin))l.skin='';
   ['sk-98','sk-term','sk-amber','sk-tron','sk-edge'].forEach(k=>document.body.classList.toggle(k,k===l.skin));$('#skin').value=l.skin;
   document.body.classList.toggle('cool',!!l.cool);tkBuild();$('#bCombat').classList.toggle('on',!!l.cool);
-  $('#tpal').value=l.tpal;$('#hpal').value=l.hpal;$('#fog3').value=l.fog3;$('#pfog').value=l.pfog;$('#pbars').value=l.pbars;$('#penemy').value=l.penemy?'1':'0';$('#pfollow').checked=l.pfollow!==false;$('#pruler').checked=l.pruler!==false;$('#flav').checked=l.flav!==false;$('#tipt').checked=l.tip!==false;$('#ptip').checked=!!l.ptip;$('#hmax').value=Math.max(2,+l.hmax||6);$('#hmaxv').textContent=$('#hmax').value;applyPal(l);
+  $('#tpal').value=l.tpal;$('#hpal').value=l.hpal;$('#fog3').value=l.fog3;$('#pfog').value=l.pfog;$('#pbars').value=l.pbars;$('#penemy').value=l.penemy?'1':'0';$('#pfollow').checked=l.pfollow!==false;$('#pruler').checked=l.pruler!==false;$('#pmove').checked=l.pmove!==false;$('#crd_m').value=l.crd||'off';$('#crd_n').value=String(l.crdn||12);drawCrd();$('#flav').checked=l.flav!==false;$('#tipt').checked=l.tip!==false;$('#ptip').checked=!!l.ptip;$('#hmax').value=Math.max(2,+l.hmax||6);$('#hmaxv').textContent=$('#hmax').value;applyPal(l);
   document.body.classList.toggle('no-hnum',l.hnum===false);$('#hnum').checked=l.hnum!==false;
   document.body.classList.toggle('ctl-off',!!l.ctlHide);$('#bEye').innerHTML=l.ctlHide?EYE_OFF:EYE_ON;$('#bEye').classList.toggle('on',!l.ctlHide);
   document.body.classList.toggle('dock-left',l.dock==='left');$('#dock').value=l.dock;dockLayout();
@@ -1350,6 +1385,7 @@ function setLook(o){
 $('#sws').innerHTML=Object.entries(TH).map(([n,c])=>`<button class="sw" data-t="${n}" style="--s:${c}" title="${n}"></button>`).join('');
 $('#sws').onclick=e=>{if(e.target.dataset.t)setLook({accent:e.target.dataset.t})};
 document.querySelectorAll('.aptab').forEach(b=>b.onclick=e=>{e.stopPropagation();const g=b.dataset.g;document.querySelectorAll('.aptab').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('.apg').forEach(x=>x.classList.toggle('on',x.dataset.g===g))});
+$('#crd_m').onchange=e=>setLook({crd:e.target.value});$('#crd_n').onchange=e=>setLook({crdn:+e.target.value});
 $('#fxq').onchange=e=>setLook({fxq:e.target.value});
 $('#wx_k').onchange=e=>setLook({wx:e.target.value});$('#wx_i').onchange=e=>setLook({wint:+e.target.value});$('#wx_w').onchange=e=>setLook({wwho:e.target.value});
 $('#mode').onchange=e=>setLook({mode:e.target.value});
@@ -1523,7 +1559,7 @@ function dockLayout(){
   }else{t.style.gridTemplateRows='';t.style.gridTemplateColumns='';t.style.flex=''}
   r.setProperty('--dw',left?bar.offsetWidth+'px':'0px');
 }
-window.addEventListener('resize',dockLayout);
+window.addEventListener('resize',()=>{dockLayout();drawCrd()});
 $('#dock').onchange=e=>setLook({dock:e.target.value});
 $('#bCombat').onclick=()=>{const on=!document.body.classList.contains('cool');setLook({cool:on});combatSweep(on)};
 function combatSweep(on){
@@ -2672,11 +2708,11 @@ function pushPlayer(now){
   const cv=$('#v3c'),v3=V3.open?{yaw:V3.yaw,pitch:V3.pitch,zoom:V3.zoom,px:V3.px,py:V3.py,hs:V3.hs,tok:V3.tok,grid:V3.grid,num:V3.num,rule:V3.rule,w:cv.clientWidth||innerWidth,h:cv.clientHeight||innerHeight}:null;
   let ruler=null,L=null,V=null;
   if(R&&LOOK.pruler!==false){const a=rsnap(R.a),b=rsnap(R.b);ruler={a:R.a,b:R.b};L=LOS.on&&Math.hypot(b.x-a.x,b.y-a.y)>1?losCalc(a,b):null;V=L?losVerdict(L):null}
-  PS.win.postMessage({t:'state',S:playerState(),look:LOOK,rect,black:PS.black,v3,ruler,L,V,los:LOS.on,share:!!LOS.share},'*');
+  PS.win.postMessage({t:'state',S:playerState(),mv:(LOOK.pmove!==false&&mvId)||null,look:LOOK,rect,black:PS.black,v3,ruler,L,V,los:LOS.on,share:!!LOS.share},'*');
 }
 function updFreeze(){syncQuick();const b=$('#bFreeze');b.textContent=PS.frozen?'Frozen':'Freeze';b.classList.toggle('on',PS.frozen);$('#bBlack').classList.toggle('on',PS.black)}
 if(!PLAYER){
-  ['render','renderTurns','drawInk','drawCells','drawTerrain','drawHeight','drawTpl','apply','draw3d','open3d','close3d','drawRuler'].forEach(n=>{const f=window[n];window[n]=function(){const r=f.apply(this,arguments);pushPlayer();if(n==='drawRuler')syncQuick();return r}});
+  ['render','renderTurns','drawInk','drawCells','drawTerrain','drawHeight','drawTpl','apply','draw3d','open3d','close3d','drawRuler','drawMove'].forEach(n=>{const f=window[n];window[n]=function(){const r=f.apply(this,arguments);pushPlayer();if(n==='drawRuler')syncQuick();return r}});
   {const f=playFx;window.playFx=function(...a){a[4]=a[4]||flavour(a[0]);if(PS.win&&!PS.win.closed&&!PS.frozen)PS.win.postMessage({t:'fx',a},'*');return f.apply(this,a)}}
   $('#v3x').addEventListener('click',()=>pushPlayer());$('#b3d').addEventListener('click',()=>pushPlayer());
   $('#bPlayer').onclick=()=>{
@@ -2688,7 +2724,7 @@ if(!PLAYER){
   $('#bFreeze').onclick=()=>{PS.frozen=!PS.frozen;updFreeze();if(!PS.frozen)pushPlayer(true);else toast('Player screen frozen. Changes stay hidden until you unfreeze.')};
   $('#bBlack').onclick=()=>{PS.black=!PS.black;updFreeze();if(PS.win&&!PS.win.closed)PS.win.postMessage({t:'black',on:PS.black},'*')};
   $('#pfog').onchange=e=>setLook({pfog:e.target.value});$('#pbars').onchange=e=>setLook({pbars:e.target.value});
-  $('#penemy').onchange=e=>setLook({penemy:e.target.value==='1'});$('#pfollow').onchange=e=>setLook({pfollow:e.target.checked});$('#pruler').onchange=e=>setLook({pruler:e.target.checked});$('#flav').onchange=e=>setLook({flav:e.target.checked});$('#tipt').onchange=e=>setLook({tip:e.target.checked});$('#ptip').onchange=e=>setLook({ptip:e.target.checked});
+  $('#penemy').onchange=e=>setLook({penemy:e.target.value==='1'});$('#pfollow').onchange=e=>setLook({pfollow:e.target.checked});$('#pruler').onchange=e=>setLook({pruler:e.target.checked});$('#pmove').onchange=e=>{setLook({pmove:e.target.checked});pushPlayer()};$('#flav').onchange=e=>setLook({flav:e.target.checked});$('#tipt').onchange=e=>setLook({tip:e.target.checked});$('#ptip').onchange=e=>setLook({ptip:e.target.checked});
   window.addEventListener('message',e=>{if(PS.win&&e.source===PS.win&&e.data&&e.data.t==='ready'){PS.sentMap=null;PS.frozen=false;updFreeze();pushPlayer(true)}});
   setInterval(()=>{if(PS.win&&PS.win.closed){PS.win=null;PS.frozen=false;$('#bFreeze').style.display='none'}},1500);
 }else{
@@ -2714,7 +2750,7 @@ if(!PLAYER){
     else if(m.t==='state'){
       S=Object.assign(blank(),m.S);S.grid=Object.assign(blank().grid,S.grid);S.map=PS.map;S.fogSee=false;sel=null;
       if(m.look)setLook(m.look);
-      R=m.ruler;LOS.on=!!m.los;PS.L=m.L;PS.V=m.V;$('#pdet').classList.toggle('on',!!(m.share&&m.ruler&&m.L));
+      mvId=m.mv||null;R=m.ruler;LOS.on=!!m.los;PS.L=m.L;PS.V=m.V;$('#pdet').classList.toggle('on',!!(m.share&&m.ruler&&m.L));
       renderAll();drawRuler();lastRect=m.rect;if(m.rect)fitRect(m.rect);else fit();
       if(m.v3){
         const c3=$('#v3c'),w=c3.clientWidth||innerWidth,h=c3.clientHeight||innerHeight,k=Math.min(w/m.v3.w,h/m.v3.h);
