@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kyubisan's Lancer Table V1.55</title>
+<title>Kyubisan's Lancer Table V1.59</title>
 <!-- Copyright (c) 2026 Fox Murray. All rights reserved. -->
 <!-- VERSION: bump LT_VERSION (script) and the title/brand text on every change. Small additions +0.01, larger ones more. Stays in V1.xx for now. -->
 <style>
@@ -28,10 +28,10 @@ input[type=number]{width:74px}input[type=color]{padding:0;width:34px;height:26px
 .aptab.on{background:var(--ac);color:#fff;border-color:var(--ac)}
 .apg{display:none;flex-direction:column;gap:7px}.apg.on{display:flex}
 /* combat tickers */
-.tk{display:none;position:absolute;left:0;right:0;height:17px;overflow:hidden;pointer-events:none;z-index:6;font:600 10px/17px "Cascadia Mono",Consolas,"Courier New",monospace;letter-spacing:.22em;text-transform:uppercase;color:var(--ac);opacity:.42;white-space:nowrap;text-shadow:0 0 6px var(--ac);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
-.tk.t{top:0;border-bottom:1px solid color-mix(in srgb,var(--ac) 35%,transparent)}.tk.b{bottom:0;border-top:1px solid color-mix(in srgb,var(--ac) 35%,transparent)}
-body.cool .tk{display:block}body.player.cool .tk{opacity:.34}
-.tk i{display:inline-block;font-style:normal;will-change:transform;animation:tkL 70s linear infinite}.tk.b i{animation-name:tkR;animation-duration:90s}
+.tk{display:none;position:absolute;left:0;right:0;height:28px;background:linear-gradient(90deg,transparent,#0006 10%,#0006 90%,transparent);overflow:hidden;pointer-events:none;z-index:6;font:700 16px/28px "Cascadia Mono",Consolas,"Courier New",monospace;letter-spacing:.3em;text-transform:uppercase;color:var(--ac);opacity:.72;white-space:nowrap;text-shadow:0 0 10px var(--ac),0 1px 2px #000;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.tk.t{top:12px;border-bottom:1px solid color-mix(in srgb,var(--ac) 35%,transparent)}.tk.b{bottom:12px;border-top:1px solid color-mix(in srgb,var(--ac) 35%,transparent)}
+body.cool .tk{display:block}body.crd-edge .tk.t{top:34px}
+.tk i{display:inline-block;font-style:normal;will-change:transform;animation:tkL 110s linear infinite}.tk.b i{animation-name:tkR;animation-duration:140s}
 @keyframes tkL{to{transform:translateX(-50%)}}@keyframes tkR{from{transform:translateX(-50%)}to{transform:translateX(0)}}
 @media (prefers-reduced-motion:reduce){.tk i{animation-duration:400s}}
 /* Edgerunners */
@@ -592,7 +592,7 @@ body.player #gmq{display:none!important}
 </head>
 <body>
 <header id="tools">
-  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.55</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
+  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.59</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
   <div class="mn"><button class="mb">Map ▾</button><div class="pop">
     <div class="rw"><button class="mi" id="bMap">Load map image</button></div>
     <div class="rw"><button class="mi" id="bFit">Fit map to window</button></div>
@@ -714,12 +714,12 @@ body.player #gmq{display:none!important}
 <div id="fxo"></div>
 <div id="tip"></div>
 <div id="stk"><div class="bx"><div class="hd"><b>Stock enemies</b><button id="stkx" title="Close">✕</button></div><div class="mut" style="font-size:12px;line-height:1.4">Choose how many of each to bring. Nothing is added until you confirm. They arrive in the turn order on the enemy side, numbered if you take more than one.</div><div id="stkb"></div><div class="row"><button id="stkimp" title="Add your own enemies from a COMP/CON style .json to this list. They are remembered on this computer.">Add your own…</button><span class="sp"></span><button id="stkclr">Reset counts</button><button id="stkgo" class="go" disabled>Add to turn order</button></div></div></div>
-<div id="qed"><div class="bx"><b>Flavour lines</b><div class="mut" style="font-size:12px;line-height:1.4">One line per quote. Put a heading in square brackets to say where the lines below it appear: [round] [cascade] [melt] [dead] [combat] [off]. Lines under [any], or with no heading at all, can appear on every animation. Leave a heading empty to use the [any] lines there.</div><textarea id="qta" spellcheck="false"></textarea><div class="row"><button id="qReset">Reset to examples</button><button id="qCancel">Cancel</button><button id="qSave" class="on">Save</button></div></div></div>
+<div id="qed"><div class="bx"><b>Flavour lines</b><div class="mut" style="font-size:12px;line-height:1.4">One line per quote. Quotes live in three lists: [good] for wins and rallying lines, [bad] for losses and disasters, and [any] for neutral ones. By default Combat engaged and Stand down use [good], Cascade, Meltdown and Destroyed use [bad], and New round uses [any]. To give one animation its own lines, add a heading for it: [round] [cascade] [melt] [dead] [combat] [off]. An empty heading uses the default list. Lines with no heading go in [any].</div><textarea id="qta" spellcheck="false"></textarea><div class="row"><button id="qReset">Reset to examples</button><button id="qCancel">Cancel</button><button id="qSave" class="on">Save</button></div></div></div>
 <div id="pblack"><b>STAND BY</b></div>
 <div id="toast"></div>
 <script>
 const $=s=>document.querySelector(s);
-const LT_VERSION='V1.55';
+const LT_VERSION='V1.59';
 const PLAYER=location.hash==='#player';
 const PS={win:null,frozen:false,black:false,t:0,sentMap:null,map:null,rect:null};
 let LOOK={};
@@ -794,7 +794,7 @@ function drawCrd(){
       txt(lt(k-bmin)+nm(r-rmin),X,Y,f)}
     g.globalAlpha=1;return}
   // edge labels pinned to the viewport
-  const topY=(document.body.classList.contains('cool')?17:0),stepK=Math.max(1,Math.ceil(18/sz)),stepR=Math.max(1,Math.ceil(18/(hex?sz*.87:sz)));
+  const topY=0,stepK=Math.max(1,Math.ceil(18/sz)),stepR=Math.max(1,Math.ceil(18/(hex?sz*.87:sz)));
   g.globalAlpha=1;g.fillStyle='rgba(0,0,0,.45)';g.fillRect(0,topY,W,16);g.fillRect(0,topY,26,H-topY);
   const f=Math.max(9,Math.min(13,sz*.3));
   for(let k=kA;k<=kB;k+=stepK){const px=cx(k)*z+v.x;if(px>26&&px<W-6)txt(lt(k-bmin),px,topY+8,f)}
@@ -1352,8 +1352,14 @@ function wxApply(l){
   if(on&&!W.raf){W.t0=performance.now();W.raf=requestAnimationFrame(wxFrame)}
 }
 const TKL=['SYSTEM ENGAGED','COMBAT MODE ACTIVE','LANCER COMMS ONLINE','ALL UNITS HOLD FOR ORDERS','HOSTILE CONTACT','WEAPONS FREE','NHP LINK STABLE','TACTICAL NET SYNC','STAND BY FOR TURN ORDER','REACTOR TELEMETRY NOMINAL','IFF TRANSPONDERS LIVE','PROTOCOL 3: PROTECT THE PILOT'];
+function tkPos(){
+  const b=document.body,bar=$('#bar'),tb=$('#tkB');if(!tb)return;
+  b.classList.toggle('crd-edge',(LOOK.crd||'off')==='edge');
+  const bh=(!b.classList.contains('dock-left')&&bar&&bar.offsetHeight>20)?bar.offsetHeight+6:12;
+  tb.style.bottom=bh+'px';
+}
 function tkBuild(){
-  if(!document.body.classList.contains('cool'))return;
+  if(!document.body.classList.contains('cool'))return;tkPos();requestAnimationFrame(tkPos);
   const n=(typeof S!=='undefined'&&S.turns)?S.turns.length:0,r=(typeof S!=='undefined')?S.round:1;
   const a=['ROUND '+String(r).padStart(2,'0'),n+' UNITS ON THE BOARD'].concat(TKL),sp='  ◆  ';
   const mk=(arr)=>{const t=arr.join(sp)+sp;return t+t};
@@ -1559,7 +1565,7 @@ function dockLayout(){
   }else{t.style.gridTemplateRows='';t.style.gridTemplateColumns='';t.style.flex=''}
   r.setProperty('--dw',left?bar.offsetWidth+'px':'0px');
 }
-window.addEventListener('resize',()=>{dockLayout();drawCrd()});
+window.addEventListener('resize',()=>{dockLayout();drawCrd();tkPos()});
 $('#dock').onchange=e=>setLook({dock:e.target.value});
 $('#bCombat').onclick=()=>{const on=!document.body.classList.contains('cool');setLook({cool:on});combatSweep(on)};
 function combatSweep(on){
@@ -2647,25 +2653,33 @@ if(!PLAYER){
 // ================= FLAVOUR LINES =================
 const QDEF={
  round:[],cascade:[],melt:[],dead:[],combat:[],off:[],
- any:["“Trust me.” – BT-7274", "“Protocol 3: Protect the Pilot.” – BT-7274", "“I will not lose another Pilot.” – BT-7274", "“Standby for Titanfall.”", "“I won’t miss.” – V.IV Rusty", "“Rubicon still needs me.” – V.IV Rusty", "“Get in the robot, Shinji.”", "“Anta baka?!” – Asuka Langley Soryu", "“Congratulations!”", "“Eyes up, Guardian.” – Ghost", "“Fight forever, Guardian.” – Lord Shaxx", "“Wake me when you need me.” – Master Chief", "“Nanomachines, son.” – Senator Armstrong", "“Kept you waiting, huh?” – Solid Snake", "“Rip and tear, until it is done.” – DOOM", "“War. War never changes.” – Fallout narrator", "“Snake? Snake?! SNAAAAKE!”", "“Memes. The DNA of the soul.” – Senator Armstrong", "“You must construct additional pylons.”", "“The cake is a lie.” – Portal", "“Praise the sun!” – Solaire of Astora", "“Hey, you. You’re finally awake.” – Ralof", "“Wololo.” – Monk", "“End of line.” – Master Control Program", "“I fight for the Users!” – Tron", "“Greetings, programs!” – Kevin Flynn", "“The Grid. A digital frontier.” – Kevin Flynn", "“You’re messing with my zen thing, man.” – Kevin Flynn", "“Heaven or Hell! Let’s Rock!”", "“Stairs?! NOOOOO!” – Claptrap", "“Needs more struts.”", "“Welcome to the Velvet Room.” – Igor", "“I am thou, thou art I.”", "“Life Will Change”", "“We are DedSec.” – DedSec", "“Make it so.” – Picard", "“Tea. Earl Grey. Hot.” – Picard", "“Mon capitaine.” – Q", "“Risk is our business.” – Kirk", "“KHAAAAN!” – Kirk", "“Live long and prosper.” – Spock", "“Qapla’!” – Klingon for “success”", "“Today is a good day to die.” – Worf", "“Resistance is futile.” – the Borg"]
+ good:["“Glory to mankind.”", "“Wake up, Samurai. We have a city to burn.” – Johnny Silverhand", "“Shall we play a game?” – WOPR", "“Trust me.” – BT-7274", "“Protocol 3: Protect the Pilot.” – BT-7274", "“Standby for Titanfall.”", "“I won’t miss.” – V.IV Rusty", "“Rubicon still needs me.” – V.IV Rusty", "“Get in the robot, Shinji.”", "“Congratulations!”", "“Eyes up, Guardian.” – Ghost", "“Fight forever, Guardian.” – Lord Shaxx", "“Wake me when you need me.” – Master Chief", "“Kept you waiting, huh?” – Solid Snake", "“Rip and tear, until it is done.” – DOOM", "“Praise the sun!” – Solaire of Astora", "“I fight for the Users!” – Tron", "“Greetings, programs!” – Kevin Flynn", "“Heaven or Hell! Let’s Rock!”", "“I am thou, thou art I.”", "“Life Will Change”", "“We are DedSec.” – DedSec", "“Make it so.” – Picard", "“Risk is our business.” – Kirk", "“Live long and prosper.” – Spock", "“Qapla’!” – Klingon for “success”", "“Today is a good day to die.” – Worf"],
+ bad:["“I will not lose another Pilot.” – BT-7274", "“Anta baka?!” – Asuka Langley Soryu", "“War. War never changes.” – Fallout narrator", "“Snake? Snake?! SNAAAAKE!”", "“The cake is a lie.” – Portal", "“End of line.” – Master Control Program", "“Stairs?! NOOOOO!” – Claptrap", "“Needs more struts.”", "“Mon capitaine.” – Q", "“KHAAAAN!” – Kirk", "“Resistance is futile.” – the Borg", "“Game over, man! Game over!” – Pvt. Hudson", "“A strange game. The only winning move is not to play.” – WOPR", "“Mean old Michigan died of a bad fall!” – G1 Michigan"],
+ any:["“Have we... made Contact?”", "“Nanomachines, son.” – Senator Armstrong", "“Memes. The DNA of the soul.” – Senator Armstrong", "“You must construct additional pylons.”", "“Hey, you. You’re finally awake.” – Ralof", "“Wololo.” – Monk", "“The Grid. A digital frontier.” – Kevin Flynn", "“You’re messing with my zen thing, man.” – Kevin Flynn", "“Welcome to the Velvet Room.” – Igor", "“Tea. Earl Grey. Hot.” – Picard"]
 };
-let QUOTES=(()=>{try{const q=JSON.parse(localStorage.getItem('lt-quotes'));if(q&&typeof q==='object')return Object.assign({},QDEF,q)}catch(e){}return QDEF})();
+let QUOTES=(()=>{try{const q=JSON.parse(localStorage.getItem('lt-quotes'));if(q&&typeof q==='object'){
+  if(!q.good&&!q.bad){const old=new Set([...QDEF.good,...QDEF.bad]);q.any=(q.any||[]).filter(x=>!old.has(x))}
+  return Object.assign({},QDEF,q)}}catch(e){}return QDEF})();
+try{if(!localStorage.getItem('lt-q-wopr')){localStorage.setItem('lt-q-wopr','1');const A=[['good',QDEF.good[0]],['bad',QDEF.bad[QDEF.bad.length-1]]];if(localStorage.getItem('lt-quotes')){A.forEach(([k,v])=>{QUOTES[k]=QUOTES[k]||[];if(!QUOTES[k].includes(v))QUOTES[k].push(v)});localStorage.setItem('lt-quotes',JSON.stringify(QUOTES))}}}catch(e){}
+try{if(!localStorage.getItem('lt-q-v159')){localStorage.setItem('lt-q-v159','1');if(localStorage.getItem('lt-quotes')){const A=[['good',QDEF.good[0]],['good',QDEF.good[1]],['bad',QDEF.bad[QDEF.bad.length-1]],['any',QDEF.any[0]]];A.forEach(([k,v])=>{QUOTES[k]=QUOTES[k]||[];if(!QUOTES[k].includes(v))QUOTES[k].push(v)});localStorage.setItem('lt-quotes',JSON.stringify(QUOTES))}}}catch(e){}
+const QROUTE={combat:'good',off:'good',cascade:'bad',melt:'bad',dead:'bad',round:'any'};
 const QLAST={};
 function flavour(k){
   if(PLAYER||LOOK.flav===false)return'';
   if(k==='cas')k='cascade';
-  const pool=(QUOTES[k]&&QUOTES[k].length?QUOTES[k]:QUOTES.any)||[];
+  const pool=(QUOTES[k]&&QUOTES[k].length?QUOTES[k]:QUOTES[QROUTE[k]]&&QUOTES[QROUTE[k]].length?QUOTES[QROUTE[k]]:QUOTES.any)||[];
   if(!pool.length)return'';
   let q,n=0;do{q=pool[Math.random()*pool.length|0]}while(pool.length>1&&q===QLAST[k]&&n++<8);
   QLAST[k]=q;return q;
 }
-const qText=()=>Object.keys(QDEF).map(k=>'['+k+']\n'+(QUOTES[k]||[]).join('\n')).join('\n\n');
+const QORD=['good','bad','any','round','combat','off','cascade','melt','dead'];
+const qText=()=>QORD.map(k=>'['+k+']\n'+(QUOTES[k]||[]).join('\n')).join('\n\n');
 function qParse(t){const o={any:[]};let cur='any';t.split('\n').forEach(l=>{l=l.trim();if(!l)return;const m=/^\[(\w+)\]$/.exec(l);if(m){cur=m[1].toLowerCase();o[cur]=o[cur]||[];return}(o[cur]=o[cur]||[]).push(l)});return o}
 if(!PLAYER){
   $('#bQed').onclick=()=>{$('#qta').value=qText();$('#qed').classList.add('on')};
   $('#qCancel').onclick=()=>$('#qed').classList.remove('on');
-  $('#qReset').onclick=()=>{$('#qta').value=Object.keys(QDEF).map(k=>'['+k+']\n'+QDEF[k].join('\n')).join('\n\n')};
-  $('#qSave').onclick=()=>{QUOTES=Object.assign({},QDEF,{round:[],cascade:[],melt:[],dead:[],combat:[],off:[]},qParse($('#qta').value));try{localStorage.setItem('lt-quotes',JSON.stringify(QUOTES))}catch(e){}$('#qed').classList.remove('on');toast('Flavour lines saved')};
+  $('#qReset').onclick=()=>{$('#qta').value=QORD.map(k=>'['+k+']\n'+QDEF[k].join('\n')).join('\n\n')};
+  $('#qSave').onclick=()=>{QUOTES=Object.assign({},QDEF,{good:[],bad:[],any:[],round:[],cascade:[],melt:[],dead:[],combat:[],off:[]},qParse($('#qta').value));try{localStorage.setItem('lt-quotes',JSON.stringify(QUOTES))}catch(e){}$('#qed').classList.remove('on');toast('Flavour lines saved')};
 }
 
 // ================= PLAYER SCREEN =================
