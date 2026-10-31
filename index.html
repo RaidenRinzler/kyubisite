@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kyubisan's Lancer Table V1.46</title>
+<title>Kyubisan's Lancer Table V1.47</title>
 <!-- Copyright (c) 2026 Fox Murray. All rights reserved. -->
 <!-- VERSION: bump LT_VERSION (script) and the title/brand text on every change. Small additions +0.01, larger ones more. Stays in V1.xx for now. -->
 <style>
@@ -483,6 +483,22 @@ body.player #v3d,body.player #v3d *{pointer-events:none!important}
 body.player{cursor:none}
 
 #stamp q{display:block;quotes:none;font-style:italic;font-size:17px;max-width:640px;margin-top:10px;color:#fff;text-align:center;text-shadow:0 0 8px #000,0 0 3px #000;opacity:.92}
+#stk{position:fixed;inset:0;z-index:7000;background:#000b;display:none;align-items:center;justify-content:center}
+#stk.on{display:flex}
+#stk .bx{width:min(760px,95vw);max-height:90vh;background:var(--pn);border-top:3px solid var(--ac);padding:14px;display:flex;flex-direction:column;gap:8px;color:var(--tx)}
+#stk .hd{display:flex;justify-content:space-between;align-items:center}
+#stkb{overflow:auto;display:flex;flex-direction:column;gap:2px;min-height:0}
+#stk .sh,#stk .sr{display:grid;grid-template-columns:150px repeat(3,1fr);gap:8px;align-items:center;padding:5px 4px}
+#stk .sh{position:sticky;top:0;background:var(--pn);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);text-align:center;z-index:1}
+#stk .sr{border-top:1px solid var(--ln)}
+#stk .sn{display:flex;flex-direction:column}#stk .sn span{font-size:11px;color:var(--mut)}
+#stk .sc{display:flex;flex-direction:column;align-items:center;gap:3px}#stk .sc small{font-size:10px;color:var(--mut);white-space:nowrap}
+#stk .ct{display:flex;align-items:center;gap:3px}
+#stk .ct input{width:56px;padding:4px 2px;text-align:center;-moz-appearance:textfield}#stk .ct input::-webkit-inner-spin-button{display:none}
+#stk .ct button{width:26px;padding:2px 0}
+#stk .st{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);padding:10px 4px 2px;border-top:2px solid var(--ln)}
+#stk .row{display:flex;gap:6px;align-items:center}#stk .row .sp{flex:1}
+#stk .go{background:var(--ac);color:#fff;font-weight:700}#stk .go:disabled{opacity:.4}
 #qed{position:fixed;inset:0;z-index:7000;background:#000b;display:none;align-items:center;justify-content:center}
 #qed.on{display:flex}
 #qed .bx{width:min(640px,92vw);background:var(--pn);border-top:3px solid var(--ac);padding:14px;display:flex;flex-direction:column;gap:8px;color:var(--tx)}
@@ -533,7 +549,7 @@ body.player #gmq{display:none!important}
 </head>
 <body>
 <header id="tools">
-  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.46</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
+  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.47</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
   <div class="mn"><button class="mb">Map ▾</button><div class="pop">
     <div class="rw"><button class="mi" id="bMap">Load map image</button></div>
     <div class="rw"><button class="mi" id="bFit">Fit map to window</button></div>
@@ -623,6 +639,7 @@ body.player #gmq{display:none!important}
     <div id="ctlb">
       <label>Side <select id="side"><option>player</option><option>enemy</option><option>ally</option><option>neutral</option></select></label>
       <div class="rw"><button class="mi" id="bAdd">Add portraits</button></div>
+      <div class="rw"><button class="mi" id="bStock" title="Pick from a list of ready-made enemies, choose how many of each, then add them all at once">Stock enemies</button></div>
       <div class="rw"><button class="mi" id="bNew">New round</button></div>
     </div>
   </div>
@@ -640,12 +657,13 @@ body.player #gmq{display:none!important}
 <div id="stamp"><div class="sbox"><small id="stU"></small><b id="stT"></b><em id="stS"></em><q id="stQ"></q></div></div>
 <div id="fxo"></div>
 <div id="tip"></div>
+<div id="stk"><div class="bx"><div class="hd"><b>Stock enemies</b><button id="stkx" title="Close">✕</button></div><div class="mut" style="font-size:12px;line-height:1.4">Choose how many of each to bring. Nothing is added until you confirm. They arrive in the turn order on the enemy side, numbered if you take more than one.</div><div id="stkb"></div><div class="row"><button id="stkimp" title="Add your own enemies from a COMP/CON style .json to this list. They are remembered on this computer.">Add your own…</button><span class="sp"></span><button id="stkclr">Reset counts</button><button id="stkgo" class="go" disabled>Add to turn order</button></div></div></div>
 <div id="qed"><div class="bx"><b>Flavour lines</b><div class="mut" style="font-size:12px;line-height:1.4">One line per quote. Put a heading in square brackets to say where the lines below it appear: [round] [cascade] [melt] [dead] [combat] [off]. Lines under [any], or with no heading at all, can appear on every animation. Leave a heading empty to use the [any] lines there.</div><textarea id="qta" spellcheck="false"></textarea><div class="row"><button id="qReset">Reset to examples</button><button id="qCancel">Cancel</button><button id="qSave" class="on">Save</button></div></div></div>
 <div id="pblack"><b>STAND BY</b></div>
 <div id="toast"></div>
 <script>
 const $=s=>document.querySelector(s);
-const LT_VERSION='V1.46';
+const LT_VERSION='V1.47';
 const PLAYER=location.hash==='#player';
 const PS={win:null,frozen:false,black:false,t:0,sentMap:null,map:null,rect:null};
 let LOOK={};
@@ -1755,6 +1773,83 @@ $('#bCC').onclick=()=>pick(f=>read(f,true).then(t=>{
   d.forEach(x=>{const c={id:uid(),name:x.callsign||x.pilot||'Pilot',fac:$('#side').value,img:'',done:false};S.turns.push(c);applyCC(c,x)});
   renderTurns();toast('Added '+d.length+(d.length>1?' pilots':' pilot'));
 }),true,'.json,application/json');
+
+// ---- stock enemies: base builds plus Veteran and Elite scaling. Add entries to STOCK_BASE to expand the list. ----
+const STOCK_W={"mw_assault_rifle":{"id":"mw_assault_rifle","name":"Assault Rifle","mount":"Main","type":"Rifle","damage":[{"type":"Kinetic","val":"1d6"}],"range":[{"type":"Range","val":10}],"tags":[{"id":"tg_reliable","val":2}]},"mw_pistol":{"id":"mw_pistol","name":"Pistol","mount":"Auxiliary","type":"CQB","damage":[{"type":"Kinetic","val":"1d3"}],"range":[{"type":"Range","val":5},{"type":"Threat","val":3}],"tags":[{"id":"tg_reliable","val":1}]},"mw_shotgun":{"id":"mw_shotgun","name":"Shotgun","mount":"Main","type":"CQB","damage":[{"type":"Kinetic","val":"1d6"}],"range":[{"type":"Range","val":5},{"type":"Threat","val":3}]},"mw_tactical_knife":{"id":"mw_tactical_knife","name":"Tactical Knife","mount":"Auxiliary","type":"Melee","damage":[{"type":"Kinetic","val":"1d3+1"}],"range":[{"type":"Threat","val":1}],"tags":[{"id":"tg_thrown","val":3}]},"mw_anti_materiel_rifle":{"id":"mw_anti_materiel_rifle","name":"Anti-Materiel Rifle","mount":"Heavy","type":"Rifle","damage":[{"type":"Kinetic","val":"2d6"}],"range":[{"type":"Range","val":20}],"tags":[{"id":"tg_accurate"},{"id":"tg_ap"},{"id":"tg_loading"},{"id":"tg_ordnance"}]},"mw_heavy_machine_gun":{"id":"mw_heavy_machine_gun","name":"Heavy Machine Gun","mount":"Heavy","type":"Cannon","damage":[{"type":"Kinetic","val":"2d6+4"}],"range":[{"type":"Range","val":8}],"tags":[{"id":"tg_inaccurate"}]},"mw_mortar":{"id":"mw_mortar","name":"Mortar","mount":"Main","type":"Cannon","damage":[{"type":"Explosive","val":"1d6+1"}],"range":[{"type":"Range","val":15},{"type":"Blast","val":1}],"tags":[{"id":"tg_arcing"},{"id":"tg_inaccurate"}]},"mw_segment_knife":{"id":"mw_segment_knife","name":"Segment Knife","mount":"Auxiliary","type":"Melee","damage":[{"type":"Energy","val":"1d3+1"}],"range":[{"type":"Threat","val":1}],"tags":[{"id":"tg_overkill"}]}};
+const STOCK_BASE=[{"k":"rifle","n":"Rifle Grunt","role":"Assault","ic":"RG","col":"#8a3b36","size":1,"hp":10,"armor":0,"ev":8,"ed":8,"sp":4,"heat":6,"sens":10,"tech":0,"grunt":1,"desc":"Rank-and-file line infantry in light powered chassis. Cheap, numerous and dangerous in groups.","tr":[["Fire Discipline","Once per round, when an allied unit within Range 5 makes a ranged attack against the same target, it gains +1 Accuracy."]],"mt":[["Main","mw_assault_rifle"],["Auxiliary","mw_pistol"]]},{"k":"breach","n":"Breacher Grunt","role":"Striker","ic":"BR","col":"#a0522d","size":1,"hp":12,"armor":1,"ev":8,"ed":8,"sp":4,"heat":6,"sens":8,"tech":-1,"grunt":1,"desc":"Close-assault trooper carrying a scattergun and a breaching blade. Wants to be adjacent to you.","tr":[["Door Kicker","Can ignore Engaged when moving once per round. Deals +2 damage to objects and cover."]],"mt":[["Main","mw_shotgun"],["Auxiliary","mw_tactical_knife"]]},{"k":"mark","n":"Marksman","role":"Artillery","ic":"MK","col":"#6b4c8a","size":1,"hp":8,"armor":0,"ev":10,"ed":8,"sp":3,"heat":5,"sens":20,"tech":0,"grunt":1,"desc":"Long-range sniper in a light frame. Fragile, but one clean shot can ruin a pilot\u2019s day.","tr":[["Steady Aim","If it did not move on its turn, its first ranged attack gains +1 Accuracy."]],"mt":[["Heavy","mw_anti_materiel_rifle"],["Auxiliary","mw_pistol"]]},{"k":"bulwark","n":"Bulwark","role":"Defender","ic":"BW","col":"#3b6a8a","size":2,"hp":24,"armor":3,"ev":6,"ed":8,"sp":2,"heat":8,"sens":10,"tech":0,"grunt":0,"desc":"Slow, armoured anchor of a defensive line. Soaks fire while its allies work.","tr":[["Tough","Takes half damage from the first hit it takes each round (round up)."],["Shield Wall","Adjacent allies treat it as hard cover against ranged attacks."]],"mt":[["Heavy","mw_heavy_machine_gun"],["Auxiliary","mw_tactical_knife"]]},{"k":"mortar","n":"Mortar Crew","role":"Artillery","ic":"MT","col":"#8a7a2d","size":1,"hp":10,"armor":1,"ev":7,"ed":8,"sp":3,"heat":7,"sens":15,"tech":0,"grunt":1,"desc":"Indirect-fire team that shells you from behind cover. Needs a spotter.","tr":[["Spotted Fire","Ignores the need for line of sight to a target that an allied unit can see."]],"mt":[["Main","mw_mortar"],["Auxiliary","mw_pistol"]]},{"k":"skirm","n":"Skirmisher","role":"Scout","ic":"SK","col":"#2f7a5e","size":1,"hp":7,"armor":0,"ev":12,"ed":8,"sp":6,"heat":5,"sens":12,"tech":0,"grunt":1,"desc":"Fast flanker that harasses with a sidearm and knife, then slips away.","tr":[["Hit and Run","After it makes an attack, it can move 2 spaces without provoking."]],"mt":[["Auxiliary","mw_pistol"],["Auxiliary","mw_segment_knife"]]}];
+const STOCK_TIERS={
+  grunt:{lab:'Grunt',suf:'',hp:1,arm:0,ev:0,ed:0,sp:0,heat:0,str:1,sts:1,tr:null},
+  vet:{lab:'Veteran',suf:' Vet',hp:1.5,arm:0,ev:1,ed:1,sp:0,heat:1,str:2,sts:1,tr:['Veteran','Has 2 Structure and 1 Stress. Its attacks gain +1 Accuracy against targets it already hit this round.']},
+  elite:{lab:'Elite',suf:' Elite',hp:2,arm:1,ev:2,ed:2,sp:1,heat:2,str:2,sts:2,tr:['Elite','Has 2 Structure and 2 Stress. Once per round it can take one extra Quick Action, and it ignores the first point of cover Difficulty on its attacks.']}
+};
+function stockDef(b,t){
+  const T=STOCK_TIERS[t],g=b.grunt&&t==='grunt';
+  const hp=Math.round(b.hp*T.hp),stats={size:b.size,structure:t==='grunt'?1:T.str,stress:t==='grunt'?1:T.sts,armor:b.armor+T.arm,hp,evasion:b.ev+T.ev,edef:b.ed+T.ed,heatcap:b.heat+T.heat,repcap:0,sensor_range:b.sens,tech_attack:b.tech,save:10,speed:b.sp+(b.size>1?Math.min(T.sp,0):T.sp),sp:4};
+  const traits=[];if(g)traits.push({name:'Grunt',description:'Has no Structure or Stress. When it drops to 0 HP it is destroyed.'});else if(T.tr)traits.push({name:T.tr[0],description:T.tr[1]});
+  b.tr.forEach(x=>traits.push({name:x[0],description:x[1]}));
+  const sl=(m,id)=>({mount_type:m,lock:false,slots:[{size:m,weapon:{id,instanceId:uid(),data:JSON.parse(JSON.stringify(STOCK_W[id])),note:'',flavorName:'',flavorDescription:'',selectedProfile:0,destroyed:false}}],extra:[],bonus_effects:[]});
+  const fid='npc_'+b.k+'_'+t,icon=stockIcon(b.ic+(t==='vet'?'V':t==='elite'?'E':''),b.col,t);
+  const m={id:uid(),name:b.n+T.suf,notes:'Stock enemy. Original NPC-style build, Tier 1 base with '+T.lab+' scaling.',frame:fid,
+    frameData:{id:fid,license_level:0,source:'NPC',name:b.n,mechtype:[b.role],description:b.desc,stats,traits,core_system:null},
+    img:{portrait:icon},active:true,loadouts:[{id:uid(),name:'Standard',systems:[],integratedSystems:[],mounts:b.mt.map(x=>sl(x[0],x[1])),integratedMounts:[],integratedWeapon:null}],active_loadout_index:0};
+  return{EXPORT_TYPE:'Save Pilot',data:{itemType:'pilot',id:uid(),name:b.role+' NPC',callsign:b.n+T.suf,level:0,player_name:'GM',mechs:[m],mechSkills:[0,0,0,0],img:{portrait:icon},active_mech:m.id}};
+}
+function stockIcon(txt,col,t){
+  const ring=t==='elite'?'#ffd400':t==='vet'?'#e8edf2':'#ffffff';
+  const svg="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect width='96' height='96' fill='#1b2027'/><path d='M48 8 84 28v40L48 88 12 68V28Z' fill='"+col+"' stroke='"+ring+"' stroke-width='"+(t==='elite'?6:3)+"'/><text x='48' y='58' font-family='Arial' font-weight='700' font-size='"+(txt.length>2?24:30)+"' text-anchor='middle' fill='#fff'>"+txt+"</text></svg>";
+  return 'data:image/svg+xml;base64,'+btoa(svg);
+}
+
+// stock enemy picker
+let STK={n:{},custom:[]};
+try{STK.custom=JSON.parse(localStorage.getItem('lt-stock')||'[]')}catch(e){}
+const stockKey=(k,t)=>k+'|'+t;
+function stockStats(b,t){const T=STOCK_TIERS[t];return 'HP '+Math.round(b.hp*T.hp)+' · Ev '+(b.ev+T.ev)+' · Sp '+(b.sp+(b.size>1?0:T.sp))+(b.armor+T.arm?' · Ar '+(b.armor+T.arm):'')}
+function stockTotal(){return Object.values(STK.n).reduce((a,b)=>a+b,0)}
+function stockDraw(){
+  const rows=STOCK_BASE.map(b=>`<div class="sr"><div class="sn"><b>${esc(b.n)}</b><span>${esc(b.role)} · size ${b.size}</span></div>${['grunt','vet','elite'].map(t=>`<div class="sc"><small>${stockStats(b,t)}</small><div class="ct"><button data-sk="${stockKey(b.k,t)}" data-d="-1">−</button><input type="number" min="0" max="30" value="${STK.n[stockKey(b.k,t)]||0}" data-sk="${stockKey(b.k,t)}"><button data-sk="${stockKey(b.k,t)}" data-d="1">+</button></div></div>`).join('')}</div>`).join('');
+  const cust=STK.custom.map((c,i)=>`<div class="sr"><div class="sn"><b>${esc(c.label)}</b><span>Imported · <a href="#" data-del="${i}">remove</a></span></div><div class="sc"><small>${esc(c.stats||'')}</small><div class="ct"><button data-sk="c|${i}" data-d="-1">−</button><input type="number" min="0" max="30" value="${STK.n['c|'+i]||0}" data-sk="c|${i}"><button data-sk="c|${i}" data-d="1">+</button></div></div><div></div><div></div></div>`).join('');
+  const n=stockTotal();
+  $('#stkb').innerHTML=`<div class="sh"><span></span><b>Grunt</b><b>Veteran</b><b>Elite</b></div>${rows}${cust?'<div class="st">Your imported enemies</div>'+cust:''}`;
+  $('#stkgo').textContent=n?`Add ${n} to turn order`:'Add to turn order';$('#stkgo').disabled=!n;
+}
+function stockOpen(){STK.n={};stockDraw();$('#stk').classList.add('on')}
+function stockClose(){$('#stk').classList.remove('on')}
+function stockAdd(){
+  const jobs=[];
+  STOCK_BASE.forEach(b=>['grunt','vet','elite'].forEach(t=>{const q=STK.n[stockKey(b.k,t)]||0;if(q>0)jobs.push({q,label:b.n+STOCK_TIERS[t].suf,make:()=>stockDef(b,t)})}));
+  STK.custom.forEach((c,i)=>{const q=STK.n['c|'+i]||0;if(q>0)jobs.push({q,label:c.label,make:()=>JSON.parse(JSON.stringify(c.def))})});
+  let total=0;
+  jobs.forEach(j=>{
+    const re=new RegExp('^'+j.label.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'(?: (\\d+))?$');
+    let top=0,has=false;S.turns.forEach(c=>{const m=re.exec(c.name||'');if(m){has=true;top=Math.max(top,m[1]?+m[1]:1)}});
+    for(let i=0;i<j.q;i++){
+      const num=(j.q>1||has)?(has?top:0)+i+1:0,name=num?j.label+' '+num:j.label;
+      const x=parseCC(JSON.stringify(j.make()))[0];if(!x)continue;x.callsign=name;
+      const c={id:uid(),name,fac:'enemy',img:'',done:false};S.turns.push(c);applyCC(c,x);total++;
+    }
+  });
+  renderTurns();stockClose();toast('Added '+total+(total===1?' enemy':' enemies')+' to the turn order');
+}
+$('#bStock').onclick=stockOpen;$('#stkx').onclick=stockClose;$('#stkgo').onclick=stockAdd;
+$('#stkclr').onclick=()=>{STK.n={};stockDraw()};
+$('#stkimp').onclick=()=>pick(f=>read(f,true).then(t=>{
+  const d=parseCC(t);if(!d.length)return toast('No enemy found in '+f.name+'.');
+  let raw;try{raw=JSON.parse(t)}catch(e){return}
+  const arr=Array.isArray(raw)?raw:(Array.isArray(raw.pilots)?raw.pilots:[raw]);
+  arr.forEach((def,i)=>{const x=parseCC(JSON.stringify(def))[0];if(!x)return;const m=x.mechs[x.mi]||{};
+    STK.custom.push({label:x.callsign||x.pilot||'Imported',def,stats:m.hp?('HP '+m.hp+(m.evasion!==''?' · Ev '+m.evasion:'')+(m.speed!==''?' · Sp '+m.speed:'')):''})});
+  try{localStorage.setItem('lt-stock',JSON.stringify(STK.custom))}catch(e){toast('Added for this session only: the file is too big to remember.')}
+  stockDraw();
+}),true,'.json,application/json');
+$('#stkb').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-sk]');
+  if(b){const k=b.dataset.sk;STK.n[k]=Math.max(0,Math.min(30,(STK.n[k]||0)+(+b.dataset.d)));stockDraw();return}
+  const a=e.target.closest('a[data-del]');
+  if(a){e.preventDefault();STK.custom.splice(+a.dataset.del,1);STK.n={};try{localStorage.setItem('lt-stock',JSON.stringify(STK.custom))}catch(x){}stockDraw()}
+});
+$('#stkb').addEventListener('change',e=>{const i=e.target.closest('input[data-sk]');if(i){STK.n[i.dataset.sk]=Math.max(0,Math.min(30,+i.value||0));stockDraw()}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#stk').classList.contains('on'))stockClose()});
 
 // disembark: a pilot token with a running-figure icon
 const PILOT_SVG="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='#0f9d58'/><g fill='#fff'><circle cx='40' cy='14' r='6'/></g><g stroke='#fff' stroke-width='6' stroke-linecap='round' stroke-linejoin='round' fill='none'><path d='M36 24L30 38'/><path d='M35 27L45 32L51 25'/><path d='M35 27L26 30L18 34'/><path d='M30 38L41 44L39 56'/><path d='M30 38L22 47L11 51'/></g></svg>";
