@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kyubisan's Lancer Table V1.63</title>
+<title>Kyubisan's Lancer Table V1.64</title>
 <!-- Copyright (c) 2026 Fox Murray. All rights reserved. -->
 <!-- VERSION: bump LT_VERSION (script) and the title/brand text on every change. Small additions +0.01, larger ones more. Stays in V1.xx for now. -->
 <style>
@@ -28,6 +28,9 @@ input[type=number]{width:74px}input[type=color]{padding:0;width:34px;height:26px
 .aptab.on{background:var(--ac);color:#fff;border-color:var(--ac)}
 .apg{display:none;flex-direction:column;gap:7px}.apg.on{display:flex}
 /* combat tickers */
+.it.msel{filter:drop-shadow(0 0 3px #ffb000) drop-shadow(0 0 1px #ffb000)}
+body.ol-custom #layer .it.obj .bd,body.ol-custom #layer .it.cover .bd,body.ol-none #layer .it .bd{display:none}
+body.ol-custom #layer .it.obj.dn,body.ol-none #layer .it.obj,body.ol-none #layer .it.cover{color:transparent!important;text-shadow:none!important}
 .mrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;border-top:1px solid var(--ln);padding-top:6px;margin-top:2px}
 .spn{position:absolute;left:0;right:0;bottom:-1px;text-align:center;font:700 9px/1 system-ui,sans-serif;letter-spacing:.06em;color:#fff;text-shadow:0 0 3px #000,0 0 3px #000,0 0 2px #000;pointer-events:none;white-space:nowrap;overflow:hidden}
 .spsw{display:flex;gap:5px;flex-wrap:wrap}.spsw button{width:22px;height:22px;padding:0;border:2px solid #fff6;border-radius:50%;background:var(--c)}.spsw button.on{border-color:#fff;box-shadow:0 0 0 2px #000,0 0 8px var(--c)}
@@ -595,7 +598,7 @@ body.player #gmq{display:none!important}
 </head>
 <body>
 <header id="tools">
-  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.63</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
+  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.64</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
   <div class="mn"><button class="mb">Map ▾</button><div class="pop">
     <div class="rw"><button class="mi" id="bMap">Load map image</button></div>
     <div class="rw"><button class="mi" id="bFit">Fit map to window</button></div>
@@ -625,6 +628,7 @@ body.player #gmq{display:none!important}
   <span class="sep"></span>
   <button id="bRule" title="Drag between two points to measure. Esc clears">Ruler</button>
   <div class="mn"><button class="mb" id="bDraw">Draw ▾</button><div class="pop" id="drawmenu">
+    <div class="rw"><button class="mi" id="bSelect" title="Drag a box to select many objects at once, then move, delete, recolour or clear their names together">Select (box)</button></div>
     <div class="rw"><button class="mi" id="bPen" title="Draw freehand with a pen or marker">Pen and marker</button></div>
     <div class="rw"><button class="mi" id="bBrush" title="Paint cover, smoke, fire, fog or highlights over cells">Paint cells</button></div>
     <div class="rw"><button class="mi" id="bTerr" title="Paint difficult terrain, dangerous terrain and obstructions">Terrain</button></div>
@@ -651,6 +655,7 @@ body.player #gmq{display:none!important}
     <div class="rw"><span>Flavour lines</span><input id="flav" type="checkbox"><button class="mi" id="bQed" title="Edit the quotes that appear on round, cascade, meltdown and other animations">Edit</button></div>
     </div>
     <div class="apg" data-g="map">
+    <div class="rw"><span>Object labels</span><select id="oblab"><option value="custom">Names I typed only</option><option value="all">Names and cover info</option><option value="none">None</option></select><i class="q" data-tip="Painted walls and crates carry an automatic label like Wall or object, hard cover. This hides those. Names you type yourself, like MAIN SHUTTER, still show unless you pick None."></i></div>
     <div class="rw"><span>Grid coordinates</span><select id="crd_m"><option value="off">Off</option><option value="edge">Edges</option><option value="hex">Every cell</option></select><i class="q" data-tip="Row and column labels like B7 so players can call out a cell. Edges pins labels to the top and left of the screen and follows pan and zoom. Every cell labels each cell when zoomed in (and falls back to edges when zoomed out). Players see them too."></i></div>
     <div class="rw"><span>Repeat every</span><select id="crd_n"><option value="8">8</option><option value="10">10</option><option value="12">12</option><option value="16">16</option><option value="20">20</option><option value="26">26</option></select><i class="q" data-tip="Big maps reuse the labels: letters go A to this many, then start again at A. Numbers do the same."></i></div>
     <div class="rw"><span>Height numbers</span><input id="hnum" type="checkbox"></div>
@@ -723,7 +728,7 @@ body.player #gmq{display:none!important}
 <div id="toast"></div>
 <script>
 const $=s=>document.querySelector(s);
-const LT_VERSION='V1.63';
+const LT_VERSION='V1.64';
 const PLAYER=location.hash==='#player';
 const PS={win:null,frozen:false,black:false,t:0,sentMap:null,map:null,rect:null};
 let LOOK={};
@@ -1025,6 +1030,7 @@ vp.addEventListener('pointerdown',e=>{
   let t=e.target.closest('.it');
   if(t&&!t.classList.contains('token')&&!t.classList.contains('tpl')&&!t.classList.contains('rot')&&!document.body.classList.contains('tedit'))t=null;
   const onTok=t&&t.classList.contains('token')&&e.button===0;
+  if(tool==='select'&&!onTok&&e.button===0){selDown(e,t);return}
   if(!onTok&&(tool==='brush'||tool==='pen'||tool==='terrain'||tool==='height'||tool==='oline')&&e.button===0){startPaint(e);return}
   if(e.button===1||!t){sel=null;drag={k:'pan',sx:e.clientX,sy:e.clientY,vx:S.view.x,vy:S.view.y}}
   else{
@@ -1039,6 +1045,7 @@ vp.addEventListener('pointermove',e=>{
   if(drag.k==='ruler'){R.b=wpt(e);drawRuler();return}
   if(drag.k==='oline'){drag.b=wpt(e);olPrev();return}
   if(drag.k==='obrush'){obStroke(drag,wpt(e));return}
+  if(drag.k==='msel'||drag.k==='gmv'){selMove(e);return}
   if(drag.k==='terr'){const p=wpt(e);terrLine(drag.last,p);drag.last=p;return}
   if(drag.k==='hgt'){const p=wpt(e);htLine(drag.last,p);drag.last=p;return}
   if(drag.k==='paint'){const p=wpt(e);paintLine(drag.last,p);drag.last=p;return}
@@ -1057,6 +1064,7 @@ vp.addEventListener('pointermove',e=>{
 });
 vp.addEventListener('pointerup',()=>{
   if(drag&&drag.k==='oline'){olCommit(drag);olClear()}
+  if(drag&&(drag.k==='msel'||drag.k==='gmv'))selUp();
   if(drag&&drag.k==='obrush'){if(drag.rem.length)pushH('oe',drag.rem);else if(drag.ids.length)pushH('o',drag.ids);inspect()}
   if(drag&&drag.k==='mv'){snapIt(drag.it);render()}
   if(drag&&(drag.k==='rs'||drag.k==='rot')){inspect()}
@@ -1069,6 +1077,7 @@ vp.addEventListener('wheel',e=>{
   v.x=mx-(mx-v.x)*nz/v.z;v.y=my-(my-v.y)*nz/v.z;v.z=nz;apply();
 },{passive:false});
 document.addEventListener('keydown',e=>{
+  if((e.key==='Delete'||e.key==='Backspace')&&tool==='select'&&MSEL.size&&!/INPUT|SELECT/.test(document.activeElement.tagName)){selDelete();return}
   if((e.key==='Delete'||e.key==='Backspace')&&sel&&!/INPUT|SELECT/.test(document.activeElement.tagName)){
     S.items=S.items.filter(x=>x.id!==sel);sel=null;render();inspect();
   }
@@ -1287,7 +1296,7 @@ function drawRuler(){
   s.innerHTML=`<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" style="stroke:${lc}" stroke-width="${3*k}" stroke-linecap="round"/>${xs}<circle cx="${a.x}" cy="${a.y}" r="${6*k}" style="fill:${lc}"/><circle cx="${b.x}" cy="${b.y}" r="${6*k}" style="fill:${lc}"/><g transform="translate(${(a.x+b.x)/2} ${(a.y+b.y)/2}) scale(${k})"><rect x="${-lw/2}" y="-32" width="${lw}" height="24" rx="5" fill="#12161b" style="stroke:${lc}"/><text y="-15" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">${lab}</text></g>${bdg}`;
 }
 $('#bRule').onclick=()=>setTool(tool==='rule'?'sel':'rule');$('#bBrush').onclick=()=>setTool(tool==='brush'?'sel':'brush');$('#bTEdit').onclick=()=>setTEdit(!document.body.classList.contains('tedit'));$('#tedPill').onclick=()=>setTEdit(false);
-$('#bOLine').onclick=()=>setTool(tool==='oline'?'sel':'oline');$('#bOBrush').onclick=()=>setTool(tool==='oline'?'sel':'oline');
+$('#bOLine').onclick=()=>setTool(tool==='oline'?'sel':'oline');$('#bSelect').onclick=()=>setTool(tool==='select'?'sel':'select');$('#bOBrush').onclick=()=>setTool(tool==='oline'?'sel':'oline');
 $('#bPen').onclick=()=>setTool(tool==='pen'?'sel':'pen');$('#bTerr').onclick=()=>setTool(tool==='terrain'?'sel':'terrain');$('#bHt').onclick=()=>setTool(tool==='height'?'sel':'height');
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){R=null;drawRuler()}if((e.ctrlKey||e.metaKey)&&e.key==='z'&&!/INPUT/.test(document.activeElement.tagName)){e.preventDefault();undo()}});
 
@@ -1407,7 +1416,7 @@ function tkBuild(){
   T.textContent=mk(a);B.textContent=mk(b);
 }
 function setLook(o){
-  let l={accent:'Union red',mode:'dark',skin:'',dock:'bottom',cool:false,ctlHide:false,hnum:true,tpal:'default',hpal:'default',fog3:'off',hmax:6,pfog:'sensor',pbars:'friends',penemy:false,pfollow:true,pruler:true,pmove:true,crd:'off',crdn:12,flav:true,tip:true,ptip:false,wx:'none',wint:2,wwho:'player',fxq:'full'};
+  let l={accent:'Union red',mode:'dark',skin:'',dock:'bottom',cool:false,ctlHide:false,hnum:true,tpal:'default',hpal:'default',fog3:'off',hmax:6,pfog:'sensor',pbars:'friends',penemy:false,pfollow:true,pruler:true,pmove:true,oblab:'custom',crd:'off',crdn:12,flav:true,tip:true,ptip:false,wx:'none',wint:2,wwho:'player',fxq:'full'};
   if(PLAYER)Object.assign(l,o);
   else try{Object.assign(l,JSON.parse(localStorage.getItem('lt-look')),o);localStorage.setItem('lt-look',JSON.stringify(l))}catch(e){Object.assign(l,o)}
   LOOK=l;
@@ -1416,7 +1425,7 @@ function setLook(o){
   if(!['','sk-98','sk-term','sk-amber','sk-tron','sk-edge'].includes(l.skin))l.skin='';
   ['sk-98','sk-term','sk-amber','sk-tron','sk-edge'].forEach(k=>document.body.classList.toggle(k,k===l.skin));$('#skin').value=l.skin;
   document.body.classList.toggle('cool',!!l.cool);tkBuild();$('#bCombat').classList.toggle('on',!!l.cool);
-  $('#tpal').value=l.tpal;$('#hpal').value=l.hpal;$('#fog3').value=l.fog3;$('#pfog').value=l.pfog;$('#pbars').value=l.pbars;$('#penemy').value=l.penemy?'1':'0';$('#pfollow').checked=l.pfollow!==false;$('#pruler').checked=l.pruler!==false;$('#pmove').checked=l.pmove!==false;$('#crd_m').value=l.crd||'off';$('#crd_n').value=String(l.crdn||12);drawCrd();$('#flav').checked=l.flav!==false;$('#tipt').checked=l.tip!==false;$('#ptip').checked=!!l.ptip;$('#hmax').value=Math.max(2,+l.hmax||6);$('#hmaxv').textContent=$('#hmax').value;applyPal(l);
+  $('#tpal').value=l.tpal;$('#hpal').value=l.hpal;$('#fog3').value=l.fog3;$('#pfog').value=l.pfog;$('#pbars').value=l.pbars;$('#penemy').value=l.penemy?'1':'0';$('#pfollow').checked=l.pfollow!==false;$('#pruler').checked=l.pruler!==false;$('#pmove').checked=l.pmove!==false;$('#crd_m').value=l.crd||'off';document.body.classList.toggle('ol-custom',(l.oblab||'custom')==='custom');document.body.classList.toggle('ol-none',l.oblab==='none');$('#oblab').value=l.oblab||'custom';$('#crd_n').value=String(l.crdn||12);drawCrd();$('#flav').checked=l.flav!==false;$('#tipt').checked=l.tip!==false;$('#ptip').checked=!!l.ptip;$('#hmax').value=Math.max(2,+l.hmax||6);$('#hmaxv').textContent=$('#hmax').value;applyPal(l);
   document.body.classList.toggle('no-hnum',l.hnum===false);$('#hnum').checked=l.hnum!==false;
   document.body.classList.toggle('ctl-off',!!l.ctlHide);$('#bEye').innerHTML=l.ctlHide?EYE_OFF:EYE_ON;$('#bEye').classList.toggle('on',!l.ctlHide);
   document.body.classList.toggle('dock-left',l.dock==='left');$('#dock').value=l.dock;dockLayout();
@@ -1429,6 +1438,7 @@ function setLook(o){
 $('#sws').innerHTML=Object.entries(TH).map(([n,c])=>`<button class="sw" data-t="${n}" style="--s:${c}" title="${n}"></button>`).join('');
 $('#sws').onclick=e=>{if(e.target.dataset.t)setLook({accent:e.target.dataset.t})};
 document.querySelectorAll('.aptab').forEach(b=>b.onclick=e=>{e.stopPropagation();const g=b.dataset.g;document.querySelectorAll('.aptab').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('.apg').forEach(x=>x.classList.toggle('on',x.dataset.g===g))});
+$('#oblab').onchange=e=>setLook({oblab:e.target.value});
 $('#crd_m').onchange=e=>setLook({crd:e.target.value});$('#crd_n').onchange=e=>setLook({crdn:+e.target.value});
 $('#fxq').onchange=e=>setLook({fxq:e.target.value});
 $('#wx_k').onchange=e=>setLook({wx:e.target.value});$('#wx_i').onchange=e=>setLook({wint:+e.target.value});$('#wx_w').onchange=e=>setLook({wwho:e.target.value});
@@ -1515,6 +1525,69 @@ function obStroke(d,p){
   });
   render();
 }
+// ---- select tool: box select, group move, bulk edits ----
+const MSEL=new Set(),DEFN=new Set(Object.values(PRE).map(v=>v.name).concat(['']));
+function applyMsel(){
+  for(const id of [...MSEL])if(!find(id))MSEL.delete(id);
+  document.querySelectorAll('#layer .it').forEach(el=>{el.classList.toggle('msel',MSEL.has(el.dataset.id));
+    if(el.classList.contains('obj')||el.classList.contains('cover')){const it=find(el.dataset.id);el.classList.toggle('dn',!!it&&DEFN.has(it.name||''))}});
+}
+{const r0=render;render=function(){const r=r0.apply(this,arguments);applyMsel();return r}}
+function itCentre(it){
+  const gs=S.grid.size,hex=S.grid.type==='hex',R=hexR();
+  if(it.type==='obj')return hex?[it.x+gs/2+(it.w-1)*gs/2,it.y+R+(it.h-1)*1.5*R/2]:[it.x+it.w*gs/2,it.y+it.h*gs/2];
+  return[it.x,it.y];
+}
+function selPanel(){
+  const n=MSEL.size,its=[...MSEL].map(find).filter(Boolean),allHid=n&&its.every(i=>i.hidden),col=(its.find(i=>i.type==='obj')||{}).color||'#6b7480';
+  return'<b>Select</b>'+`<span class="mut">${n} selected. Drag a box to select, hold Shift to add. Drag a selected piece to move them all. Delete removes them.</span>`+
+   `<button data-a="msall">Select all pieces</button><button data-a="msno">Deselect</button>`+
+   (n?`<button data-a="msdel">Delete</button><button data-a="msnm" title="Blank the label on each selected piece">Clear names</button><button data-a="mshide">${allHid?'Show to players':'Hide from players'}</button><label>Colour <input type="color" data-i="msc" value="${col}"></label>`:'')+
+   '<button data-a="undo">Undo</button>';
+}
+function selDown(e,t){
+  const p=wpt(e);vp.setPointerCapture(e.pointerId);
+  if(t){
+    const id=t.dataset.id;
+    if(e.shiftKey){MSEL.has(id)?MSEL.delete(id):MSEL.add(id);applyMsel();panel();return}
+    if(!MSEL.has(id)){MSEL.clear();MSEL.add(id)}
+    applyMsel();panel();
+    drag={k:'gmv',sx:e.clientX,sy:e.clientY,o:[...MSEL].map(find).filter(Boolean).map(i=>({it:i,x:i.x,y:i.y})),moved:false};
+    return;
+  }
+  drag={k:'msel',a:p,b:p,add:e.shiftKey,sx:e.clientX,sy:e.clientY};
+}
+function selMove(e){
+  const d=drag;
+  if(d.k==='gmv'){
+    const dx=(e.clientX-d.sx)/S.view.z,dy=(e.clientY-d.sy)/S.view.z;if(!d.moved&&Math.hypot(dx,dy)*S.view.z<4)return;d.moved=true;
+    d.o.forEach(q=>{q.it.x=q.x+dx;q.it.y=q.y+dy});
+    if(!d.raf)d.raf=requestAnimationFrame(()=>{d.raf=0;render()});return}
+  d.b=wpt(e);const x=Math.min(d.a.x,d.b.x),y=Math.min(d.a.y,d.b.y),w=Math.abs(d.b.x-d.a.x),h=Math.abs(d.b.y-d.a.y);
+  $('#olp').innerHTML=`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#ffb000" fill-opacity=".12" stroke="#ffb000" stroke-width="2" stroke-dasharray="8 5" vector-effect="non-scaling-stroke"/>`;
+}
+function selUp(){
+  const d=drag;
+  if(d.k==='gmv'){if(d.moved){d.o.forEach(q=>snapIt(q.it));render()}return}
+  $('#olp').innerHTML='';
+  const x0=Math.min(d.a.x,d.b.x),x1=Math.max(d.a.x,d.b.x),y0=Math.min(d.a.y,d.b.y),y1=Math.max(d.a.y,d.b.y);
+  if(!d.add)MSEL.clear();
+  if(Math.hypot(d.b.x-d.a.x,d.b.y-d.a.y)*S.view.z>4)S.items.forEach(it=>{if(it.type==='token')return;const[cx,cy]=itCentre(it);if(cx>=x0&&cx<=x1&&cy>=y0&&cy<=y1)MSEL.add(it.id)});
+  applyMsel();panel();
+}
+function selDelete(){
+  const rm=[...MSEL].map(find).filter(Boolean);if(!rm.length)return;
+  S.items=S.items.filter(o=>!rm.includes(o));MSEL.clear();pushH('oe',rm);render();panel();toast(rm.length+' removed. Undo brings them back.');
+}
+function selAct(a){
+  const its=[...MSEL].map(find).filter(Boolean);
+  if(a==='msall'){S.items.forEach(i=>{if(i.type!=='token')MSEL.add(i.id)})}
+  else if(a==='msno')MSEL.clear();
+  else if(a==='msdel')return selDelete();
+  else if(a==='msnm'){its.forEach(i=>{if(i.type==='obj')i.name=''})}
+  else if(a==='mshide'){const h=!its.every(i=>i.hidden);its.forEach(i=>i.hidden=h)}
+  render();panel();
+}
 function undo(){const h=hist.pop();if(!h)return toast('Nothing to undo');if(h.k==='o'){S.items=S.items.filter(i=>!h.v.includes(i.id));sel=null;render();inspect();return}if(h.k==='oe'){S.items.push(...h.v);render();inspect();return}if(h.k==='c'){S.cells=h.v;drawCells()}else if(h.k==='t'){S.terrain=h.v;drawTerrain()}else if(h.k==='h'){S.height=h.v;drawHeight()}else{S.ink=h.v;drawInk()}}
 function cellList(x,y,rad){
   const g=S.grid,s=g.size,out=[];
@@ -1563,19 +1636,21 @@ function startPaint(e){
   else{pushH('i',S.ink.slice());const st={c:P.color,w:P.mode==='marker'?P.w*3:P.w,o:P.mode==='marker'?.4:1,p:[[p.x,p.y]]};S.ink.push(st);drag={k:'ink',st};drawInk()}
 }
 function setTool(t){
-  if(t==='oline'&&!document.body.classList.contains('tedit'))setTEdit(true);
+  if((t==='oline'||t==='select')&&!document.body.classList.contains('tedit'))setTEdit(true);
+  if(t!=='select'&&MSEL.size){MSEL.clear();applyMsel()}
   if((t==='terrain'||t==='height')&&!document.body.classList.contains('tedit')){toast('Terrain edit is locked. Unlock it from Draw or the GM panel first.');return}
   tool=t;ruling=t==='rule';if(!ruling){R=null;drawRuler()}
-  [['bOLine','oline'],['bOBrush','oline'],['bRule','rule'],['bBrush','brush'],['bTerr','terrain'],['bPen','pen'],['bHt','height']].forEach(([i,k])=>$('#'+i).classList.toggle('on',tool===k));
+  [['bOLine','oline'],['bOBrush','oline'],['bSelect','select'],['bRule','rule'],['bBrush','brush'],['bTerr','terrain'],['bPen','pen'],['bHt','height']].forEach(([i,k])=>$('#'+i).classList.toggle('on',tool===k));
   if(t==='height'&&S.showH===false){S.showH=true;$('#hshow').checked=true;drawHeight()}
   document.body.classList.toggle('tooling',t!=='sel');panel();drawCur(null);
-  const dn={oline:'Object brush',pen:'Pen',brush:'Paint',terrain:'Terrain',height:'Height'},bd=$('#bDraw');
+  const dn={select:'Select',oline:'Object brush',pen:'Pen',brush:'Paint',terrain:'Terrain',height:'Height'},bd=$('#bDraw');
   if(bd){bd.classList.toggle('on',!!dn[t]);bd.textContent=(dn[t]?'Draw: '+dn[t]:'Draw')+' ▾'}
 }
 function panel(){
   const el=$('#tpanel');let h='';
   if(tool==='brush')h='<b>Paint</b>'+Object.entries(CT).map(([k,v])=>`<button data-a="bt:${k}"${!B.erase&&B.t===k?' class="on"':''}>${v}</button>`).join('')+`<button data-a="bt:erase"${B.erase?' class="on"':''}>Erase</button><label>Size <select data-i="bs">${[1,2,3,4].map(n=>`<option${n===B.size?' selected':''}>${n}</option>`).join('')}</select></label><button data-a="fog"${S.fogSee?' class="on"':''}>See through fog</button><button data-a="undo">Undo</button><button data-a="clr">Clear all paint</button>`;
   else if(tool==='oline')h=olPanel();
+  else if(tool==='select')h=selPanel();
   else if(tool==='terrain')h=terrPanel();
   else if(tool==='height')h=htPanel();
   else if(tool==='rule')h=losPanelHTML();
@@ -1593,13 +1668,14 @@ $('#tpanel').onclick=e=>{
   else if(k==='fog'){S.fogSee=!S.fogSee;$('#world').classList.toggle('fogsee',S.fogSee)}
   else if(k==='undo')undo();
   else if(k==='olx'){OL.erase=!OL.erase}
+  else if(k==='msall'||k==='msno'||k==='msdel'||k==='msnm'||k==='mshide'){selAct(k);return}
   else if(k==='clr'||k==='clri'||k==='clrt'||k==='clrh'){
     if(!e.target.dataset.c){e.target.dataset.c=1;e.target.textContent='Click again to confirm';setTimeout(panel,3000);return}
     if(k==='clrh'){pushH('h',{...S.height});S.height={};drawHeight()}else if(k==='clrt'){pushH('t',{...S.terrain});S.terrain={};drawTerrain()}else if(k==='clr'){pushH('c',{...S.cells});S.cells={};drawCells()}else{pushH('i',S.ink.slice());S.ink=[];drawInk()}
   }
   panel();
 };
-$('#tpanel').oninput=e=>{const i=e.target.dataset.i;if(i==='olp'){OL.pre=e.target.value;return}if(i==='olm'){OL.line=e.target.value==='line';return}if(i==='mx'||i==='my'){MIR[i[1]]=e.target.checked;drawMir();return}if(i==='bs')B.size=+e.target.value;if(i==='ts')T.size=+e.target.value;if(i==='pc')P.color=e.target.value;if(i==='pw')P.w=+e.target.value;if(i==='hl'){HT.lv=+e.target.value;HT.erase=false}if(i==='hs')HT.size=+e.target.value;if(i==='hc'){S.hcLevel=+e.target.value;drawHeight()}if(i==='hl'||i==='hs')panel();
+$('#tpanel').oninput=e=>{const i=e.target.dataset.i;if(i==='olp'){OL.pre=e.target.value;return}if(i==='msc'){[...MSEL].map(find).filter(Boolean).forEach(o=>{if(o.type==='obj')o.color=e.target.value});render();return}if(i==='olm'){OL.line=e.target.value==='line';return}if(i==='mx'||i==='my'){MIR[i[1]]=e.target.checked;drawMir();return}if(i==='bs')B.size=+e.target.value;if(i==='ts')T.size=+e.target.value;if(i==='pc')P.color=e.target.value;if(i==='pw')P.w=+e.target.value;if(i==='hl'){HT.lv=+e.target.value;HT.erase=false}if(i==='hs')HT.size=+e.target.value;if(i==='hc'){S.hcLevel=+e.target.value;drawHeight()}if(i==='hl'||i==='hs')panel();
   if(i==='latk'){LOS.atk=e.target.value;drawRuler()}else if(i==='lmod'){LOS.mod=+e.target.value;drawRuler()}else if(i==='lon'){LOS.on=e.target.value==='1';panel()}else if(i==='lwho'){LOS.who=e.target.value||null;LOS.wi=LOS.who?0:-1;panel();drawRuler()}else if(i==='lwi'){LOS.wi=+e.target.value;panel();drawRuler()}else if(i==='lter'||i==='lobj'||i==='ltok'||i==='lobs'||i==='lshare'){LOS[i.slice(1)]=e.target.checked;drawRuler()}};
 function tplSnap(t){
   const g=S.grid,s=g.size;
