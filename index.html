@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kyubisan's Lancer Table V1.68</title>
+<title>Kyubisan's Lancer Table V1.74</title>
 <!-- Copyright (c) 2026 Fox Murray. All rights reserved. -->
 <!-- VERSION: bump LT_VERSION (script) and the title/brand text on every change. Small additions +0.01, larger ones more. Stays in V1.xx for now. -->
 <style>
@@ -33,6 +33,44 @@ body.ol-custom #layer .it.obj.dn,body.ol-none #layer .it.obj,body.ol-none #layer
 .it .rs{pointer-events:auto}
 .onm{display:inline-block;max-width:96%;background:#000c;color:#fff;padding:1px 6px;border-radius:3px;font:700 11px/1.3 system-ui,sans-serif;letter-spacing:.02em;text-shadow:0 1px 2px #000;box-shadow:0 0 0 1px #ffffff33;position:relative;z-index:1;pointer-events:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 body.ol-custom #layer .it.dn .onm,body.ol-none #layer .it .onm{display:none}
+/* conditions */
+.cdt{position:absolute;left:50%;bottom:calc(100% + 3px);transform:translateX(-50%);display:flex;flex-direction:column-reverse;gap:2px;align-items:center;pointer-events:none;z-index:3}
+.cdt i{font:700 8px/1 system-ui,sans-serif;font-style:normal;letter-spacing:.07em;padding:2px 5px;border-radius:2px;white-space:nowrap;background:#f2b840;color:#111;box-shadow:0 1px 3px #0009}
+.cdt i.st{background:#4aa3ff;color:#06121f}
+.cdd{margin-top:8px;border-top:1px solid var(--ln);padding-top:6px}
+.cdd summary{cursor:pointer;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.cdg{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;margin-top:6px}
+.cdg .h{grid-column:1/-1;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin-top:3px}
+.cdg label{display:flex;gap:6px;align-items:center;font-size:11px;cursor:pointer}
+/* eject */
+.impt{position:absolute;left:50%;top:-9px;transform:translateX(-50%);font:700 8px/1 system-ui,sans-serif;letter-spacing:.08em;background:#f2b840;color:#111;padding:2px 5px;border-radius:2px;pointer-events:none;white-space:nowrap;z-index:3}
+#ejp{position:fixed;left:50%;top:64px;transform:translateX(-50%);z-index:60;display:none;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;max-width:92vw;padding:9px 14px;background:var(--pn);border:1px solid #ff5a3d;border-top:3px solid #ff5a3d;box-shadow:0 10px 30px #000a,0 0 18px #ff5a3d66;font-size:12px}
+#ejp.on{display:flex}#ejp b{letter-spacing:.14em;color:#ff7a5c}#ejp .mut{max-width:340px}
+#ejx{position:fixed;inset:0;z-index:9000;pointer-events:none;display:none;font-family:"Cascadia Mono",Consolas,"Courier New",monospace;text-transform:uppercase;overflow:hidden}
+#ejx.on{display:block}
+#ejx .dk{position:absolute;inset:0;background:#000;opacity:0;animation:ejdk .35s ease-out forwards}
+#ejx .vg{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 30%,#ff1f1fcc 105%);animation:ejpulse .5s steps(2,jump-none) infinite}
+#ejx .hz{position:absolute;left:0;right:0;height:26px;background:repeating-linear-gradient(-45deg,#ffd400 0 16px,#111 16px 32px);background-size:45px 45px;animation:ejhz .5s linear infinite;box-shadow:0 0 18px #ff2a1a99;opacity:.9}
+#ejx .hz.t{top:0}#ejx .hz.b{bottom:0}
+#ejx .scn{position:absolute;inset:0;background:repeating-linear-gradient(0deg,#0000 0 2px,#0006 2px 3px);mix-blend-mode:multiply}
+#ejx .sm{position:absolute;left:4vw;top:12vh;display:flex;flex-direction:column;gap:6px;font-size:clamp(11px,1.6vw,19px);font-weight:700;letter-spacing:.2em;color:#ffb21f;text-shadow:0 0 8px #ff8a00}
+#ejx .sm i{font-style:normal;animation:ejblink .35s steps(2,jump-none) infinite}
+#ejx .sm i::before{content:"\25B6  "}
+#ejx .bg{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;font-weight:800;font-size:clamp(28px,7.4vw,112px);letter-spacing:.08em;color:#fff;text-shadow:0 0 26px #ff2a1a,0 0 6px #ff2a1a,3px 0 #ff2a1a,-3px 0 #00e5ff;white-space:nowrap}
+#ejx .bg.fl{animation:ejblink .22s steps(2,jump-none) infinite}
+#ejx .bg.sk{animation:ejshake .09s linear infinite}
+#ejx .bg.qt{font-size:clamp(20px,4.4vw,64px);white-space:normal;padding:0 8vw;line-height:1.25;letter-spacing:.03em;text-transform:none}
+#ejx .bg small{display:block;margin-top:.15em;font-size:.24em;letter-spacing:.5em;color:#ffb21f;text-shadow:0 0 8px #ff8a00}
+#ejx .wh{position:absolute;inset:0;background:#fff;opacity:0}
+#ejx.go .wh{animation:ejwh .9s ease-out forwards}
+#ejx.out{animation:ejout .7s ease-in forwards}
+@keyframes ejdk{to{opacity:.55}}@keyframes ejpulse{0%{opacity:.35}50%{opacity:1}}
+@keyframes ejhz{to{background-position:45px 0}}
+@keyframes ejblink{50%{opacity:.15}}
+@keyframes ejshake{0%{transform:translate(-50%,-50%) translate(0,0)}25%{transform:translate(-50%,-50%) translate(-5px,3px)}50%{transform:translate(-50%,-50%) translate(4px,-3px)}75%{transform:translate(-50%,-50%) translate(-3px,-4px)}}
+@keyframes ejwh{0%{opacity:1}100%{opacity:0}}@keyframes ejout{to{opacity:0}}
+body.ej-shake #vp{animation:ejsh .11s linear infinite}
+@keyframes ejsh{0%{transform:translate(0,0)}25%{transform:translate(-4px,2px)}50%{transform:translate(3px,-3px)}75%{transform:translate(-2px,-3px)}}
 .mrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;border-top:1px solid var(--ln);padding-top:6px;margin-top:2px}
 .spn{position:absolute;left:0;right:0;bottom:-1px;text-align:center;font:700 9px/1 system-ui,sans-serif;letter-spacing:.06em;color:#fff;text-shadow:0 0 3px #000,0 0 3px #000,0 0 2px #000;pointer-events:none;white-space:nowrap;overflow:hidden}
 .spsw{display:flex;gap:5px;flex-wrap:wrap}.spsw button{width:22px;height:22px;padding:0;border:2px solid #fff6;border-radius:50%;background:var(--c)}.spsw button.on{border-color:#fff;box-shadow:0 0 0 2px #000,0 0 8px var(--c)}
@@ -601,7 +639,7 @@ body.player #gmq{display:none!important}
 </head>
 <body>
 <header id="tools">
-  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.68</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
+  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.74</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
   <div class="mn"><button class="mb">Map ▾</button><div class="pop">
     <div class="rw"><button class="mi" id="bMap">Load map image</button></div>
     <div class="rw"><button class="mi" id="bFit">Fit map to window</button></div>
@@ -730,7 +768,7 @@ body.player #gmq{display:none!important}
 <div id="toast"></div>
 <script>
 const $=s=>document.querySelector(s);
-const LT_VERSION='V1.68';
+const LT_VERSION='V1.74';
 const PLAYER=location.hash==='#player';
 const PS={win:null,frozen:false,black:false,t:0,sentMap:null,map:null,rect:null};
 let LOOK={};
@@ -848,6 +886,7 @@ function mk(it){
     if(it.link&&it.role!=='pilot'){const c0=S.turns.find(x=>x.id===it.link);if(c0&&c0.st&&c0.st.hpM!=null){d.insertAdjacentHTML('beforeend',miniBars(c0.st));d.classList.add('hb')}}
     if(it.link){d.dataset.link=it.link;const c=S.turns.find(x=>x.id===it.link);
       if(c){if(c.done)d.classList.add('acted');if(c.p&&c.p.out&&it.role!=='pilot')d.classList.add('vacant');
+        if(it.role!=='pilot'){const tg=cdTags(cdOf(c));if(tg)d.insertAdjacentHTML('beforeend',`<span class="cdt">${tg}</span>`)}
         if(c.hc&&it.role!=='pilot'){d.classList.add('hc-tok');d.insertAdjacentHTML('beforeend','<i class="hcb">HC</i>')}
         const m=it.role!=='pilot'?fxMain(fxFlags(c)):'';if(m){d.classList.add('fx-'+m);d.insertAdjacentHTML('beforeend',`<i class="fxl"></i><u class="fxt">${FXN[m]}</u>`)}}
       if(it.link===hoverId)d.classList.add('hl')}
@@ -1814,9 +1853,11 @@ function showHov(c,card){
   else if(f.melt)h+='<div class="nt bad">Reactor meltdown at the end of its next turn: Burst 2, Agility save or 4d6 explosive damage (half on a save).</div>';
   if(!f.dead&&mS>0)h+=`<div class="nt">Structure check: roll ${mS}d6 and use the lowest. Two or more 1s destroys the mech.</div>`;
   if(!f.melt&&!f.dead&&mT>0)h+=`<div class="nt">Overheating check: roll ${mT}d6 and use the lowest. Two or more 1s is a reactor meltdown.</div>`;
+  if(c.ejected)h+='<div class="nt">Ejected: the mech is left Impaired and Eject cannot be used again until a Full Repair. Untick Impaired or Ejection used below to override.</div>';
   h+='</div>';
   const sheet=!!(p.mechs&&p.mechs.length);
-  h+=`<div class="sec"><div class="ac"><button data-a="sheet" style="grid-column:1/-1"${p.ps?'':' disabled title="Import a character sheet first"'}>Character sheet</button><button data-a="dis" class="${p.out?'on':''}">${p.out?'Re-embark':'Disembark'}</button>`+(sheet?`<button data-a="place">${mechTok(c)?'Find mech':'Place mech'}</button>`:`<button disabled title="Import a character sheet first">Place mech</button>`)+
+  h+=cdHTML(c);
+  h+=`<div class="sec"><div class="ac"><button data-a="sheet" style="grid-column:1/-1"${p.ps?'':' disabled title="Import a character sheet first"'}>Character sheet</button><button data-a="dis" class="${p.out?'on':''}">${p.out?'Re-embark':'Disembark'}</button>`+`<button data-a="eject"${c.ejected||p.out||!mechTok(c)?' disabled':''} title="${c.ejected?'Already ejected. Needs a Full Repair first.':p.out?'The pilot is already out of the mech.':mechTok(c)?'Quick action: the pilot flies 6 spaces in a direction of your choice and the mech is left IMPAIRED.':'Place the mech on the map first.'}" style="border-color:#ff5a3d;color:#ff8a70">${c.ejected?'Ejected':'Eject'}</button><button data-a="frep"${c.ejected||cdOf(c).impaired?'':' disabled'} title="Full Repair: restores HP, heat, structure and stress and clears Impaired and the one-use ejection">Full repair</button>`+(sheet?`<button data-a="place">${mechTok(c)?'Find mech':'Place mech'}</button>`:`<button disabled title="Import a character sheet first">Place mech</button>`)+
      `<button data-a="edit">Edit profile</button><button data-a="ren">Rename</button><button data-a="fac"><i style="display:inline-block;width:9px;height:9px;background:${COL[c.fac]};margin-right:5px"></i>${esc(c.fac)}</button><button data-a="del">Remove</button></div>`+
      `<div class="ln" style="font-size:11px;margin-top:7px">Click the portrait to mark ${c.done?'available':'acted'}${sheet?'':'. Import a character sheet to place the mech.'}</div></div>`;
   $('#hov').innerHTML=h;hovCard=c;place($('#hov'),card,'block');
@@ -1824,10 +1865,15 @@ function showHov(c,card){
 }
 $('#hov').onmouseenter=()=>clearTimeout(hovHide);
 $('#hov').onmouseleave=()=>{hovHide=setTimeout(hideHov,250)};
+$('#hov').addEventListener('toggle',e=>{if(e.target.classList&&e.target.classList.contains('cdd'))CDOPEN=e.target.open},true);
 $('#hov').onclick=e=>{
   const b=e.target.closest('[data-a]'),a=b&&b.dataset.a,c=hovCard;if(!a||!c||b.disabled)return;
   if(a==='place'){hideHov();const t=mechTok(c);if(t){stopDrawing();sel=t.id;centreOn(t);render();inspect()}else placeMech(c,centre())}
   else if(a==='dis'){const n=cardEl(c);disembark(c);showHov(c,n)}
+  else if(a==='eject'){hideHov();ejectStart(c)}
+  else if(a.startsWith('cd:')){cdOf(c)[a.slice(3)]=b.checked;const n=Object.keys(CDN).filter(k=>cdOf(c)[k]).length,sm=document.querySelector('#hov .cdd summary');if(sm)sm.textContent='Conditions and statuses'+(n?` (${n})`:'');render();renderTurns();return}
+  else if(a==='ejused'){c.ejected=b.checked;showHov(c,cardEl(c));return}
+  else if(a==='frep'){const st=stOf(c);setSt(c,{hp:st.hpM,heat:0,str:st.strM,sts:st.stsM});cdOf(c).impaired=false;c.ejected=false;render();renderTurns();showHov(c,cardEl(c))}
   else if(a.startsWith('v:')){
     const k=a.slice(2);
     if(k==='no'){vOpen='';showHov(c,cardEl(c))}
@@ -2086,6 +2132,97 @@ function disembark(c){
     it.x=pos.x;it.y=pos.y;snapIt(it);S.items.push(it);p.out=true;sel=it.id;
   }
   render();inspect();
+}
+
+// ---- conditions and statuses ----
+const CONDS=[['Conditions',[['impaired','Impaired','+1 difficulty on all attacks, saves and skill checks.'],['immobilized','Immobilized','Cannot make any voluntary movements.'],['jammed','Jammed','No comms, only improvised attack, grapple and ram, no reactions or tech actions.'],['lockon','Lock On','Hostiles can consume Lock On for +1 accuracy on their next attack against this character.'],['shredded','Shredded','No benefit from armor or resistance.'],['slow','Slowed','Cannot boost or make special moves.'],['stunned','Stunned','Cannot overcharge, move or take any actions.']]],
+ ['Statuses',[['engaged','Engaged','Ranged attacks get +1 difficulty. Extra movement is lost if engaged by an equal or larger target.'],['exposed','Exposed','Kinetic, explosive and energy damage taken is doubled.'],['hidden','Hidden','Cannot be targeted by hostile attacks or actions, and does not cause engagement.'],['invisible','Invisible','Attacks have a 50 percent chance to miss before the roll.'],['prone','Prone','Attacks against get +1 accuracy. Slowed, and counts as moving in difficult terrain.'],['shutdown','Shut Down','Stunned indefinitely.'],['downandout','Down and Out','Pilot is unconscious. Any extra damage kills.']]]];
+const CDN={};CONDS.forEach(([g,l])=>l.forEach(([id,n,t])=>CDN[id]={n,t,st:g==='Statuses'}));
+let CDOPEN=false;
+function cdOf(c){if(!c.cond)c.cond={};if(c.imp){c.cond.impaired=true;delete c.imp}return c.cond}
+function cdTags(cond){return Object.keys(CDN).filter(k=>cond&&cond[k]).map(k=>`<i class="${CDN[k].st?'st':''}" title="${esc(CDN[k].t)}">${esc(CDN[k].n.toUpperCase())}</i>`).join('')}
+function cdHTML(c){
+  const cd=cdOf(c),n=Object.keys(CDN).filter(k=>cd[k]).length;
+  return`<details class="cdd"${CDOPEN?' open':''}><summary>Conditions and statuses${n?` (${n})`:''}</summary><div class="cdg">`+
+    CONDS.map(([g,l])=>`<div class="h">${g}</div>`+l.map(([id,nm,t])=>`<label title="${esc(t)}"><input type="checkbox" data-a="cd:${id}"${cd[id]?' checked':''}>${nm}</label>`).join('')).join('')+
+    `<div class="h">Ejection</div><label style="grid-column:1/-1" title="Ejecting is one use only until a Full Repair. Untick to allow it again."><input type="checkbox" data-a="ejused"${c.ejected?' checked':''}>Ejection used</label></div></details>`;
+}
+// ---- eject: quick action, pilot flies 6 spaces in a chosen direction, mech is left IMPAIRED ----
+const EJ={on:false};
+function ejPanel(){
+  let p=$('#ejp');if(!p){p=document.createElement('div');p.id='ejp';document.body.append(p);
+    p.innerHTML='<b>EJECT</b><span class="mut">Drag anywhere on the map to aim the pilot. They fly 6 spaces. The mech is left IMPAIRED.</span><button id="ejGo" class="on" style="border-color:#ff5a3d;background:#ff5a3d;color:#fff">Eject</button><button id="ejNo">Cancel</button>';
+    $('#ejGo').onclick=ejectConfirm;$('#ejNo').onclick=ejectCancel}
+  return p;
+}
+function ejectStart(c){
+  const t=mechTok(c);if(!t){toast('Place the mech on the map first');return}
+  if(c.ejected){toast('Already ejected. Full Repair first.');return}
+  stopDrawing();const gs=S.grid.size,cx=t.x+t.size*gs/2,cy=t.y+t.size*gs/2,o=cellCtr({x:cx,y:cy});
+  const ring=cellList(o[0],o[1],7.5*gs).filter(q=>inMap(q)&&dist({x:o[0],y:o[1]},{x:q.cx,y:q.cy})===6);
+  if(!ring.length){toast('There is no room on the map to eject');return}
+  EJ.on=true;EJ.c=c;EJ.t=t;EJ.o=o;EJ.ring=ring;EJ.drag=false;
+  ejAim({x:S.mw/2,y:S.mh/2});ejPanel().classList.add('on');document.body.classList.add('ej-aim');
+  document.addEventListener('keydown',ejKeys,true);
+}
+function ejAim(p){
+  const a=Math.atan2(p.y-EJ.o[1],p.x-EJ.o[0]);let best=null,bd=1e9;
+  EJ.ring.forEach(q=>{let d=Math.abs(Math.atan2(q.cy-EJ.o[1],q.cx-EJ.o[0])-a);d=Math.min(d,6.2832-d);if(d<bd){bd=d;best=q}});
+  EJ.tgt=best;ejDraw();
+}
+function ejDraw(){
+  if(!EJ.on){$('#olp').innerHTML='';return}
+  const g=S.grid.size,t=EJ.tgt,o=EJ.o,ang=Math.atan2(t.cy-o[1],t.cx-o[0]),ah=g*.34,
+    ax=t.cx-Math.cos(ang)*g*.1,ay=t.cy-Math.sin(ang)*g*.1;
+  $('#olp').innerHTML='<g fill="#ff5a3d" fill-opacity=".14" stroke="#ff5a3d" stroke-opacity=".45" stroke-width="1.5" vector-effect="non-scaling-stroke">'+EJ.ring.map(q=>`<polygon points="${poly(q.cx,q.cy)}"/>`).join('')+'</g>'+
+   `<polygon points="${poly(t.cx,t.cy)}" fill="#ff5a3d" fill-opacity=".55" stroke="#fff" stroke-width="3" vector-effect="non-scaling-stroke"/>`+
+   `<line x1="${o[0]}" y1="${o[1]}" x2="${t.cx}" y2="${t.cy}" stroke="#fff" stroke-width="4" stroke-dasharray="10 7" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`+
+   `<line x1="${o[0]}" y1="${o[1]}" x2="${t.cx}" y2="${t.cy}" stroke="#ff5a3d" stroke-width="2" stroke-dasharray="10 7" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`+
+   `<path d="M${t.cx} ${t.cy}L${t.cx-Math.cos(ang-.45)*ah} ${t.cy-Math.sin(ang-.45)*ah}M${t.cx} ${t.cy}L${t.cx-Math.cos(ang+.45)*ah} ${t.cy-Math.sin(ang+.45)*ah}" stroke="#fff" stroke-width="4" stroke-linecap="round" fill="none" vector-effect="non-scaling-stroke"/>`+
+   `<circle cx="${t.cx}" cy="${t.cy}" r="${g*.14}" fill="#fff" stroke="#ff5a3d" stroke-width="3" vector-effect="non-scaling-stroke"/>`+
+   `<text x="${(o[0]+t.cx)/2}" y="${(o[1]+t.cy)/2-g*.25}" text-anchor="middle" font-size="${g*.4}" font-weight="800" fill="#fff" stroke="#000" stroke-width="4" paint-order="stroke" style="font-family:system-ui">6</text>`;
+}
+function ejKeys(e){if(!EJ.on)return;if(e.key==='Escape'){e.stopPropagation();ejectCancel()}else if(e.key==='Enter'){e.stopPropagation();e.preventDefault();ejectConfirm()}}
+function ejEnd(){EJ.on=false;$('#olp').innerHTML='';const p=$('#ejp');if(p)p.classList.remove('on');document.body.classList.remove('ej-aim');document.removeEventListener('keydown',ejKeys,true)}
+function ejectCancel(){ejEnd()}
+vp.addEventListener('pointerdown',e=>{if(!EJ.on||e.button!==0)return;e.stopImmediatePropagation();e.preventDefault();EJ.drag=true;vp.setPointerCapture(e.pointerId);ejAim(wpt(e))},true);
+vp.addEventListener('pointermove',e=>{if(!EJ.on||!EJ.drag)return;e.stopImmediatePropagation();ejAim(wpt(e))},true);
+vp.addEventListener('pointerup',e=>{if(!EJ.on)return;EJ.drag=false;e.stopImmediatePropagation()},true);
+function ejectConfirm(){
+  if(!EJ.on)return;const c=EJ.c,tgt=EJ.tgt,from=EJ.o;ejEnd();
+  const unit=(c.p&&c.p.callsign)||c.name;
+  ejectFx(unit,true,()=>ejectApply(c,tgt,from));
+}
+function ejectApply(c,q,from){
+  if(!S.turns.includes(c))return;
+  const p=c.p||(c.p={}),gs=S.grid.size;
+  S.items=S.items.filter(i=>!(i.link===c.id&&i.role==='pilot'));
+  const it={id:uid(),type:'token',size:1,name:p.callsign||p.pilot||'Pilot',fac:c.fac,img:PILOT_IMG,link:c.id,role:'pilot',x:q.cx-gs/2,y:q.cy-gs/2};
+  S.items.push(it);p.out=true;c.ejected=true;cdOf(c).impaired=true;sel=it.id;render();renderTurns();inspect();
+  if(from&&!PLAYER){$('#olp').innerHTML=`<line x1="${from[0]}" y1="${from[1]}" x2="${q.cx}" y2="${q.cy}" stroke="#ff5a3d" stroke-width="5" stroke-dasharray="12 8" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`;setTimeout(()=>{if(!EJ.on)$('#olp').innerHTML=''},2600)}
+}
+const EJQ=[["It was fun.", "Star Trek"], ["Ain’t over till it’s over.", "Yogi Berra"], ["Until next time, then.", ""], ["Second star to the right.", "Peter Pan"], ["Go get ’em, tiger.", "Spider-Man 2 (2004)"], ["Make it so.", "Star Trek"], ["See you on the other side.", ""], ["Wait for the wheel.", "Farscape"], ["Do not throw your shot.", "Hamilton"], ["Drop and burn ’em up.", "Hamilton, Guns and Ships"], ["Exhibit no restraint.", "Hamilton, Wait for It"], ["Rip and saw.", ""], ["Code zero zero zero. Destruct. Zero.", "Star Trek"], ["Authorization Alpha-Alpha 3-0-5.", "Star Trek"], ["Have just the greatest day.", ""], ["Avenge me.", ""], ["Stay safe.", ""], ["Situation normal.", ""], ["PROTOCOL <3", "BT-7274"], ["Never give up. Never surrender.", "Galaxy Quest"], ["In case of doubt, attack.", "General George S. Patton"], ["You’re never beaten until you admit it.", "General George S. Patton"], ["Wrong us, shall we not revenge?", "The Merchant of Venice"], ["Till all are one.", "Transformers"], ["Nothing but the rain.", "Battlestar Galactica"], ["Sometimes, you have to roll a hard six.", "Battlestar Galactica"], ["And sometimes, when you fall, you fly.", "Neil Gaiman, The Sandman"], ["See you space cowboy...", "Cowboy Bebop"], ["Just another day at the office.", "Call of Duty 4: Modern Warfare"], ["End of line.", "Tron"], ["Fortune favors the bold.", "Latin proverb"], ["A leaf on the wind.", "Firefly"], ["You are who you choose to be.", "The Iron Giant"], ["Always.", "Harry Potter"], ["Finish the fight.", "Halo 3"]];   // rare farewell lines: 10% of ejections show one instead of PROTOCOL [03]
+const EJC=[['CORE BREAK IN PROGRESS','','sys'],['DESTRUCT SEQUENCE ENGAGED','','sys'],['EJECT NOW EJECT','','sys'],['EJECT-SYSTEM ENGAGED','','sys'],['PILOT EJECTING','','sys'],['PROTOCOL [03]','','sys'],['Fly, you fool.','The Lord of the Rings','q']];
+// the seven common lines are shuffled into the six slots of the sequence, so each is about equally likely; 10% of the time the last slot is a rare quote instead
+function ejPlan(){const a=EJC.map((_,i)=>i);for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return{s:a.slice(0,6),r:Math.random()<.1?Math.random()*EJQ.length|0:-1}}
+function ejectFx(unit,bcast,launch,plan){
+  if(!plan)plan=ejPlan();
+  if(bcast&&!PLAYER&&PS.win&&!PS.win.closed&&!PS.frozen)PS.win.postMessage({t:'eject',u:unit,plan},'*');
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches){toast((unit?unit+': ':'')+'EJECTING');launch&&launch();return}
+  let o=$('#ejx');if(!o){o=document.createElement('div');o.id='ejx';document.body.append(o)}
+  clearTimeout(ejectFx.t);(ejectFx.ts||[]).forEach(clearTimeout);ejectFx.ts=[];
+  o.className='on';o.innerHTML='<i class="dk"></i><i class="vg"></i><i class="hz t"></i><i class="hz b"></i><i class="scn"></i><div class="sm"></div><div class="bg"></div><i class="wh"></i>';
+  const sm=o.querySelector('.sm'),bg=o.querySelector('.bg'),at=(ms,f)=>ejectFx.ts.push(setTimeout(f,ms)),big=(t,cls,sub)=>{bg.className='bg '+(cls||'');bg.innerHTML=t+(sub?`<small>${sub}</small>`:'')},line=t=>{const i=document.createElement('i');i.textContent=t;sm.append(i)};
+  document.body.classList.add('ej-shake');
+  const E=i=>EJC[plan.s[i]],txt=e=>e[2]==='sys'?e[0]:'“'+e[0]+'”',bigE=(e,cls)=>e[2]==='sys'?big(esc(e[0]),cls,unit):big(esc(txt(e)),(cls+' qt').trim(),esc(e[1]));
+  at(150,()=>line(txt(E(0))));
+  at(560,()=>line(txt(E(1))));
+  at(950,()=>bigE(E(2),'fl'));
+  at(1850,()=>bigE(E(3),'sk'));
+  at(2500,()=>bigE(E(4),'sk fl'));
+  at(3050,()=>{o.classList.add('go');plan.r>=0?big(esc('“'+EJQ[plan.r][0]+'”'),'qt',esc(EJQ[plan.r][1]||unit)):bigE(E(5),'');document.body.classList.remove('ej-shake');launch&&launch()});
+  at(4300,()=>{o.classList.add('out')});
+  at(5050,()=>{o.className='';o.innerHTML=''});
 }
 
 // ---- height levels ----
@@ -2764,7 +2901,7 @@ if(!PLAYER){
 // ================= FLAVOUR LINES =================
 const QDEF={
  round:[],cascade:[],melt:[],dead:[],combat:[],off:[],
- good:["“Glory to mankind.”", "“Wake up, Samurai. We have a city to burn.” – Johnny Silverhand", "“Shall we play a game?” – WOPR", "“Trust me.” – BT-7274", "“Protocol 3: Protect the Pilot.” – BT-7274", "“Standby for Titanfall.”", "“I won’t miss.” – V.IV Rusty", "“Rubicon still needs me.” – V.IV Rusty", "“Get in the robot, Shinji.”", "“Eyes up, Guardian.” – Ghost", "“Fight forever, Guardian.” – Lord Shaxx", "“Wake me when you need me.” – Master Chief", "“Kept you waiting, huh?” – Solid Snake", "“Rip and tear, until it is done.” – DOOM", "“Praise the sun!” – Solaire of Astora", "“I fight for the Users!” – Tron", "“Greetings, programs!” – Kevin Flynn", "“Heaven or Hell!? Let’s Rock!”", "“I am thou, thou art I.” - SMT", "“Make it so.” – Picard", "“Risk is our business.” – Kirk", "“Live long and prosper.” – Spock", "“Qapla’!” – Klingon for “success”", "“Today is a good day to die.” – Lt. Worf", "“Ain’t over till it’s over.” – Yogi Berra", "“Go get ’em, tiger.” – Spider-Man 2", "“Do not throw your shot.” – Hamilton", "“Drop and burn ’em up.” – Hamilton", "“Exhibit no restraint.” – Hamilton", "“Rip and saw.”", "PROTOCOL <3", "“Never give up. Never surrender.” – Galaxy Quest", "“In case of doubt, attack.” – General Patton", "“You’re never beaten until you admit it.” – General Patton", "“Till all are one.” – Transformers", "“And sometimes, when you fall, you fly.” – Neil Gaiman, The Sandman", "“Fortune favors the bold.” – Latin proverb", "“You are who you choose to be.” – The Iron Giant", "“Finish the fight.” – Halo 3"],
+ good:["“Glory to mankind.”", "“Wake up, Samurai. We have a city to burn.” – Johnny Silverhand", "“Shall we play a game?” – WOPR", "“Trust me.” – BT-7274", "“Protocol 3: Protect the Pilot.” – BT-7274", "“Standby for Titanfall.”", "“I won’t miss.” – V.IV Rusty", "“Rubicon still needs me.” – V.IV Rusty", "“Get in the robot, Shinji.”", "“Eyes up, Guardian.” – Ghost", "“Fight forever, Guardian.” – Lord Shaxx", "“Wake me when you need me.” – Master Chief", "“Kept you waiting, huh?” – Solid Snake", "“Rip and tear, until it is done.” – DOOM", "“Praise the sun!” – Solaire of Astora", "“I fight for the Users!” – Tron", "“Greetings, programs!” – Kevin Flynn", "“Heaven or Hell!? Let’s Rock!”", "“I am thou, thou art I.” - SMT", "“Make it so.” – Picard", "“Risk is our business.” – Kirk", "“Live long and prosper.” – Spock", "“Qapla’!” – Klingon for “success”", "“Today is a good day to die.” – Lt. Worf", "“Ain’t over till it’s over.” – Yogi Berra", "“Go get ’em, tiger.” – Spider-Man 2", "“Do not throw your shot.” – Hamilton", "“Drop and burn ’em up.” – Hamilton", "“Exhibit no restraint.” – Hamilton", "“Rip and saw.”", "PROTOCOL <3", "“Never give up. Never surrender.” – Galaxy Quest", "“In case of doubt, attack.” – General George S. Patton", "“You’re never beaten until you admit it.” – General George S. Patton", "“Till all are one.” – Transformers", "“And sometimes, when you fall, you fly.” – Neil Gaiman, The Sandman", "“Fortune favors the bold.” – Latin proverb", "“You are who you choose to be.” – The Iron Giant", "“Finish the fight.” – Halo 3"],
  bad:["“I will not lose another Pilot.” – BT-7274", "“Anta baka?!” – Asuka Langley Soryu", "“War. War never changes.” – Fallout narrator", "“Snake? Snake?! SNAAAAKE!”", "“The cake is a lie.” – Portal", "“End of line.” – Master Control Program", "“Stairs?! NOOOOO!” – Claptrap", "“Needs more struts.”", "“Mon capitaine.” – Q", "“KHAAAAN!” – Kirk", "“Resistance is futile.” – the Borg", "“Game over, man! Game over!” – Pvt. Hudson", "“A strange game. The only winning move is not to play.” – WOPR", "“Mean old Michigan died of a bad fall!” – G1 Michigan", "PILOT EJECTING", "EJECT NOW EJECT", "CORE BREAK IN PROGRESS", "DESTRUCT SEQUENCE ENGAGED", "EJECT-SYSTEM ENGAGED", "PROTOCOL [03]", "“It was fun.” – Star Trek", "“Until next time, then.”", "“See you on the other side.”", "“Code zero zero zero. Destruct. Zero.” – Star Trek", "“Authorization Alpha-Alpha 3-0-5.” – Star Trek", "“Avenge me.”", "“Fly, you fool.” – Gandalf", "“Wrong us, shall we not revenge?” – The Merchant of Venice", "“Nothing but the rain.” – Battlestar Galactica", "“See you space cowboy...” – Cowboy Bebop"],
  any:["“Have we... made Contact?”", "“Nanomachines, son.” – Senator Armstrong", "“Memes. The DNA of the soul.” – Senator Armstrong", "“You must construct additional pylons.”", "“Hey, you. You’re finally awake.” – Ralof", "“Wololo.” – Monk", "“The Grid. A digital frontier.” – Kevin Flynn", "“You’re messing with my zen thing, man.” – Kevin Flynn", "“Welcome to the Velvet Room.” – Igor", "“Tea. Earl Grey. Hot.” – Picard", "“Second star to the right.” – Peter Pan", "“Wait for the wheel.” – Farscape", "“Have just the greatest day.”", "“Stay safe.”", "“Situation normal.”", "“Sometimes, you have to roll a hard six.” – Battlestar Galactica", "“Just another day at the office.” – Call of Duty 4", "“A leaf on the wind.” – Firefly", "“Always.” – Harry Potter"]
 };
@@ -2772,6 +2909,7 @@ let QUOTES=(()=>{try{const q=JSON.parse(localStorage.getItem('lt-quotes'));if(q&
   if(!q.good&&!q.bad){const old=new Set([...QDEF.good,...QDEF.bad]);q.any=(q.any||[]).filter(x=>!old.has(x))}
   return Object.assign({},QDEF,q)}}catch(e){}return QDEF})();
 try{if(!localStorage.getItem('lt-q-v168')){localStorage.setItem('lt-q-v168','1');if(localStorage.getItem('lt-quotes')){['good','bad','any'].forEach(k=>{QUOTES[k]=QDEF[k].slice()});localStorage.setItem('lt-quotes',JSON.stringify(QUOTES))}}}catch(e){}
+try{if(!localStorage.getItem('lt-q-v172')){localStorage.setItem('lt-q-v172','1');const raw=localStorage.getItem('lt-quotes');if(raw){localStorage.setItem('lt-quotes',raw.split('General Patton').join('General George S. Patton'));QUOTES=Object.assign({},QDEF,JSON.parse(localStorage.getItem('lt-quotes')))}}}catch(e){}
 const QROUTE={combat:'good',off:'good',cascade:'bad',melt:'bad',dead:'bad',round:'any'};
 const QLAST={};
 function flavour(k){
@@ -2820,7 +2958,7 @@ function playerState(){
     return !lt.length||lt.some(t=>vis.has(t.id));
   }).map(c=>{
     const bars=LOOK.pbars==='all'||(LOOK.pbars!=='none'&&friend(c.fac)),st=c.st;
-    return{id:c.id,name:c.name,fac:c.fac,done:c.done,hc:c.hc,img:c.img,p:{out:!!(c.p&&c.p.out),callsign:c.p&&c.p.callsign},
+    return{id:c.id,name:c.name,fac:c.fac,done:c.done,hc:c.hc,cond:(friend(c.fac)?cdOf(c):Object.fromEntries(Object.entries(cdOf(c)).filter(([k])=>k!=='hidden'&&k!=='downandout'))),img:c.img,p:{out:!!(c.p&&c.p.out),callsign:c.p&&c.p.callsign},
       st:st?(bars?{...st}:{str:st.str,strM:st.strM,sts:st.sts,stsM:st.stsM,dz:st.dz,cas:st.cas}):undefined};
   });
   return o;
@@ -2864,6 +3002,7 @@ if(!PLAYER){
     if(e.source!==window.opener||!e.data)return;const m=e.data;
     if(m.t==='map')PS.map=m.map;
     else if(m.t==='black')$('#pblack').classList.toggle('on',!!m.on);
+    else if(m.t==='eject')ejectFx(m.u,false,null,m.plan);
     else if(m.t==='fx')playFx(...m.a);
     else if(m.t==='tip'){
       const e=$('#tip');if(!m.id){e.classList.remove('on');return}
