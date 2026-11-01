@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kyubisan's Lancer Table V1.90</title>
+<title>Kyubisan's Lancer Table V1.91</title>
 <!-- Copyright (c) 2026 Fox Murray. All rights reserved. -->
 <!-- VERSION: bump LT_VERSION (script) and the title/brand text on every change. Small additions +0.01, larger ones more. Stays in V1.xx for now. -->
 <style>
@@ -57,21 +57,26 @@ body.ol-custom #layer .it.dn .onm,body.ol-none #layer .it .onm{display:none}
 
 #vs{position:fixed;inset:0;z-index:8800;display:none;pointer-events:none;overflow:hidden;font-family:Bahnschrift,"DIN Alternate",Rajdhani,"Segoe UI","Arial Narrow",sans-serif;text-transform:uppercase}
 #vs.on{display:block}
-#vs .vbg{position:absolute;left:-5%;right:-5%;top:50%;height:44vh;transform:translateY(-50%) scaleY(0);background:linear-gradient(90deg,color-mix(in srgb,var(--lc) 38%,#0a1018) 0,#0a1018f2 42%,#0a1018f2 58%,color-mix(in srgb,var(--rc) 38%,#0a1018) 100%);border-top:3px solid #fff;border-bottom:3px solid #fff;box-shadow:0 0 50px #000a;animation:vsbg .28s cubic-bezier(.2,.9,.3,1) forwards;pointer-events:auto;cursor:pointer}
+#vs{--sh:44vh;--gap:1.6vw}
+#vs.dense{--sh:54vh;--gap:1vw}
+#vs .vbg{position:absolute;left:-5%;right:-5%;top:50%;height:var(--sh);transform:translateY(-50%) scaleY(0);background:linear-gradient(90deg,color-mix(in srgb,var(--lc) 38%,#0a1018) 0,#0a1018f2 42%,#0a1018f2 58%,color-mix(in srgb,var(--rc) 38%,#0a1018) 100%);border-top:3px solid #fff;border-bottom:3px solid #fff;box-shadow:0 0 50px #000a;animation:vsbg .28s cubic-bezier(.2,.9,.3,1) forwards;pointer-events:auto;cursor:pointer}
 #vs .vbg::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,#ffffff08 0 14px,transparent 14px 34px)}
-#vs .vwrap{position:absolute;left:0;right:0;top:50%;height:44vh;transform:translateY(-50%);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 3vw}
-#vs .vs{display:flex;flex-direction:column;gap:1.4vh;min-width:0}
-#vs .vl{align-items:flex-end}#vs .vr{align-items:flex-start}
-#vs .vrow{display:flex;gap:2.2vw;align-items:center;min-width:0}
-#vs .vt{font-weight:800;font-size:clamp(16px,3.6vh,46px);letter-spacing:.3em;color:#fff;text-shadow:0 2px 0 #000,0 0 18px var(--vc),0 0 6px var(--vc);max-width:36vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-bottom:.5vh;border-bottom:2px solid var(--vc)}
-#vs .vl .vc{opacity:0;animation:vsl .55s cubic-bezier(.15,.9,.25,1) .2s forwards}
-#vs .vr .vc{opacity:0;animation:vsr .55s cubic-bezier(.15,.9,.25,1) .2s forwards}
+#vs .vwrap{position:absolute;left:0;right:0;top:50%;height:var(--sh);transform:translateY(-50%);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 3vw}
+#vs .vs{display:flex;flex-direction:column;gap:1.4vh;min-width:0;container-type:inline-size;align-items:stretch;--cw:min(calc((100cqw - (var(--cols,1) - 1)*var(--gap))/var(--cols,1)),24vh)}
+#vs .vl .vt{align-self:flex-end}#vs .vr .vt{align-self:flex-start}
+#vs .vrow{display:flex;flex-wrap:wrap;gap:var(--gap);align-items:center;min-width:0}
+#vs .vl .vrow{justify-content:flex-end}#vs .vr .vrow{justify-content:flex-start}
+#vs .vt{font-weight:800;font-size:clamp(16px,3.6vh,46px);letter-spacing:.3em;color:#fff;text-shadow:0 2px 0 #000,0 0 18px var(--vc),0 0 6px var(--vc);max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-bottom:.5vh;border-bottom:2px solid var(--vc)}
+#vs .vl .vc{opacity:0;animation:vsl .55s cubic-bezier(.15,.9,.25,1) calc(.2s + var(--i,0)*.07s) forwards}
+#vs .vr .vc{opacity:0;animation:vsr .55s cubic-bezier(.15,.9,.25,1) calc(.2s + var(--i,0)*.07s) forwards}
 #vs .vc{display:flex;flex-direction:column;align-items:center;gap:1vh;min-width:0}
-#vs .vp{width:clamp(80px,min(24vh,14vw),240px);aspect-ratio:1;background:#111 center/cover no-repeat;border:3px solid var(--vc);box-shadow:0 0 28px var(--vc),inset 0 0 20px #0008;display:flex;align-items:center;justify-content:center;font-size:clamp(34px,10vh,120px);font-weight:800;color:#fff}
+#vs .vp{width:var(--cw);aspect-ratio:1;background:#111 center/cover no-repeat;border:3px solid var(--vc);box-shadow:0 0 28px var(--vc),inset 0 0 20px #0008;display:flex;align-items:center;justify-content:center;font-size:calc(var(--cw)*.45);font-weight:800;color:#fff}
 #vs .vp.vq{background:radial-gradient(circle,#2a2f38,#0b0d11);color:var(--vc);text-shadow:0 0 22px var(--vc)}
-#vs .vn{font-weight:800;font-size:clamp(14px,3.2vh,40px);letter-spacing:.14em;color:#fff;text-shadow:0 2px 0 #000,0 0 14px var(--vc);max-width:20vw;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#vs .vn{font-weight:800;font-size:clamp(14px,3.2vh,40px);letter-spacing:.14em;color:#fff;text-shadow:0 2px 0 #000,0 0 14px var(--vc);max-width:var(--cw);min-width:100%;box-sizing:border-box;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#vs.dense .vc{position:relative;gap:0}
+#vs.dense .vn{position:absolute;left:3px;right:3px;bottom:3px;min-width:0;max-width:none;font-size:clamp(9px,calc(var(--cw)*.12),24px);letter-spacing:.06em;padding:1.2em .2em .25em;background:linear-gradient(transparent,#000d)}
 #vs .vx{font-weight:900;font-style:italic;font-size:clamp(70px,24vh,300px);line-height:1;color:#fff;padding:0 2vw;text-shadow:4px 0 var(--rc),-4px 0 var(--lc),0 0 40px #fff8;opacity:0;animation:vsx .45s cubic-bezier(.2,1.5,.4,1) .55s forwards}
-#vs .vcap{position:absolute;left:0;right:0;top:calc(50% + 22vh + 10px);text-align:center;font-weight:700;font-size:clamp(14px,3vh,34px);letter-spacing:.5em;color:#fff;text-shadow:0 2px 0 #000,0 0 14px #000;opacity:0;animation:vsc .4s ease-out .9s forwards}
+#vs .vcap{position:absolute;left:0;right:0;top:calc(50% + var(--sh)/2 + 10px);text-align:center;font-weight:700;font-size:clamp(14px,3vh,34px);letter-spacing:.5em;color:#fff;text-shadow:0 2px 0 #000,0 0 14px #000;opacity:0;animation:vsc .4s ease-out .9s forwards}
 #vs .vfl{position:absolute;inset:0;background:#fff;opacity:0;animation:vsfl .5s ease-out .55s}
 #vs.out{animation:vsout .55s ease-in forwards}
 #vs.out .vbg{animation:none;transform:translateY(-50%) scaleY(1)}
@@ -89,6 +94,7 @@ body.ol-custom #layer .it.dn .onm,body.ol-none #layer .it .onm{display:none}
 #vsp .lst{max-height:210px;overflow-y:auto;border:1px solid var(--ln);padding:4px;display:flex;flex-direction:column;gap:2px}
 #vsp label{display:flex;align-items:center;gap:6px;padding:2px 3px;cursor:pointer}
 #vsp label i{width:20px;height:20px;background:#222 center/cover;flex:none;border:1px solid var(--ln)}
+#vsp .tm2{display:flex;gap:4px;margin-bottom:4px}#vsp .tm2 button{flex:1;padding:2px 4px;font-size:11px}
 #vsp .tm{display:flex;gap:4px;margin-bottom:4px}#vsp .tm input[type=text]{flex:1;min-width:0}#vsp .tm input[type=color]{width:34px;padding:0;border:1px solid var(--ln);background:none;cursor:pointer}
 #vsp .rw2{display:flex;gap:8px;align-items:center;margin-top:8px}#vsp .rw2 input[type=text]{flex:1}
 #vsp .bt2{display:flex;gap:6px;margin-top:10px;justify-content:flex-end}
@@ -690,7 +696,7 @@ body.player #gmq{display:none!important}
 </head>
 <body>
 <header id="tools">
-  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.90</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
+  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.91</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
   <div class="mn"><button class="mb">Map ▾</button><div class="pop">
     <div class="rw"><button class="mi" id="bMap">Load map image</button></div>
     <div class="rw"><button class="mi" id="bFit">Fit map to window</button></div>
@@ -823,7 +829,7 @@ body.player #gmq{display:none!important}
 <div id="toast"></div>
 <script>
 const $=s=>document.querySelector(s);
-const LT_VERSION='V1.90';
+const LT_VERSION='V1.91';
 const PLAYER=location.hash==='#player';
 const PS={win:null,frozen:false,black:false,gm:false,t:0,sentMap:null,map:null,rect:null};
 let LOOK={};
@@ -2270,9 +2276,10 @@ function vsCards(){return S.turns.map(c=>({id:c.id,n:(c.p&&c.p.callsign)||c.name
 function vsHide(local){const o=$('#vs');if(!o||!o.classList.contains('on'))return;clearTimeout(vsHide.t);o.classList.add('out');setTimeout(()=>{o.className='';o.innerHTML=''},560)}
 function vsShow(d){
   const o=$('#vs');clearTimeout(vsHide.t);
-  const side=(a,col)=>a.map(x=>x.q?`<div class="vc"><div class="vp vq">?</div><div class="vn">???</div></div>`:`<div class="vc"><div class="vp"${x.img?` style="background-image:url('${String(x.img).replace(/'/g,"%27")}')"`:''}>${x.img?'':esc((x.n||'?')[0])}</div><div class="vn">${esc(x.n)}</div></div>`).join('');
+  const n=Math.max(d.L.length,d.R.length),dense=n>=5,cols=Math.max(1,Math.ceil(n/(dense?2:1)));
+  const side=(a,col)=>a.map((x,i)=>x.q?`<div class="vc" style="--i:${i}"><div class="vp vq">?</div><div class="vn">???</div></div>`:`<div class="vc" style="--i:${i}"><div class="vp"${x.img?` style="background-image:url('${String(x.img).replace(/'/g,"%27")}')"`:''}>${x.img?'':esc((x.n||'?')[0])}</div><div class="vn">${esc(x.n)}</div></div>`).join('');
   const lc=/^#[0-9a-f]{6}$/i.test(d.lc)?d.lc:'#8f9ba9',rc=/^#[0-9a-f]{6}$/i.test(d.rc)?d.rc:'#d9433f',tn=t=>t?`<div class="vt">${esc(t)}</div>`:'';
-  o.className='on';o.style.setProperty('--lc',lc);o.style.setProperty('--rc',rc);o.innerHTML=`<div class="vbg"></div><div class="vwrap"><div class="vs vl" style="--vc:${lc}">${tn(d.ln)}<div class="vrow">${side(d.L)}</div></div><div class="vx">VS</div><div class="vs vr" style="--vc:${rc}">${tn(d.rn)}<div class="vrow">${side(d.R)}</div></div></div>${d.capt?`<div class="vcap">${esc(d.capt)}</div>`:''}<i class="vfl"></i>`;
+  o.className='on'+(dense?' dense':'');o.style.setProperty('--cols',cols);o.style.setProperty('--lc',lc);o.style.setProperty('--rc',rc);o.innerHTML=`<div class="vbg"></div><div class="vwrap"><div class="vs vl" style="--vc:${lc};--cols:${cols}">${tn(d.ln)}<div class="vrow">${side(d.L)}</div></div><div class="vx">VS</div><div class="vs vr" style="--vc:${rc};--cols:${cols}">${tn(d.rn)}<div class="vrow">${side(d.R)}</div></div></div>${d.capt?`<div class="vcap">${esc(d.capt)}</div>`:''}<i class="vfl"></i>`;
   if(!PLAYER)o.querySelector('.vbg').onclick=()=>vsStop();
   if(!d.stay)vsHide.t=setTimeout(()=>vsHide(),6500);
 }
@@ -2280,7 +2287,7 @@ function vsStop(){vsHide();if(!PLAYER&&PS.win&&!PS.win.closed)PS.win.postMessage
 if(!PLAYER){
   const P=$('#vsp'),sel=(k,id)=>VS[k].has(id);
   function vsDraw(){
-    const cs=vsCards(),col=k=>`<div><h4>${k==='L'?'Left side':'Right side'}</h4><div class="tm"><input type="text" data-n="${k}" placeholder="Team name (optional)" value="${esc(VS[k.toLowerCase()+'n'])}"><input type="color" data-c="${k}" value="${VS[k.toLowerCase()+'c']}" title="Team colour"></div><div class="lst"><label><input type="checkbox" data-k="${k}" data-id="?"${sel(k,'?')?' checked':''}><i style="text-align:center;font-weight:800">?</i>Unknown ( ? )</label>`+(cs.length?cs.map(c=>`<label><input type="checkbox" data-k="${k}" data-id="${c.id}"${sel(k,c.id)?' checked':''}><i${c.img?` style="background-image:url('${String(c.img).replace(/'/g,"%27")}')"`:''}></i>${esc(c.n)}</label>`).join(''):'<span class="mut" style="padding:4px">No turn cards yet</span>')+'</div></div>';
+    const cs=vsCards(),col=k=>`<div><h4>${k==='L'?'Left side':'Right side'}</h4><div class="tm"><input type="text" data-n="${k}" placeholder="Team name (optional)" value="${esc(VS[k.toLowerCase()+'n'])}"><input type="color" data-c="${k}" value="${VS[k.toLowerCase()+'c']}" title="Team colour"></div><div class="tm2"><button data-s="${k}:player">Players</button><button data-s="${k}:enemy">Enemies</button><button data-s="${k}:clear">Clear</button></div><div class="lst"><label><input type="checkbox" data-k="${k}" data-id="?"${sel(k,'?')?' checked':''}><i style="text-align:center;font-weight:800">?</i>Unknown ( ? )</label>`+(cs.length?cs.map(c=>`<label><input type="checkbox" data-k="${k}" data-id="${c.id}"${sel(k,c.id)?' checked':''}><i${c.img?` style="background-image:url('${String(c.img).replace(/'/g,"%27")}')"`:''}></i>${esc(c.n)}</label>`).join(''):'<span class="mut" style="padding:4px">No turn cards yet</span>')+'</div></div>';
     P.innerHTML=`<b>VS banner</b> <span class="mut">Pick who goes on each side. Both screens show it.</span><div class="cols">${col('L')}${col('R')}</div>
       <div class="rw2"><span class="mut">Caption</span><input type="text" id="vsCap" placeholder="BOSS FIGHT (optional)" value="${esc(VS.capt)}"><label style="flex:none"><input type="checkbox" id="vsStay"${VS.stay?' checked':''}>Stay until closed</label></div>
       <div class="bt2"><button id="vsGo" class="on">Show</button><button id="vsX">Hide</button><button id="vsClose">Close</button></div>`;
@@ -2289,6 +2296,7 @@ if(!PLAYER){
   P.addEventListener('change',e=>{const t=e.target;if(t.dataset.k){const st=VS[t.dataset.k];t.checked?st.add(t.dataset.id):st.delete(t.dataset.id)}else if(t.id==='vsStay')VS.stay=t.checked;else if(t.dataset.c)VS[t.dataset.c.toLowerCase()+'c']=t.value});
   P.addEventListener('input',e=>{const t=e.target;if(t.id==='vsCap')VS.capt=t.value;else if(t.dataset.n)VS[t.dataset.n.toLowerCase()+'n']=t.value;else if(t.dataset.c)VS[t.dataset.c.toLowerCase()+'c']=t.value});
   P.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+    if(b.dataset.s){const[k,w]=b.dataset.s.split(':'),st=VS[k];if(w==='clear')st.clear();else vsCards().filter(c=>c.fac===w).forEach(c=>st.add(c.id));vsDraw();return}
     if(b.id==='vsGo'){const d=vsData();if(!d.L.length&&!d.R.length){toast('Pick at least one profile first');return}vsShow(d);if(PS.win&&!PS.win.closed)PS.win.postMessage({t:'vs',d},'*')}
     else if(b.id==='vsX')vsStop();else if(b.id==='vsClose')P.classList.remove('on')});
   $('#bVS').onclick=e=>{e.stopPropagation();if(P.classList.toggle('on'))vsDraw()};
