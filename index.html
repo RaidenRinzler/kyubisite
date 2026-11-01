@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kyubisan's Lancer Table V1.87</title>
+<title>Kyubisan's Lancer Table V1.88</title>
 <!-- Copyright (c) 2026 Fox Murray. All rights reserved. -->
 <!-- VERSION: bump LT_VERSION (script) and the title/brand text on every change. Small additions +0.01, larger ones more. Stays in V1.xx for now. -->
 <style>
@@ -54,6 +54,41 @@ body.ol-custom #layer .it.dn .onm,body.ol-none #layer .it .onm{display:none}
 #ejx .wh{position:absolute;inset:0;background:#fff;opacity:0}
 @keyframes ejblink{50%{opacity:.15}}
 @keyframes ejwh{0%{opacity:1}100%{opacity:0}}@keyframes ejout{to{opacity:0}}
+
+#vs{position:fixed;inset:0;z-index:8800;display:none;pointer-events:none;overflow:hidden;font-family:Bahnschrift,"DIN Alternate",Rajdhani,"Segoe UI","Arial Narrow",sans-serif;text-transform:uppercase}
+#vs.on{display:block}
+#vs .vbg{position:absolute;left:-5%;right:-5%;top:50%;height:44vh;transform:translateY(-50%) scaleY(0);background:linear-gradient(90deg,#0b2f63ee 0,#0a1018f2 42%,#0a1018f2 58%,#6e0f12ee 100%);border-top:3px solid #fff;border-bottom:3px solid #fff;box-shadow:0 0 50px #000a;animation:vsbg .28s cubic-bezier(.2,.9,.3,1) forwards;pointer-events:auto;cursor:pointer}
+#vs .vbg::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,#ffffff08 0 14px,transparent 14px 34px)}
+#vs .vwrap{position:absolute;left:0;right:0;top:50%;height:44vh;transform:translateY(-50%);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 3vw}
+#vs .vs{display:flex;gap:2.2vw;align-items:center;min-width:0}
+#vs .vl{justify-content:flex-end}#vs .vr{justify-content:flex-start}
+#vs .vl .vc{opacity:0;animation:vsl .55s cubic-bezier(.15,.9,.25,1) .2s forwards}
+#vs .vr .vc{opacity:0;animation:vsr .55s cubic-bezier(.15,.9,.25,1) .2s forwards}
+#vs .vc{display:flex;flex-direction:column;align-items:center;gap:1vh;min-width:0}
+#vs .vp{width:clamp(80px,min(24vh,14vw),240px);aspect-ratio:1;background:#111 center/cover no-repeat;border:3px solid var(--vc);box-shadow:0 0 28px var(--vc),inset 0 0 20px #0008;display:flex;align-items:center;justify-content:center;font-size:clamp(34px,10vh,120px);font-weight:800;color:#fff}
+#vs .vp.vq{background:radial-gradient(circle,#2a2f38,#0b0d11);color:var(--vc);text-shadow:0 0 22px var(--vc)}
+#vs .vn{font-weight:800;font-size:clamp(14px,3.2vh,40px);letter-spacing:.14em;color:#fff;text-shadow:0 2px 0 #000,0 0 14px var(--vc);max-width:20vw;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#vs .vx{font-weight:900;font-style:italic;font-size:clamp(70px,24vh,300px);line-height:1;color:#fff;padding:0 2vw;text-shadow:4px 0 #ff2a1a,-4px 0 #2f8cff,0 0 40px #fff8;opacity:0;animation:vsx .45s cubic-bezier(.2,1.5,.4,1) .55s forwards}
+#vs .vcap{position:absolute;left:0;right:0;top:calc(50% + 22vh + 10px);text-align:center;font-weight:700;font-size:clamp(14px,3vh,34px);letter-spacing:.5em;color:#fff;text-shadow:0 2px 0 #000,0 0 14px #000;opacity:0;animation:vsc .4s ease-out .9s forwards}
+#vs .vfl{position:absolute;inset:0;background:#fff;opacity:0;animation:vsfl .5s ease-out .55s}
+#vs.out{animation:vsout .55s ease-in forwards}
+#vs.out .vbg{animation:none;transform:translateY(-50%) scaleY(1)}
+@keyframes vsbg{to{transform:translateY(-50%) scaleY(1)}}
+@keyframes vsl{from{opacity:0;transform:translateX(-60vw)}to{opacity:1;transform:none}}
+@keyframes vsr{from{opacity:0;transform:translateX(60vw)}to{opacity:1;transform:none}}
+@keyframes vsx{from{opacity:0;transform:scale(3.5)}to{opacity:1;transform:none}}
+@keyframes vsc{to{opacity:1}}
+@keyframes vsfl{0%{opacity:.85}100%{opacity:0}}
+@keyframes vsout{to{opacity:0;transform:scale(1.04)}}
+#vsp{position:fixed;z-index:8900;top:70px;left:50%;transform:translateX(-50%);width:min(560px,94vw);background:var(--pn);border:1px solid var(--ln);border-top:3px solid var(--ac);box-shadow:0 12px 32px #0009;padding:10px 12px;color:var(--tx);display:none}
+#vsp.on{display:block}
+#vsp .cols{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+#vsp h4{margin:0 0 4px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+#vsp .lst{max-height:210px;overflow-y:auto;border:1px solid var(--ln);padding:4px;display:flex;flex-direction:column;gap:2px}
+#vsp label{display:flex;align-items:center;gap:6px;padding:2px 3px;cursor:pointer}
+#vsp label i{width:20px;height:20px;background:#222 center/cover;flex:none;border:1px solid var(--ln)}
+#vsp .rw2{display:flex;gap:8px;align-items:center;margin-top:8px}#vsp .rw2 input[type=text]{flex:1}
+#vsp .bt2{display:flex;gap:6px;margin-top:10px;justify-content:flex-end}
 body.ej-shake #vp{animation:ejsh .11s linear infinite}
 #ejx.v2 .rd{position:absolute;inset:0;background:#e8270f;opacity:0;animation:ejrd .8s steps(1,end) infinite,ejrdin .4s ease-out}
 #ejx.v2 .vg{animation:none;opacity:1;background:radial-gradient(ellipse at center,transparent 40%,#b3100755 125%)}
@@ -652,7 +687,7 @@ body.player #gmq{display:none!important}
 </head>
 <body>
 <header id="tools">
-  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.87</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
+  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.88</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
   <div class="mn"><button class="mb">Map ▾</button><div class="pop">
     <div class="rw"><button class="mi" id="bMap">Load map image</button></div>
     <div class="rw"><button class="mi" id="bFit">Fit map to window</button></div>
@@ -681,6 +716,7 @@ body.player #gmq{display:none!important}
   </div></div>
   <span class="sep"></span>
   <button id="bRule" title="Drag between two points to measure. Esc clears">Ruler</button>
+  <button id="bVS" title="Flash a VS banner across the middle of the screen for a boss fight or big reveal">VS</button>
   <div class="mn"><button class="mb" id="bDraw">Draw ▾</button><div class="pop" id="drawmenu">
     <div class="rw"><button class="mi" id="bPen" title="Draw freehand with a pen or marker">Pen and marker</button></div>
     <div class="rw"><button class="mi" id="bBrush" title="Paint cover, smoke, fire, fog or highlights over cells">Paint cells</button></div>
@@ -778,11 +814,13 @@ body.player #gmq{display:none!important}
 <div id="tip"></div>
 <div id="stk"><div class="bx"><div class="hd"><b>Stock enemies</b><button id="stkx" title="Close">✕</button></div><div class="mut" style="font-size:12px;line-height:1.4">Choose how many of each to bring. Nothing is added until you confirm. They arrive in the turn order on the enemy side, numbered if you take more than one.</div><div id="stkb"></div><div class="row"><button id="stkimp" title="Add your own enemies from a COMP/CON style .json to this list. They are remembered on this computer.">Add your own…</button><span class="sp"></span><button id="stkclr">Reset counts</button><button id="stkgo" class="go" disabled>Add to turn order</button></div></div></div>
 <div id="qed"><div class="bx"><b>Flavour lines</b><div class="mut" style="font-size:12px;line-height:1.4">One line per quote. Quotes live in three lists: [good] for wins and rallying lines, [bad] for losses and disasters, and [any] for neutral ones. By default Combat engaged and Stand down use [good], Cascade, Meltdown and Destroyed use [bad], and New round uses [any]. To give one animation its own lines, add a heading for it: [round] [cascade] [melt] [dead] [combat] [off]. An empty heading uses the default list. Lines with no heading go in [any].</div><textarea id="qta" spellcheck="false"></textarea><div class="row"><button id="qReset">Reset to examples</button><button id="qCancel">Cancel</button><button id="qSave" class="on">Save</button></div></div></div>
+<div id="vs"></div>
+<div id="vsp"></div>
 <div id="pblack"><b>STAND BY</b></div>
 <div id="toast"></div>
 <script>
 const $=s=>document.querySelector(s);
-const LT_VERSION='V1.87';
+const LT_VERSION='V1.88';
 const PLAYER=location.hash==='#player';
 const PS={win:null,frozen:false,black:false,gm:false,t:0,sentMap:null,map:null,rect:null};
 let LOOK={};
@@ -2222,6 +2260,36 @@ const EJQ=[["It was fun.", ""], ["Ain’t over till it’s over.", ""], ["Until 
 const EJC=[['CORE BREAK IN PROGRESS','','sys'],['DESTRUCT SEQUENCE ENGAGED','','sys'],['EJECT NOW EJECT','','sys'],['EJECT-SYSTEM ENGAGED','','sys'],['PILOT EJECTING','','sys'],['PROTOCOL [03]','','sys'],['Fly, you fool.','','q']];
 // three of the system lines are shuffled in, then one farewell quote is typed out
 function ejPlan(){const a=EJC.map((_,i)=>i);for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return{s:a.slice(0,6),q:Math.random()*(EJQ.length+1)|0}}
+
+// ---- VS banner: a strip across the middle with profiles on either side; shown on the GM and player screens
+const VS={L:new Set(),R:new Set(),capt:'',stay:false};
+function vsCards(){return S.turns.map(c=>({id:c.id,n:(c.p&&c.p.callsign)||c.name||'?',img:c.img||mechImg(c)||'',fac:c.fac}))}
+function vsHide(local){const o=$('#vs');if(!o||!o.classList.contains('on'))return;clearTimeout(vsHide.t);o.classList.add('out');setTimeout(()=>{o.className='';o.innerHTML=''},560)}
+function vsShow(d){
+  const o=$('#vs');clearTimeout(vsHide.t);
+  const side=(a,col)=>a.map(x=>x.q?`<div class="vc"><div class="vp vq">?</div><div class="vn">???</div></div>`:`<div class="vc"><div class="vp"${x.img?` style="background-image:url('${String(x.img).replace(/'/g,"%27")}')"`:''}>${x.img?'':esc((x.n||'?')[0])}</div><div class="vn">${esc(x.n)}</div></div>`).join('');
+  o.className='on';o.innerHTML=`<div class="vbg"></div><div class="vwrap"><div class="vs vl" style="--vc:#2f8cff">${side(d.L)}</div><div class="vx">VS</div><div class="vs vr" style="--vc:#ff3b2f">${side(d.R)}</div></div>${d.capt?`<div class="vcap">${esc(d.capt)}</div>`:''}<i class="vfl"></i>`;
+  if(!PLAYER)o.querySelector('.vbg').onclick=()=>vsStop();
+  if(!d.stay)vsHide.t=setTimeout(()=>vsHide(),6500);
+}
+function vsStop(){vsHide();if(!PLAYER&&PS.win&&!PS.win.closed)PS.win.postMessage({t:'vsx'},'*')}
+if(!PLAYER){
+  const P=$('#vsp'),sel=(k,id)=>VS[k].has(id);
+  function vsDraw(){
+    const cs=vsCards(),col=k=>`<div><h4>${k==='L'?'Left side':'Right side'}</h4><div class="lst"><label><input type="checkbox" data-k="${k}" data-id="?"${sel(k,'?')?' checked':''}><i style="text-align:center;font-weight:800">?</i>Unknown ( ? )</label>`+(cs.length?cs.map(c=>`<label><input type="checkbox" data-k="${k}" data-id="${c.id}"${sel(k,c.id)?' checked':''}><i${c.img?` style="background-image:url('${String(c.img).replace(/'/g,"%27")}')"`:''}></i>${esc(c.n)}</label>`).join(''):'<span class="mut" style="padding:4px">No turn cards yet</span>')+'</div></div>';
+    P.innerHTML=`<b>VS banner</b> <span class="mut">Pick who goes on each side. Both screens show it.</span><div class="cols">${col('L')}${col('R')}</div>
+      <div class="rw2"><span class="mut">Caption</span><input type="text" id="vsCap" placeholder="BOSS FIGHT (optional)" value="${esc(VS.capt)}"><label style="flex:none"><input type="checkbox" id="vsStay"${VS.stay?' checked':''}>Stay until closed</label></div>
+      <div class="bt2"><button id="vsGo" class="on">Show</button><button id="vsX">Hide</button><button id="vsClose">Close</button></div>`;
+  }
+  function vsData(){const cs=vsCards(),mk=k=>[...VS[k]].map(id=>id==='?'?{q:1}:cs.find(c=>c.id===id)).filter(Boolean);return{L:mk('L'),R:mk('R'),capt:VS.capt.trim(),stay:VS.stay}}
+  P.addEventListener('change',e=>{const t=e.target;if(t.dataset.k){const st=VS[t.dataset.k];t.checked?st.add(t.dataset.id):st.delete(t.dataset.id)}else if(t.id==='vsStay')VS.stay=t.checked});
+  P.addEventListener('input',e=>{if(e.target.id==='vsCap')VS.capt=e.target.value});
+  P.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+    if(b.id==='vsGo'){const d=vsData();if(!d.L.length&&!d.R.length){toast('Pick at least one profile first');return}vsShow(d);if(PS.win&&!PS.win.closed)PS.win.postMessage({t:'vs',d},'*')}
+    else if(b.id==='vsX')vsStop();else if(b.id==='vsClose')P.classList.remove('on')});
+  $('#bVS').onclick=e=>{e.stopPropagation();if(P.classList.toggle('on'))vsDraw()};
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#vs').classList.contains('on')&&!EJ.on){vsStop()}},true);
+}
 function ejectFx2(unit,launch,plan,o){
   const at=(ms,f)=>ejectFx.ts.push(setTimeout(f,ms)),cl=()=>document.body.classList.remove('ej2-gl','ej2-up','ej-shake');
   cl();o.className='on v2';
@@ -3037,6 +3105,8 @@ if(!PLAYER){
     else if(m.t==='black')$('#pblack').classList.toggle('on',!!m.on);
     else if(m.t==='eject')ejectFx(m.u,false,null,m.plan);
     else if(m.t==='olp')$('#olp').innerHTML=m.h;
+    else if(m.t==='vs')vsShow(m.d);
+    else if(m.t==='vsx')vsHide();
     else if(m.t==='fx')playFx(...m.a);
     else if(m.t==='tip'){
       const e=$('#tip');if(!m.id){e.classList.remove('on');return}
