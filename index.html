@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kyubisan's Lancer Table V1.79</title>
+<title>Kyubisan's Lancer Table V1.85</title>
 <!-- Copyright (c) 2026 Fox Murray. All rights reserved. -->
 <!-- VERSION: bump LT_VERSION (script) and the title/brand text on every change. Small additions +0.01, larger ones more. Stays in V1.xx for now. -->
 <style>
@@ -49,28 +49,40 @@ body.ol-custom #layer .it.dn .onm,body.ol-none #layer .it .onm{display:none}
 #ejp.on{display:flex}#ejp b{letter-spacing:.14em;color:#ff7a5c}#ejp .mut{max-width:340px}
 #ejx{position:fixed;inset:0;z-index:9000;pointer-events:none;display:none;font-family:"Cascadia Mono",Consolas,"Courier New",monospace;text-transform:uppercase;overflow:hidden}
 #ejx.on{display:block}
-#ejx .dk{position:absolute;inset:0;background:#000;opacity:0;animation:ejdk .35s ease-out forwards}
 #ejx .vg{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 30%,#ff1f1fcc 105%);animation:ejpulse .5s steps(2,jump-none) infinite}
-#ejx .hz{position:absolute;left:0;right:0;height:26px;background:repeating-linear-gradient(-45deg,#ffd400 0 16px,#111 16px 32px);background-size:45px 45px;animation:ejhz .5s linear infinite;box-shadow:0 0 18px #ff2a1a99;opacity:.9}
-#ejx .hz.t{top:0}#ejx .hz.b{bottom:0}
 #ejx .scn{position:absolute;inset:0;background:repeating-linear-gradient(0deg,#0000 0 2px,#0006 2px 3px);mix-blend-mode:multiply}
-#ejx .sm{position:absolute;left:4vw;top:12vh;display:flex;flex-direction:column;gap:6px;font-size:clamp(11px,1.6vw,19px);font-weight:700;letter-spacing:.2em;color:#ffb21f;text-shadow:0 0 8px #ff8a00}
-#ejx .sm i{font-style:normal;animation:ejblink .35s steps(2,jump-none) infinite}
-#ejx .sm i::before{content:"\25B6  "}
-#ejx .bg{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;font-weight:800;font-size:clamp(28px,7.4vw,112px);letter-spacing:.08em;color:#fff;text-shadow:0 0 26px #ff2a1a,0 0 6px #ff2a1a,3px 0 #ff2a1a,-3px 0 #00e5ff;white-space:nowrap}
-#ejx .bg.fl{animation:ejblink .22s steps(2,jump-none) infinite}
-#ejx .bg.sk{animation:ejshake .09s linear infinite}
-#ejx .bg.qt{font-size:clamp(20px,4.4vw,64px);white-space:normal;padding:0 8vw;line-height:1.25;letter-spacing:.03em;text-transform:none}
-#ejx .bg small{display:block;margin-top:.15em;font-size:.24em;letter-spacing:.5em;color:#ffb21f;text-shadow:0 0 8px #ff8a00}
 #ejx .wh{position:absolute;inset:0;background:#fff;opacity:0}
-#ejx.go .wh{animation:ejwh .9s ease-out forwards}
-#ejx.out{animation:ejout .7s ease-in forwards}
-@keyframes ejdk{to{opacity:.55}}@keyframes ejpulse{0%{opacity:.35}50%{opacity:1}}
-@keyframes ejhz{to{background-position:45px 0}}
 @keyframes ejblink{50%{opacity:.15}}
-@keyframes ejshake{0%{transform:translate(-50%,-50%) translate(0,0)}25%{transform:translate(-50%,-50%) translate(-5px,3px)}50%{transform:translate(-50%,-50%) translate(4px,-3px)}75%{transform:translate(-50%,-50%) translate(-3px,-4px)}}
 @keyframes ejwh{0%{opacity:1}100%{opacity:0}}@keyframes ejout{to{opacity:0}}
 body.ej-shake #vp{animation:ejsh .11s linear infinite}
+#ejx.v2 .rd{position:absolute;inset:0;background:#e8270f;opacity:0;animation:ejrd .8s steps(1,end) infinite,ejrdin .4s ease-out}
+#ejx.v2 .vg{animation:none;opacity:1;background:radial-gradient(ellipse at center,transparent 40%,#b3100755 125%)}
+#ejx.v2 .scn,#ejx.v2 .hz{display:none}
+#ejx.v2 .bt{position:absolute;left:0;right:0;bottom:13vh;padding:.5em 5vw;text-align:center;background:rgba(28,28,30,.58);border-top:1px solid #ffffff12;border-bottom:1px solid #00000066;opacity:0;animation:ejbt .25s ease-out forwards;font-family:Bahnschrift,"DIN Alternate",Rajdhani,"Segoe UI","Arial Narrow",sans-serif;font-weight:600;font-size:clamp(20px,3vw,42px);letter-spacing:.08em;line-height:1.1;color:#ff3b1d;text-shadow:0 0 8px #ff3b1d66}
+#ejx.v2 .bt span{display:inline-block;min-height:1.1em}
+#ejx.v2 .bt span.ty::after{content:"\25AE";margin-left:.12em;animation:ejblink .5s steps(2,jump-none) infinite}
+#ejx.v2 .bt span.fl{animation:ejblink .3s steps(2,jump-none) infinite}
+#ejx.v2 .gls{position:absolute;inset:0}
+#ejx.v2 .gls b{position:absolute;background:#7ff;mix-blend-mode:difference;opacity:0}
+#ejx.v2.gl .gls b{animation:ejgl .12s steps(2,jump-none) infinite}
+#ejx.v2 .stk{position:absolute;inset:0;overflow:hidden}
+#ejx.v2 .stk b{position:absolute;top:-70vh;background:linear-gradient(transparent,#fff 45%,#fff 55%,transparent);animation:ejstk linear infinite}
+#ejx.v2 .bl{position:absolute;left:0;right:0;bottom:0;height:70%;background:linear-gradient(to top,#fff 0,#ffc477cc 22%,#ff7a3a44 55%,transparent);opacity:0}
+#ejx.v2.go .bl{animation:ejbl 1.2s ease-out forwards}
+#ejx.v2.go .rd,#ejx.v2.go .vg,#ejx.v2.go .bt{opacity:0;animation:none;transition:opacity .15s}
+#ejx.v2.go .wh{animation:ejwh2 1.15s ease-in forwards}
+#ejx.v2.out{animation:ejout .95s ease-in-out forwards}
+@keyframes ejrd{0%{opacity:.2}20%{opacity:.13}38%{opacity:.25}60%{opacity:.16}82%{opacity:.26}}
+@keyframes ejrdin{from{opacity:0}}
+@keyframes ejbt{to{opacity:1}}
+@keyframes ejgl{0%{opacity:.5;transform:translateX(-18px)}50%{opacity:0;transform:translateX(12px)}100%{opacity:.4;transform:translateX(24px)}}
+@keyframes ejstk{from{transform:translateY(0)}to{transform:translateY(200vh)}}
+@keyframes ejbl{0%{opacity:0}30%{opacity:.85}100%{opacity:.35}}
+@keyframes ejwh2{0%{opacity:0}30%{opacity:.3}85%{opacity:1}100%{opacity:1}}
+body.ej2-gl #vp{animation:ejglv .14s steps(2,jump-none) infinite}
+@keyframes ejglv{0%{transform:translate(-8px,2px) skewX(3deg);filter:hue-rotate(90deg) saturate(3)}50%{transform:translate(10px,-3px) skewX(-4deg);filter:hue-rotate(-60deg) contrast(1.6)}100%{transform:translate(-3px,4px);filter:invert(.15)}}
+body.ej2-up #vp{animation:ejup 1.2s cubic-bezier(.6,0,1,.6) forwards;transform-origin:50% 60%}
+@keyframes ejup{0%{transform:scale(1) translateY(0);filter:none}25%{transform:scale(1.05) translateY(3%)}100%{transform:scale(.35) translateY(70%);filter:blur(8px) brightness(2.2)}}
 @keyframes ejsh{0%{transform:translate(0,0)}25%{transform:translate(-4px,2px)}50%{transform:translate(3px,-3px)}75%{transform:translate(-2px,-3px)}}
 .mrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;border-top:1px solid var(--ln);padding-top:6px;margin-top:2px}
 .spn{position:absolute;left:0;right:0;bottom:-1px;text-align:center;font:700 9px/1 system-ui,sans-serif;letter-spacing:.06em;color:#fff;text-shadow:0 0 3px #000,0 0 3px #000,0 0 2px #000;pointer-events:none;white-space:nowrap;overflow:hidden}
@@ -640,7 +652,7 @@ body.player #gmq{display:none!important}
 </head>
 <body>
 <header id="tools">
-  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.79</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
+  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.85</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
   <div class="mn"><button class="mb">Map ▾</button><div class="pop">
     <div class="rw"><button class="mi" id="bMap">Load map image</button></div>
     <div class="rw"><button class="mi" id="bFit">Fit map to window</button></div>
@@ -769,7 +781,7 @@ body.player #gmq{display:none!important}
 <div id="toast"></div>
 <script>
 const $=s=>document.querySelector(s);
-const LT_VERSION='V1.79';
+const LT_VERSION='V1.85';
 const PLAYER=location.hash==='#player';
 const PS={win:null,frozen:false,black:false,gm:false,t:0,sentMap:null,map:null,rect:null};
 let LOOK={};
@@ -2170,8 +2182,9 @@ function ejAim(p){
   EJ.ring.forEach(q=>{let d=Math.abs(Math.atan2(q.cy-EJ.o[1],q.cx-EJ.o[0])-a);d=Math.min(d,6.2832-d);if(d<bd){bd=d;best=q}});
   EJ.tgt=best;ejDraw();
 }
+function olpSync(){if(!PLAYER&&PS.win&&!PS.win.closed&&!PS.frozen)PS.win.postMessage({t:'olp',h:$('#olp').innerHTML},'*')}
 function ejDraw(){
-  if(!EJ.on){$('#olp').innerHTML='';return}
+  if(!EJ.on){$('#olp').innerHTML='';olpSync();return}
   const g=S.grid.size,t=EJ.tgt,o=EJ.o,ang=Math.atan2(t.cy-o[1],t.cx-o[0]),ah=g*.34,
     ax=t.cx-Math.cos(ang)*g*.1,ay=t.cy-Math.sin(ang)*g*.1;
   $('#olp').innerHTML='<g fill="#ff5a3d" fill-opacity=".14" stroke="#ff5a3d" stroke-opacity=".45" stroke-width="1.5" vector-effect="non-scaling-stroke">'+EJ.ring.map(q=>`<polygon points="${poly(q.cx,q.cy)}"/>`).join('')+'</g>'+
@@ -2181,17 +2194,20 @@ function ejDraw(){
    `<path d="M${t.cx} ${t.cy}L${t.cx-Math.cos(ang-.45)*ah} ${t.cy-Math.sin(ang-.45)*ah}M${t.cx} ${t.cy}L${t.cx-Math.cos(ang+.45)*ah} ${t.cy-Math.sin(ang+.45)*ah}" stroke="#fff" stroke-width="4" stroke-linecap="round" fill="none" vector-effect="non-scaling-stroke"/>`+
    `<circle cx="${t.cx}" cy="${t.cy}" r="${g*.14}" fill="#fff" stroke="#ff5a3d" stroke-width="3" vector-effect="non-scaling-stroke"/>`+
    `<text x="${(o[0]+t.cx)/2}" y="${(o[1]+t.cy)/2-g*.25}" text-anchor="middle" font-size="${g*.4}" font-weight="800" fill="#fff" stroke="#000" stroke-width="4" paint-order="stroke" style="font-family:system-ui">6</text>`;
+  olpSync();
 }
 function ejKeys(e){if(!EJ.on)return;if(e.key==='Escape'){e.stopPropagation();ejectCancel()}else if(e.key==='Enter'){e.stopPropagation();e.preventDefault();ejectConfirm()}}
-function ejEnd(){EJ.on=false;$('#olp').innerHTML='';const p=$('#ejp');if(p)p.classList.remove('on');document.body.classList.remove('ej-aim');document.removeEventListener('keydown',ejKeys,true)}
+function ejEnd(){EJ.on=false;$('#olp').innerHTML='';olpSync();const p=$('#ejp');if(p)p.classList.remove('on');document.body.classList.remove('ej-aim');document.removeEventListener('keydown',ejKeys,true)}
 function ejectCancel(){ejEnd()}
 vp.addEventListener('pointerdown',e=>{if(!EJ.on||e.button!==0)return;e.stopImmediatePropagation();e.preventDefault();EJ.drag=true;vp.setPointerCapture(e.pointerId);ejAim(wpt(e))},true);
 vp.addEventListener('pointermove',e=>{if(!EJ.on||!EJ.drag)return;e.stopImmediatePropagation();ejAim(wpt(e))},true);
 vp.addEventListener('pointerup',e=>{if(!EJ.on)return;EJ.drag=false;e.stopImmediatePropagation()},true);
+function hasAI(c){const m=c&&c.p&&c.p.mechs&&c.p.mechs[c.p.mi||0];return !!(m&&[...(m.systems||[]),...(m.isys||[])].some(x=>(x.tags||[]).some(t=>String(t).trim().toUpperCase()==='AI')))}
 function ejectConfirm(){
   if(!EJ.on)return;const c=EJ.c,tgt=EJ.tgt,from=EJ.o;ejEnd();
   const unit=(c.p&&c.p.callsign)||c.name;
-  ejectFx(unit,true,()=>ejectApply(c,tgt,from));
+  const plan=ejPlan();plan.ai=hasAI(c);
+  ejectFx(unit,true,()=>ejectApply(c,tgt,from),plan);
 }
 function ejectApply(c,q,from){
   if(!S.turns.includes(c))return;
@@ -2199,30 +2215,41 @@ function ejectApply(c,q,from){
   S.items=S.items.filter(i=>!(i.link===c.id&&i.role==='pilot'));
   const it={id:uid(),type:'token',size:1,name:p.callsign||p.pilot||'Pilot',fac:c.fac,img:PILOT_IMG,link:c.id,role:'pilot',x:q.cx-gs/2,y:q.cy-gs/2};
   S.items.push(it);p.out=true;c.ejected=true;cdOf(c).impaired=true;sel=it.id;render();renderTurns();inspect();
-  if(from&&!PLAYER){$('#olp').innerHTML=`<line x1="${from[0]}" y1="${from[1]}" x2="${q.cx}" y2="${q.cy}" stroke="#ff5a3d" stroke-width="5" stroke-dasharray="12 8" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`;setTimeout(()=>{if(!EJ.on)$('#olp').innerHTML=''},2600)}
+  if(from&&!PLAYER){$('#olp').innerHTML=`<line x1="${from[0]}" y1="${from[1]}" x2="${q.cx}" y2="${q.cy}" stroke="#ff5a3d" stroke-width="5" stroke-dasharray="12 8" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`;olpSync();setTimeout(()=>{if(!EJ.on){$('#olp').innerHTML='';olpSync()}},2600)}
 }
 const EJQ=[["It was fun.", ""], ["Ain’t over till it’s over.", ""], ["Until next time, then.", ""], ["Second star to the right.", ""], ["Go get ’em, tiger.", ""], ["Make it so.", ""], ["See you on the other side.", ""], ["Wait for the wheel.", ""], ["Do not throw your shot.", ""], ["Drop and burn ’em up.", ""], ["Exhibit no restraint.", ""], ["Rip and saw.", ""], ["Code zero zero zero. Destruct. Zero.", ""], ["Authorization Alpha-Alpha 3-0-5.", ""], ["Have just the greatest day.", ""], ["Avenge me.", ""], ["Stay safe.", ""], ["Situation normal.", ""], ["PROTOCOL <3", ""], ["Never give up. Never surrender.", ""], ["In case of doubt, attack.", ""], ["You’re never beaten until you admit it.", ""], ["Wrong us, shall we not revenge?", ""], ["Till all are one.", ""], ["Nothing but the rain.", ""], ["Sometimes, you have to roll a hard six.", ""], ["And sometimes, when you fall, you fly.", ""], ["See you space cowboy...", ""], ["Just another day at the office.", ""], ["End of line.", ""], ["Fortune favors the bold.", ""], ["A leaf on the wind.", ""], ["You are who you choose to be.", ""], ["Always.", ""], ["Finish the fight.", ""]];   // rare farewell lines: 10% of ejections show one instead of PROTOCOL [03]
 const EJC=[['CORE BREAK IN PROGRESS','','sys'],['DESTRUCT SEQUENCE ENGAGED','','sys'],['EJECT NOW EJECT','','sys'],['EJECT-SYSTEM ENGAGED','','sys'],['PILOT EJECTING','','sys'],['PROTOCOL [03]','','sys'],['Fly, you fool.','','q']];
-// the seven common lines are shuffled into the six slots of the sequence, so each is about equally likely; 10% of the time the last slot is a rare quote instead
-function ejPlan(){const a=EJC.map((_,i)=>i);for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return{s:a.slice(0,6),r:Math.random()<.1?Math.random()*EJQ.length|0:-1}}
+// three of the system lines are shuffled in, then one farewell quote is typed out
+function ejPlan(){const a=EJC.map((_,i)=>i);for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return{s:a.slice(0,6),q:Math.random()*(EJQ.length+1)|0}}
+function ejectFx2(unit,launch,plan,o){
+  const at=(ms,f)=>ejectFx.ts.push(setTimeout(f,ms)),cl=()=>document.body.classList.remove('ej2-gl','ej2-up','ej-shake');
+  cl();o.className='on v2';
+  o.innerHTML='<i class="rd"></i><i class="vg"></i><i class="gls"></i><div class="bl"></div><div class="stk"></div><div class="bt" style="display:none"><span></span></div><i class="wh"></i>';
+  const bar=o.querySelector('.bt'),sp=bar.firstChild,gls=o.querySelector('.gls'),stk=o.querySelector('.stk'),line=(t,c)=>{bar.style.display='';sp.className=c||'';sp.textContent=t},
+    sys=plan.s.map(i=>EJC[i]).filter(e=>e[2]==='sys').slice(0,3),qi=plan.q!=null?plan.q:(plan.r>=0?plan.r:0),quote=(qi<EJQ.length?EJQ[qi][0]:'Fly, you fool.').toUpperCase();
+  document.body.classList.add('ej-shake');
+  sys.forEach((e,k)=>at(300+k*800,()=>line(e[0],e[0]==='EJECT NOW EJECT'?'fl':'')));
+  const typed=[quote].concat(plan.ai?['THANK YOU, MY LANCER.']:[]);let tt=300+sys.length*800;
+  typed.forEach((str,n)=>{const t0=tt,dly=Math.max(28,Math.min(60,1500/str.length));
+    at(t0,()=>line('','ty'));
+    for(let k=1;k<=str.length;k++)at(t0+30+k*dly,()=>{sp.textContent=str.slice(0,k)});
+    tt=t0+Math.round(str.length*dly)+(n<typed.length-1?1300:2000)});
+  const g0=tt;
+  at(g0,()=>{document.body.classList.add('ej2-gl');gls.innerHTML=Array.from({length:6},()=>`<b style="top:${Math.random()*92|0}%;height:${1+Math.random()*4|0}%;left:${Math.random()*20|0}%;right:${Math.random()*20|0}%;animation-delay:${Math.random()*.4}s"></b>`).join('');o.classList.add('gl')});
+  at(g0+700,()=>{
+    document.body.classList.remove('ej2-gl','ej-shake');document.body.classList.add('ej2-up');o.classList.remove('gl');o.classList.add('go');
+    stk.innerHTML=Array.from({length:26},()=>{const w=1+Math.random()*4,d=.28+Math.random()*.4;return`<b style="left:${Math.random()*100}%;width:${w}px;height:${25+Math.random()*45}vh;opacity:${.12+Math.random()*.4};filter:blur(${Math.random()*2.5}px);animation-duration:${d}s;animation-delay:-${Math.random()*d}s"></b>`}).join('');
+    launch&&launch()});
+  at(g0+1900,()=>{document.body.classList.remove('ej2-up');o.classList.add('out')});
+  at(g0+2950,()=>{o.className='';o.innerHTML='';cl()});
+}
 function ejectFx(unit,bcast,launch,plan){
   if(!plan)plan=ejPlan();
   if(bcast&&!PLAYER&&PS.win&&!PS.win.closed&&!PS.frozen)PS.win.postMessage({t:'eject',u:unit,plan},'*');
   if(matchMedia('(prefers-reduced-motion:reduce)').matches){toast((unit?unit+': ':'')+'EJECTING');launch&&launch();return}
   let o=$('#ejx');if(!o){o=document.createElement('div');o.id='ejx';document.body.append(o)}
   clearTimeout(ejectFx.t);(ejectFx.ts||[]).forEach(clearTimeout);ejectFx.ts=[];
-  o.className='on';o.innerHTML='<i class="dk"></i><i class="vg"></i><i class="hz t"></i><i class="hz b"></i><i class="scn"></i><div class="sm"></div><div class="bg"></div><i class="wh"></i>';
-  const sm=o.querySelector('.sm'),bg=o.querySelector('.bg'),at=(ms,f)=>ejectFx.ts.push(setTimeout(f,ms)),big=(t,cls,sub)=>{bg.className='bg '+(cls||'');bg.innerHTML=t+(sub?`<small>${sub}</small>`:'')},line=t=>{const i=document.createElement('i');i.textContent=t;sm.append(i)};
-  document.body.classList.add('ej-shake');
-  const E=i=>EJC[plan.s[i]],txt=e=>e[2]==='sys'?e[0]:'“'+e[0].toUpperCase()+'”',bigE=(e,cls)=>e[2]==='sys'?big(esc(e[0]),cls,unit):big(esc(txt(e)),(cls+' qt').trim(),unit);
-  at(150,()=>line(txt(E(0))));
-  at(560,()=>line(txt(E(1))));
-  at(950,()=>bigE(E(2),'fl'));
-  at(1850,()=>bigE(E(3),'sk'));
-  at(2500,()=>bigE(E(4),'sk fl'));
-  at(3050,()=>{o.classList.add('go');plan.r>=0?big(esc('“'+EJQ[plan.r][0].toUpperCase()+'”'),'qt',unit):bigE(E(5),'');document.body.classList.remove('ej-shake');launch&&launch()});
-  at(4300,()=>{o.classList.add('out')});
-  at(5050,()=>{o.className='';o.innerHTML=''});
+  ejectFx2(unit,launch,plan,o);
 }
 
 // ---- height levels ----
@@ -3008,6 +3035,7 @@ if(!PLAYER){
     if(m.t==='map')PS.map=m.map;
     else if(m.t==='black')$('#pblack').classList.toggle('on',!!m.on);
     else if(m.t==='eject')ejectFx(m.u,false,null,m.plan);
+    else if(m.t==='olp')$('#olp').innerHTML=m.h;
     else if(m.t==='fx')playFx(...m.a);
     else if(m.t==='tip'){
       const e=$('#tip');if(!m.id){e.classList.remove('on');return}
