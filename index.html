@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kyubisan's Lancer Table V1.61</title>
+<title>Kyubisan's Lancer Table V1.63</title>
 <!-- Copyright (c) 2026 Fox Murray. All rights reserved. -->
 <!-- VERSION: bump LT_VERSION (script) and the title/brand text on every change. Small additions +0.01, larger ones more. Stays in V1.xx for now. -->
 <style>
@@ -28,6 +28,9 @@ input[type=number]{width:74px}input[type=color]{padding:0;width:34px;height:26px
 .aptab.on{background:var(--ac);color:#fff;border-color:var(--ac)}
 .apg{display:none;flex-direction:column;gap:7px}.apg.on{display:flex}
 /* combat tickers */
+.mrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;border-top:1px solid var(--ln);padding-top:6px;margin-top:2px}
+.spn{position:absolute;left:0;right:0;bottom:-1px;text-align:center;font:700 9px/1 system-ui,sans-serif;letter-spacing:.06em;color:#fff;text-shadow:0 0 3px #000,0 0 3px #000,0 0 2px #000;pointer-events:none;white-space:nowrap;overflow:hidden}
+.spsw{display:flex;gap:5px;flex-wrap:wrap}.spsw button{width:22px;height:22px;padding:0;border:2px solid #fff6;border-radius:50%;background:var(--c)}.spsw button.on{border-color:#fff;box-shadow:0 0 0 2px #000,0 0 8px var(--c)}
 .tk{display:none;position:absolute;left:0;right:0;height:28px;background:linear-gradient(90deg,transparent,#0006 10%,#0006 90%,transparent);overflow:hidden;pointer-events:none;z-index:6;font:700 16px/28px "Cascadia Mono",Consolas,"Courier New",monospace;letter-spacing:.3em;text-transform:uppercase;color:var(--ac);opacity:.72;white-space:nowrap;text-shadow:0 0 10px var(--ac),0 1px 2px #000;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
 .tk.t{top:12px;border-bottom:1px solid color-mix(in srgb,var(--ac) 35%,transparent)}.tk.b{bottom:12px;border-top:1px solid color-mix(in srgb,var(--ac) 35%,transparent)}
 body.cool .tk{display:block}body.crd-edge .tk.t{top:34px}
@@ -592,7 +595,7 @@ body.player #gmq{display:none!important}
 </head>
 <body>
 <header id="tools">
-  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.61</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
+  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.63</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
   <div class="mn"><button class="mb">Map ▾</button><div class="pop">
     <div class="rw"><button class="mi" id="bMap">Load map image</button></div>
     <div class="rw"><button class="mi" id="bFit">Fit map to window</button></div>
@@ -611,8 +614,8 @@ body.player #gmq{display:none!important}
     <div class="sec">Token</div>
     <div class="rw"><button class="mi" id="bTok">Token from image</button></div>
     <div class="sec">Objects</div>
-    <div class="rw"><select id="opre"><option value="crate">Cargo crate (hard cover)</option><option value="wall">Concrete wall (hard cover)</option><option value="foliage">Foliage (soft cover, terrain)</option><option value="rubble">Rubble (soft cover, terrain)</option><option value="tree">Tree, oak (soft cover, scalable)</option><option value="pine">Tree, pine (soft cover, scalable)</option><option value="blank">Blank object</option></select><button class="mi" id="bObj">Place</button></div>
-    <div class="rw"><button class="mi" id="bOLine" title="Drag from one cell to another to lay a whole line of the chosen piece, including 45 degree diagonals. Works for walls, crates, rubble and trees.">Brush a line of them</button></div>
+    <div class="rw"><select id="opre"><option value="crate">Cargo crate (hard cover)</option><option value="wall">Concrete wall (hard cover)</option><option value="foliage">Foliage (soft cover, terrain)</option><option value="rubble">Rubble (soft cover, terrain)</option><option value="tree">Tree, oak (soft cover, scalable)</option><option value="pine">Tree, pine (soft cover, scalable)</option><option value="blank">Blank object</option><option value="spawn">Spawn point (GM only, hidden from players)</option></select><button class="mi" id="bObj">Place</button></div>
+    <div class="rw"><button class="mi" id="bOLine" title="Paint the chosen piece onto cells by dragging, like a brush. Switch to Straight line mode, or hold Shift, for walls at any angle.">Object brush</button></div>
     <div class="sec">Templates</div>
     <div class="help" style="border:0;padding:0">Select a token first to centre a template on it, then pick a shape. Drag the round handle to move it. Line and cone also have a dotted handle for rotating.</div>
     <div class="rw"><span>Size</span><input id="tn" type="number" min="1" max="30" value="2"></div>
@@ -626,6 +629,7 @@ body.player #gmq{display:none!important}
     <div class="rw"><button class="mi" id="bBrush" title="Paint cover, smoke, fire, fog or highlights over cells">Paint cells</button></div>
     <div class="rw"><button class="mi" id="bTerr" title="Paint difficult terrain, dangerous terrain and obstructions">Terrain</button></div>
     <div class="rw"><button class="mi" id="bHt" title="Paint height levels over cells">Height</button></div>
+    <div class="rw"><button class="mi" id="bOBrush" title="Paint walls, crates, trees, spawn points or any placeable piece onto cells by dragging, like a brush">Object brush</button></div>
     <div class="rw"><button class="mi" id="bStop">Stop drawing</button></div>
     <div class="rw"><button class="mi" id="bTEdit" title="Unlock map objects, cover and terrain pieces so they can be selected, moved and resized. Tokens always stay movable.">Terrain edit: locked</button></div>
   </div></div>
@@ -719,7 +723,7 @@ body.player #gmq{display:none!important}
 <div id="toast"></div>
 <script>
 const $=s=>document.querySelector(s);
-const LT_VERSION='V1.61';
+const LT_VERSION='V1.63';
 const PLAYER=location.hash==='#player';
 const PS={win:null,frozen:false,black:false,t:0,sentMap:null,map:null,rect:null};
 let LOOK={};
@@ -840,6 +844,10 @@ function mk(it){
         if(c.hc&&it.role!=='pilot'){d.classList.add('hc-tok');d.insertAdjacentHTML('beforeend','<i class="hcb">HC</i>')}
         const m=it.role!=='pilot'?fxMain(fxFlags(c)):'';if(m){d.classList.add('fx-'+m);d.insertAdjacentHTML('beforeend',`<i class="fxl"></i><u class="fxt">${FXN[m]}</u>`)}}
       if(it.link===hoverId)d.classList.add('hl')}
+  }else if(it.type==='obj'&&it.kind==='spawn'){
+    const hx=S.grid.type==='hex',R=hexR();
+    d.style.width=(hx?it.w+.5:it.w)*gs+'px';d.style.height=(hx?(1.5*it.h+.5)*R:it.h*gs)+'px';d.style.background='none';d.style.border='none';d.style.opacity='1';
+    d.innerHTML=spawnSvg(it)+(it.name?`<span class="spn">${esc(it.name)}</span>`:'')+'<i class="rs"></i>';
   }else if(it.type==='obj'&&it.kind==='tree'){
     const hx=S.grid.type==='hex',R=hexR();
     d.style.width=(hx?it.w+.5:it.w)*gs+'px';d.style.height=(hx?(1.5*it.h+.5)*R:it.h*gs)+'px';
@@ -972,6 +980,7 @@ function inspect(){
   const opt=(arr,v)=>arr.map(o=>`<option${o==v?' selected':''}>${o}</option>`).join('');
   let h='';
   if(it.type==='token')h=`<label>Name <input data-k="name" value="${esc(it.name)}"></label><label>Size <select data-k="size" data-n="1">${opt([1,2,3,4],it.size)}</select></label><label>Side <select data-k="fac">${opt(FAC,it.fac)}</select></label>${linkInfo(it)}<label>Speed <input type="number" min="1" max="30" data-k="speed" data-n="1" value="${it.speed||''}"></label><button data-act="mv">${mvId===it.id?'Hide movement':'Show movement'}</button>${mvId===it.id?`<label><input type="checkbox" data-mv="obj"${MV.obj?' checked':''}> objects block</label><label><input type="checkbox" data-mv="foe"${MV.foe?' checked':''}> enemies block</label>`:''}`;
+  else if(it.type==='obj'&&it.kind==='spawn')h=`<label>Label <input data-k="name" value="${esc(it.name)}"></label><div class="spsw">${SPC.map(([n,c])=>`<button data-act="spcol" data-c="${c}" title="${n}" style="--c:${c}" class="${it.color===c?'on':''}"></button>`).join('')}</div><button data-act="spnext">Next colour</button><label>W <input type="number" step="1" min="1" data-k="w" data-n="1" value="${it.w}"></label><label>H <input type="number" step="1" min="1" data-k="h" data-n="1" value="${it.h}"></label>`;
   else if(it.type==='obj')h=`<label>Label <input data-k="name" value="${esc(it.name)}"></label><label>W <input type="number" step=".5" min=".5" data-k="w" data-n="1" value="${it.w}"></label><label>H <input type="number" step=".5" min=".5" data-k="h" data-n="1" value="${it.h}"></label><label>Colour <input type="color" data-k="color" value="${it.color}"></label><label>Type <select data-k="cat">${opt(['object','terrain'],it.cat||'object')}</select></label><label>Cover <select data-k="cover">${opt(['none','soft','hard'],it.cover||'none')}</select></label><label>Height <input type="number" step=".5" min="0" max="12" data-k="lv" data-n="1" data-z="1" placeholder="auto" value="${it.lv!=null?it.lv:''}"></label>`;
   else if(it.type==='tpl')h=`<label>Shape <select data-k="kind">${opt(['burst','blast','line','cone','threat'],it.kind)}</select></label><label>Size <input type="number" min="1" max="30" data-k="n" data-n="1" value="${it.n}"></label>${it.kind==='line'||it.kind==='cone'?`<label>Angle <input type="number" min="0" max="359" data-k="ang" data-n="1" data-z="1" value="${it.ang}"></label>`:''}<label>Effect <select data-k="fx">${opt(['none','fire','smoke','energy'],it.fx)}</select></label><button data-act="stamp">Stamp to map</button>`;
   else h=`<label>Cover <select data-k="kind">${opt(['soft','hard'],it.kind)}</select></label>`;
@@ -986,6 +995,8 @@ $('#insp').oninput=e=>{
 $('#insp').onclick=e=>{
   const a=e.target.dataset.act,it=find(sel);if(!a||!it)return;
   if(a==='stamp'){if(it.type!=='tpl')return;pushH('c',{...S.cells});const ty={fire:'fire',smoke:'smoke'}[it.fx]||'mark';tplCells(it).filter(inMap).forEach(q=>S.cells[q.key]=ty);drawCells();toast('Stamped '+ty+' onto the map. The template is still here.');return}
+  if(a==='spcol'){it.color=e.target.dataset.c;render();inspect();return}
+  if(a==='spnext'){const i=SPC.findIndex(x=>x[1]===it.color);it.color=SPC[(i+1)%SPC.length][1];render();inspect();return}
   if(a==='hide'){it.hidden=!it.hidden;render();inspect();return}
   if(a==='unlink'){delete it.link;delete it.role;render();inspect();return}
   if(a==='mv'){
@@ -1027,6 +1038,7 @@ vp.addEventListener('pointermove',e=>{
   if(!drag)return;
   if(drag.k==='ruler'){R.b=wpt(e);drawRuler();return}
   if(drag.k==='oline'){drag.b=wpt(e);olPrev();return}
+  if(drag.k==='obrush'){obStroke(drag,wpt(e));return}
   if(drag.k==='terr'){const p=wpt(e);terrLine(drag.last,p);drag.last=p;return}
   if(drag.k==='hgt'){const p=wpt(e);htLine(drag.last,p);drag.last=p;return}
   if(drag.k==='paint'){const p=wpt(e);paintLine(drag.last,p);drag.last=p;return}
@@ -1045,6 +1057,7 @@ vp.addEventListener('pointermove',e=>{
 });
 vp.addEventListener('pointerup',()=>{
   if(drag&&drag.k==='oline'){olCommit(drag);olClear()}
+  if(drag&&drag.k==='obrush'){if(drag.rem.length)pushH('oe',drag.rem);else if(drag.ids.length)pushH('o',drag.ids);inspect()}
   if(drag&&drag.k==='mv'){snapIt(drag.it);render()}
   if(drag&&(drag.k==='rs'||drag.k==='rot')){inspect()}
   drag=null;
@@ -1069,7 +1082,15 @@ function put(it){if(it.type==='obj'&&!document.body.classList.contains('tedit'))
 $('#bMap').onclick=()=>pick(setMap);
 $('#bFit').onclick=fit;
 $('#bTok').onclick=()=>pick(f=>read(f).then(img=>put({id:uid(),type:'token',size:1,name:base(f),fac:$('#side').value,img})),true);
-const PRE={crate:{name:'Crate',w:1,h:1,color:'#7a6446',cat:'object',cover:'hard'},wall:{name:'Wall',w:3,h:1,color:'#6b7480',cat:'object',cover:'hard'},foliage:{name:'Foliage',w:2,h:2,color:'#3f7a4a',cat:'terrain',cover:'soft'},rubble:{name:'Rubble',w:2,h:1,color:'#6f655a',cat:'terrain',cover:'soft'},tree:{name:'Tree',w:2,h:2,color:'#3a7348',cat:'terrain',cover:'soft',kind:'tree',sp:'oak',lv:2.4},pine:{name:'Pine',w:2,h:2,color:'#2a5d49',cat:'terrain',cover:'soft',kind:'tree',sp:'pine',lv:3},blank:{name:'Object',w:2,h:1,color:'#5b6b7d',cat:'object',cover:'none'}};
+const PRE={crate:{name:'Crate',w:1,h:1,color:'#7a6446',cat:'object',cover:'hard'},wall:{name:'Wall',w:3,h:1,color:'#6b7480',cat:'object',cover:'hard'},foliage:{name:'Foliage',w:2,h:2,color:'#3f7a4a',cat:'terrain',cover:'soft'},rubble:{name:'Rubble',w:2,h:1,color:'#6f655a',cat:'terrain',cover:'soft'},tree:{name:'Tree',w:2,h:2,color:'#3a7348',cat:'terrain',cover:'soft',kind:'tree',sp:'oak',lv:2.4},pine:{name:'Pine',w:2,h:2,color:'#2a5d49',cat:'terrain',cover:'soft',kind:'tree',sp:'pine',lv:3},blank:{name:'Object',w:2,h:1,color:'#5b6b7d',cat:'object',cover:'none'},spawn:{name:'',w:1,h:1,color:'#3aa0ff',cat:'terrain',cover:'none',kind:'spawn'}};
+const SPC=[['Blue','#3aa0ff'],['Red','#e0464b'],['Amber','#ffb000'],['Green','#4fbf7a'],['Violet','#9b72f2'],['White','#ffffff']];
+function spawnSvg(it){
+  const gs=S.grid.size,hex=S.grid.type==='hex',ks=hex?objKeys(it):null,w=Math.max(1,Math.round(it.w)),h=Math.max(1,Math.round(it.h));let polys='',syms='';
+  const sym=(cx,cy)=>{const r=gs*.2,t=gs*.33,p=`M${cx} ${cy-t}V${cy-r*1.05}M${cx} ${cy+t}V${cy+r*1.05}M${cx-t} ${cy}H${cx-r*1.05}M${cx+t} ${cy}H${cx+r*1.05}`;return`<g fill="none" stroke-linecap="round"><g stroke="#000" stroke-opacity=".6" stroke-width="5.5"><circle cx="${cx}" cy="${cy}" r="${r}"/><path d="${p}"/></g><g stroke="#fff" stroke-width="2.4"><circle cx="${cx}" cy="${cy}" r="${r}"/><path d="${p}"/></g><circle cx="${cx}" cy="${cy}" r="${gs*.055}" fill="#fff"/></g>`};
+  if(hex)ks.forEach(k=>{const[x,y]=keyCtr(k);polys+=`<polygon points="${poly(x,y)}"/>`;syms+=sym(x,y)});
+  else for(let j=0;j<h;j++)for(let i=0;i<w;i++){const x=it.x+i*gs,y=it.y+j*gs;polys+=`<rect x="${x+2}" y="${y+2}" width="${gs-4}" height="${gs-4}" rx="4"/>`;syms+=sym(x+gs/2,y+gs/2)}
+  return`<svg style="position:absolute;left:${-it.x}px;top:${-it.y}px;width:1px;height:1px;overflow:visible;pointer-events:none"><g fill="${esc(it.color)}" fill-opacity=".5" stroke="${esc(it.color)}" stroke-width="3" stroke-dasharray="2 5" stroke-linecap="round" stroke-linejoin="round" style="pointer-events:visiblePainted">${polys}</g>${syms}</svg>`;
+}
 $('#bObj').onclick=()=>put({id:uid(),type:'obj',...PRE[$('#opre').value]});
 $('#bAdd').onclick=()=>pick(f=>read(f).then(img=>{S.turns.push({id:uid(),name:base(f),fac:$('#side').value,img,done:false});renderTurns()}),true);
 $('#bNew').onclick=newRound;
@@ -1266,7 +1287,7 @@ function drawRuler(){
   s.innerHTML=`<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" style="stroke:${lc}" stroke-width="${3*k}" stroke-linecap="round"/>${xs}<circle cx="${a.x}" cy="${a.y}" r="${6*k}" style="fill:${lc}"/><circle cx="${b.x}" cy="${b.y}" r="${6*k}" style="fill:${lc}"/><g transform="translate(${(a.x+b.x)/2} ${(a.y+b.y)/2}) scale(${k})"><rect x="${-lw/2}" y="-32" width="${lw}" height="24" rx="5" fill="#12161b" style="stroke:${lc}"/><text y="-15" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">${lab}</text></g>${bdg}`;
 }
 $('#bRule').onclick=()=>setTool(tool==='rule'?'sel':'rule');$('#bBrush').onclick=()=>setTool(tool==='brush'?'sel':'brush');$('#bTEdit').onclick=()=>setTEdit(!document.body.classList.contains('tedit'));$('#tedPill').onclick=()=>setTEdit(false);
-$('#bOLine').onclick=()=>setTool(tool==='oline'?'sel':'oline');
+$('#bOLine').onclick=()=>setTool(tool==='oline'?'sel':'oline');$('#bOBrush').onclick=()=>setTool(tool==='oline'?'sel':'oline');
 $('#bPen').onclick=()=>setTool(tool==='pen'?'sel':'pen');$('#bTerr').onclick=()=>setTool(tool==='terrain'?'sel':'terrain');$('#bHt').onclick=()=>setTool(tool==='height'?'sel':'height');
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){R=null;drawRuler()}if((e.ctrlKey||e.metaKey)&&e.key==='z'&&!/INPUT/.test(document.activeElement.tagName)){e.preventDefault();undo()}});
 
@@ -1422,7 +1443,7 @@ function pushH(k,v){hist.push({k,v});if(hist.length>40)hist.shift()}
 // ---- object line: lay a row of wall/crate pieces between two cells, any direction ----
 const OL={pre:'wall'};
 function olPanel(){
-  return '<b>Object line</b>'+`<label>Piece <select data-i="olp">${Object.entries(PRE).map(([k,v])=>`<option value="${k}"${k===OL.pre?' selected':''}>${v.name}</option>`).join('')}</select></label><span class="mut">Drag from one cell to another. Straight rows become one piece, diagonals one piece per cell.</span><button data-a="undo">Undo</button>`;
+  return '<b>Object brush</b>'+`<label>Piece <select data-i="olp">${Object.entries(PRE).map(([k,v])=>`<option value="${k}"${k===OL.pre?' selected':''}>${k==='spawn'?'Spawn point':v.name}</option>`).join('')}</select></label><label>Mode <select data-i="olm"><option value="free"${OL.line?'':' selected'}>Freehand</option><option value="line"${OL.line?' selected':''}>Straight line</option></select></label><button data-a="olx"${OL.erase?' class="on"':''}>Erase</button><span class="mut">Drag over cells to place a piece on each. Hold Shift for a straight line.</span><button data-a="undo">Undo</button>`;
 }
 function olCells(a,b){
   const s=S.grid.size,n=Math.max(1,Math.ceil(Math.hypot(b.x-a.x,b.y-a.y)/(s/4))),seen=new Set(),out=[];
@@ -1438,11 +1459,63 @@ function olCommit(d){
   const cs=olCells(d.a,d.b);if(!cs.length)return;
   const pr=PRE[OL.pre],gs=S.grid.size,hex=S.grid.type==='hex',R=hex?hexR():gs/2,ids=[],mk=(q,w)=>{const it={id:uid(),type:'obj',...pr,w,h:1,x:q[0]-gs/2,y:q[1]-R};S.items.push(it);ids.push(it.id)};
   const sameRow=cs.length>1&&cs.every(q=>Math.abs(q[1]-cs[0][1])<1);
-  if(sameRow){cs.sort((p,q)=>p[0]-q[0]);mk(cs[0],cs.length)}
+  if(sameRow&&pr.kind!=='spawn'){cs.sort((p,q)=>p[0]-q[0]);mk(cs[0],cs.length)}
   else cs.forEach(q=>mk(q,1));
-  pushH('o',ids);render();inspect();toast(ids.length+(ids.length===1?' piece':' pieces')+' placed. Undo removes them.');
+  mirAdd(ids);pushH('o',ids);render();inspect();toast(ids.length+(ids.length===1?' piece':' pieces')+' placed. Undo removes them.');
 }
-function undo(){const h=hist.pop();if(!h)return toast('Nothing to undo');if(h.k==='o'){S.items=S.items.filter(i=>!h.v.includes(i.id));sel=null;render();inspect();return}if(h.k==='c'){S.cells=h.v;drawCells()}else if(h.k==='t'){S.terrain=h.v;drawTerrain()}else if(h.k==='h'){S.height=h.v;drawHeight()}else{S.ink=h.v;drawInk()}}
+// ---- mirror mode (left/right and up/down about the middle of the map) ----
+const MIR={x:false,y:false};
+function mirPts(p){const o=[];if(MIR.x)o.push({x:S.mw-p.x,y:p.y});if(MIR.y)o.push({x:p.x,y:S.mh-p.y});if(MIR.x&&MIR.y)o.push({x:S.mw-p.x,y:S.mh-p.y});return o}
+function mirItem(it,fx,fy){
+  const gs=S.grid.size,c={...it,id:uid()};
+  if(S.grid.type==='hex'){
+    const R=hexR(),ks=objKeys(it).map(k=>{const[x,y]=keyCtr(k),q=hexNear(fx?S.mw-x:x,fy?S.mh-y:y);return q});
+    ks.sort((a,b)=>a[2]-b[2]||a[3]-b[3]);const q=ks[0];c.x=q[0]-gs/2;c.y=q[1]-R;
+  }else{if(fx)c.x=S.mw-(it.x+it.w*gs);if(fy)c.y=S.mh-(it.y+it.h*gs);snapIt(c)}
+  return c;
+}
+function mirAdd(ids){
+  if(!MIR.x&&!MIR.y)return;const combos=[];if(MIR.x)combos.push([1,0]);if(MIR.y)combos.push([0,1]);if(MIR.x&&MIR.y)combos.push([1,1]);
+  const base=ids.map(id=>S.items.find(i=>i.id===id)).filter(Boolean),add=[];
+  base.forEach(it=>combos.forEach(([fx,fy])=>{const c=mirItem(it,fx,fy);if(!S.items.concat(add).some(o=>o.type==='obj'&&o.name===c.name&&o.color===c.color&&o.w===c.w&&o.h===c.h&&Math.abs(o.x-c.x)<2&&Math.abs(o.y-c.y)<2)){add.push(c);ids.push(c.id)}}));
+  S.items.push(...add);
+}
+const MIRT=['brush','terrain','height','oline'];
+function mirRow(){return`<span class="mrow"><b>Mirror</b><label><input type="checkbox" data-i="mx"${MIR.x?' checked':''}> Left / right</label><label><input type="checkbox" data-i="my"${MIR.y?' checked':''}> Up / down</label></span>`}
+function drawMir(){
+  let g=$('#mirg');if(!g){g=document.createElementNS('http://www.w3.org/2000/svg','svg');g.id='mirg';g.setAttribute('style','position:absolute;left:0;top:0;width:1px;height:1px;overflow:visible;pointer-events:none;z-index:4');$('#world').appendChild(g)}
+  const on=(MIR.x||MIR.y)&&MIRT.includes(tool),st='stroke="#ffb000" stroke-width="2" stroke-dasharray="10 7" vector-effect="non-scaling-stroke" stroke-opacity=".85"';
+  g.innerHTML=on?(MIR.x?`<line x1="${S.mw/2}" y1="0" x2="${S.mw/2}" y2="${S.mh}" ${st}/>`:'')+(MIR.y?`<line x1="0" y1="${S.mh/2}" x2="${S.mw}" y2="${S.mh/2}" ${st}/>`:''):'';
+}
+{const pa=paintAt,ph=paintHt,pt=paintTerr;
+ paintAt=function(p){pa(p);mirPts(p).forEach(q=>pa(q))};
+ paintHt=function(p){ph(p);mirPts(p).forEach(q=>ph(q))};
+ paintTerr=function(p){pt(p);mirPts(p).forEach(q=>pt(q))}}
+// ---- object brush ----
+OL.line=false;OL.erase=false;
+function obCellsBetween(a,b){return olCells(a,b)}
+function obPlace(q,d){
+  const pr=PRE[OL.pre],gs=S.grid.size,R=S.grid.type==='hex'?hexR():gs/2,tree=pr.kind==='tree',w=tree?pr.w:1,h=tree?pr.h:1;
+  if(tree&&d.lastP&&Math.hypot(q[0]-d.lastP[0],q[1]-d.lastP[1])<Math.max(w,h)*gs*.8)return;
+  const it={id:uid(),type:'obj',...pr,w,h,x:q[0]-gs/2,y:q[1]-R};
+  const dup=c=>S.items.some(o=>o.type==='obj'&&o.name===c.name&&o.color===c.color&&o.w===c.w&&o.h===c.h&&Math.abs(o.x-c.x)<2&&Math.abs(o.y-c.y)<2);
+  if(dup(it))return;S.items.push(it);const g=[it.id];mirAdd(g);d.ids.push(...g);d.lastP=q;
+}
+function obErase(q,d){
+  const hit=o=>{if(o.type!=='obj')return false;const gs=S.grid.size;
+    if(S.grid.type==='hex')return objKeys(o).includes(cellKeyAt(q[0],q[1]));
+    return q[0]>=o.x&&q[0]<=o.x+o.w*gs&&q[1]>=o.y&&q[1]<=o.y+o.h*gs};
+  const rm=S.items.filter(hit);if(!rm.length)return;S.items=S.items.filter(o=>!rm.includes(o));d.rem.push(...rm);
+}
+function obStroke(d,p){
+  const cs=olCells(d.last,p);d.last=p;
+  cs.forEach(q=>{
+    if(OL.erase){obErase(q,d);mirPts({x:q[0],y:q[1]}).forEach(m=>obErase(cellCtr(m),d))}
+    else obPlace(q,d);
+  });
+  render();
+}
+function undo(){const h=hist.pop();if(!h)return toast('Nothing to undo');if(h.k==='o'){S.items=S.items.filter(i=>!h.v.includes(i.id));sel=null;render();inspect();return}if(h.k==='oe'){S.items.push(...h.v);render();inspect();return}if(h.k==='c'){S.cells=h.v;drawCells()}else if(h.k==='t'){S.terrain=h.v;drawTerrain()}else if(h.k==='h'){S.height=h.v;drawHeight()}else{S.ink=h.v;drawInk()}}
 function cellList(x,y,rad){
   const g=S.grid,s=g.size,out=[];
   if(g.type==='hex'){const R_=s/Math.sqrt(3),r1=Math.floor((y-rad-g.oy-R_)/(1.5*R_))-1,r2=Math.ceil((y+rad-g.oy-R_)/(1.5*R_))+1;
@@ -1479,7 +1552,10 @@ function drawInk(){$('#ink').innerHTML=S.ink.map(st=>`<path d="M${st.p.map(q=>q[
 function eraseAt(p){const r=10/S.view.z,n=S.ink.length;S.ink=S.ink.filter(st=>!st.p.some(q=>Math.hypot(q[0]-p.x,q[1]-p.y)<r+st.w/2));if(S.ink.length!==n)drawInk()}
 function startPaint(e){
   const p=wpt(e);vp.setPointerCapture(e.pointerId);
-  if(tool==='oline'){drag={k:'oline',a:p,b:p};olPrev()}
+  if(tool==='oline'){
+    if((OL.line||e.shiftKey)&&!OL.erase){drag={k:'oline',a:p,b:p};olPrev()}
+    else{drag={k:'obrush',last:p,ids:[],rem:[],lastP:null};obStroke(drag,p)}
+  }
   else if(tool==='height'){pushH('h',{...S.height});drag={k:'hgt',last:p};paintHt(p);drawHeight()}
   else if(tool==='terrain'){pushH('t',{...S.terrain});drag={k:'terr',last:p};paintTerr(p);drawTerrain()}
   else if(tool==='brush'){pushH('c',{...S.cells});drag={k:'paint',last:p};paintAt(p);drawCells()}
@@ -1490,10 +1566,10 @@ function setTool(t){
   if(t==='oline'&&!document.body.classList.contains('tedit'))setTEdit(true);
   if((t==='terrain'||t==='height')&&!document.body.classList.contains('tedit')){toast('Terrain edit is locked. Unlock it from Draw or the GM panel first.');return}
   tool=t;ruling=t==='rule';if(!ruling){R=null;drawRuler()}
-  [['bOLine','oline'],['bRule','rule'],['bBrush','brush'],['bTerr','terrain'],['bPen','pen'],['bHt','height']].forEach(([i,k])=>$('#'+i).classList.toggle('on',tool===k));
+  [['bOLine','oline'],['bOBrush','oline'],['bRule','rule'],['bBrush','brush'],['bTerr','terrain'],['bPen','pen'],['bHt','height']].forEach(([i,k])=>$('#'+i).classList.toggle('on',tool===k));
   if(t==='height'&&S.showH===false){S.showH=true;$('#hshow').checked=true;drawHeight()}
   document.body.classList.toggle('tooling',t!=='sel');panel();drawCur(null);
-  const dn={oline:'Object line',pen:'Pen',brush:'Paint',terrain:'Terrain',height:'Height'},bd=$('#bDraw');
+  const dn={oline:'Object brush',pen:'Pen',brush:'Paint',terrain:'Terrain',height:'Height'},bd=$('#bDraw');
   if(bd){bd.classList.toggle('on',!!dn[t]);bd.textContent=(dn[t]?'Draw: '+dn[t]:'Draw')+' ▾'}
 }
 function panel(){
@@ -1504,7 +1580,8 @@ function panel(){
   else if(tool==='height')h=htPanel();
   else if(tool==='rule')h=losPanelHTML();
   else if(tool==='pen')h='<b>Pen</b>'+['pen','marker','erase'].map(m=>`<button data-a="pm:${m}"${P.mode===m?' class="on"':''}>${m==='erase'?'Eraser':m[0].toUpperCase()+m.slice(1)}</button>`).join('')+`<label>Colour <input type="color" data-i="pc" value="${P.color}"></label><label>Width <input type="range" min="2" max="16" data-i="pw" value="${P.w}"></label><button data-a="undo">Undo</button><button data-a="clri">Clear all ink</button>`;
-  el.innerHTML=h;el.style.display=h?'flex':'none';if(tool==='rule')drawRuler();
+  if(MIRT.includes(tool))h+=mirRow();
+  el.innerHTML=h;el.style.display=h?'flex':'none';if(tool==='rule')drawRuler();drawMir();
 }
 $('#tpanel').onclick=e=>{
   const a=e.target.dataset.a;if(!a)return;const[k,v]=a.split(':');
@@ -1515,13 +1592,14 @@ $('#tpanel').onclick=e=>{
   else if(k==='pm')P.mode=v;
   else if(k==='fog'){S.fogSee=!S.fogSee;$('#world').classList.toggle('fogsee',S.fogSee)}
   else if(k==='undo')undo();
+  else if(k==='olx'){OL.erase=!OL.erase}
   else if(k==='clr'||k==='clri'||k==='clrt'||k==='clrh'){
     if(!e.target.dataset.c){e.target.dataset.c=1;e.target.textContent='Click again to confirm';setTimeout(panel,3000);return}
     if(k==='clrh'){pushH('h',{...S.height});S.height={};drawHeight()}else if(k==='clrt'){pushH('t',{...S.terrain});S.terrain={};drawTerrain()}else if(k==='clr'){pushH('c',{...S.cells});S.cells={};drawCells()}else{pushH('i',S.ink.slice());S.ink=[];drawInk()}
   }
   panel();
 };
-$('#tpanel').oninput=e=>{const i=e.target.dataset.i;if(i==='olp'){OL.pre=e.target.value;return}if(i==='bs')B.size=+e.target.value;if(i==='ts')T.size=+e.target.value;if(i==='pc')P.color=e.target.value;if(i==='pw')P.w=+e.target.value;if(i==='hl'){HT.lv=+e.target.value;HT.erase=false}if(i==='hs')HT.size=+e.target.value;if(i==='hc'){S.hcLevel=+e.target.value;drawHeight()}if(i==='hl'||i==='hs')panel();
+$('#tpanel').oninput=e=>{const i=e.target.dataset.i;if(i==='olp'){OL.pre=e.target.value;return}if(i==='olm'){OL.line=e.target.value==='line';return}if(i==='mx'||i==='my'){MIR[i[1]]=e.target.checked;drawMir();return}if(i==='bs')B.size=+e.target.value;if(i==='ts')T.size=+e.target.value;if(i==='pc')P.color=e.target.value;if(i==='pw')P.w=+e.target.value;if(i==='hl'){HT.lv=+e.target.value;HT.erase=false}if(i==='hs')HT.size=+e.target.value;if(i==='hc'){S.hcLevel=+e.target.value;drawHeight()}if(i==='hl'||i==='hs')panel();
   if(i==='latk'){LOS.atk=e.target.value;drawRuler()}else if(i==='lmod'){LOS.mod=+e.target.value;drawRuler()}else if(i==='lon'){LOS.on=e.target.value==='1';panel()}else if(i==='lwho'){LOS.who=e.target.value||null;LOS.wi=LOS.who?0:-1;panel();drawRuler()}else if(i==='lwi'){LOS.wi=+e.target.value;panel();drawRuler()}else if(i==='lter'||i==='lobj'||i==='ltok'||i==='lobs'||i==='lshare'){LOS[i.slice(1)]=e.target.checked;drawRuler()}};
 function tplSnap(t){
   const g=S.grid,s=g.size;
@@ -2505,6 +2583,7 @@ function draw3d(){
   // and is drawn straight after the column it sits on, so the surface below can never paint over it.
   S.items.forEach(it=>{
     if(it.type!=='obj')return;
+    if(it.kind==='spawn')return;
     if(it.kind==='tree'){tree3(it);return}
     const col=hex2rgb(it.color),oh=objLv(it),pieces=[],g=S.grid;
     if(hex)objKeys(it).forEach(k=>{const[x,y]=keyCtr(k);pieces.push({pts:polyPts(x,y),key:k,ax:x,ay:y})});
@@ -2715,7 +2794,7 @@ function playerState(){
   }
   fogK.forEach(k=>{if(reveal.has(k))delete o.cells[k];else{delete o.height[k];delete o.terrain[k]}});
   const fogged=(x,y)=>o.cells[cellKeyAt(x,y)]==='fog';
-  o.items=S.items.filter(i=>!i.hidden).filter(i=>{
+  o.items=S.items.filter(i=>!i.hidden&&!(i.type==='obj'&&i.kind==='spawn')).filter(i=>{
     if(i.type==='token')return friend(i.fac)||!fogged(i.x+i.size*gs/2,i.y+i.size*gs/2);
     if(i.type==='obj')return !fogged(i.x+i.w*gs/2,i.y+i.h*gs/2);
     return true}).map(i=>({...i}));
