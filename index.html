@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kyubisan's Lancer Table V1.91</title>
+<title>Kyubisan's Lancer Table V1.92</title>
 <!-- Copyright (c) 2026 Fox Murray. All rights reserved. -->
 <!-- VERSION: bump LT_VERSION (script) and the title/brand text on every change. Small additions +0.01, larger ones more. Stays in V1.xx for now. -->
 <style>
@@ -22,7 +22,7 @@ input[type=number]{width:74px}input[type=color]{padding:0;width:34px;height:26px
 .brand{font-weight:700;letter-spacing:.2em;margin-right:8px;padding-right:14px;border-right:1px solid var(--ln)}
 .sep{width:1px;height:22px;background:var(--ln);margin:0 4px}.sp{flex:1}
 .mn{position:relative}
-.pop{display:none;position:absolute;top:calc(100% + 8px);left:0;min-width:290px;flex-direction:column;gap:7px;padding:10px;background:var(--pn);border:1px solid var(--ln);border-top:3px solid var(--ac);box-shadow:0 12px 32px #0009;z-index:30}
+.pop{display:none;position:absolute;top:calc(100% + 8px);left:0;min-width:290px;flex-direction:column;gap:7px;padding:10px;background:var(--pn);border:1px solid var(--ln);border-top:3px solid var(--ac);box-shadow:0 12px 32px #0009;z-index:30;max-height:calc(100vh - 90px);overflow-y:auto}
 .aptabs{display:flex;gap:4px;border-bottom:1px solid var(--ln);padding-bottom:7px}
 .aptab{flex:1;padding:5px 4px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:var(--bt);color:var(--tx);border:1px solid var(--ln);cursor:pointer}
 .aptab.on{background:var(--ac);color:#fff;border-color:var(--ac)}
@@ -87,7 +87,7 @@ body.ol-custom #layer .it.dn .onm,body.ol-none #layer .it .onm{display:none}
 @keyframes vsc{to{opacity:1}}
 @keyframes vsfl{0%{opacity:.85}100%{opacity:0}}
 @keyframes vsout{to{opacity:0;transform:scale(1.04)}}
-#vsp{position:fixed;z-index:8900;top:70px;left:50%;transform:translateX(-50%);width:min(560px,94vw);background:var(--pn);border:1px solid var(--ln);border-top:3px solid var(--ac);box-shadow:0 12px 32px #0009;padding:10px 12px;color:var(--tx);display:none}
+#vsp{max-height:calc(100vh - 90px);overflow-y:auto;position:fixed;z-index:8900;top:70px;left:50%;transform:translateX(-50%);width:min(560px,94vw);background:var(--pn);border:1px solid var(--ln);border-top:3px solid var(--ac);box-shadow:0 12px 32px #0009;padding:10px 12px;color:var(--tx);display:none}
 #vsp.on{display:block}
 #vsp .cols{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
 #vsp h4{margin:0 0 4px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
@@ -684,7 +684,7 @@ body.sk-tron{--bg:#000;--pn:#03080d;--bt:#06121a;--ln:#1b8aa6;--tx:#d8f6ff;--mut
 #tg,#cg,#cgt,#hg,#hbg{clip-path:url(#mapclip)}
 #gmq{position:fixed;right:0;top:38%;z-index:5300;display:flex;align-items:flex-start;flex-direction:row-reverse}
 #gmqb{writing-mode:vertical-rl;padding:10px 4px;letter-spacing:.2em;font-weight:700}
-#gmqp{display:none;width:232px;padding:10px 12px;background:var(--pn);color:var(--tx);border:1px solid var(--ln);border-right:0;border-top:3px solid var(--ac);box-shadow:0 10px 28px #000a;flex-direction:column;gap:6px;font-size:12px}
+#gmqp{display:none;width:232px;padding:10px 12px;background:var(--pn);color:var(--tx);border:1px solid var(--ln);border-right:0;border-top:3px solid var(--ac);box-shadow:0 10px 28px #000a;flex-direction:column;gap:6px;font-size:12px;max-height:calc(100vh - 16px);overflow-y:auto;box-sizing:border-box}
 #gmq.open #gmqp{display:flex}
 #gmqp b{font-size:11px;letter-spacing:.14em;text-transform:uppercase}
 #gmqp label{display:flex;align-items:center;gap:6px;justify-content:flex-start}
@@ -696,7 +696,7 @@ body.player #gmq{display:none!important}
 </head>
 <body>
 <header id="tools">
-  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.91</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
+  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.92</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
   <div class="mn"><button class="mb">Map ▾</button><div class="pop">
     <div class="rw"><button class="mi" id="bMap">Load map image</button></div>
     <div class="rw"><button class="mi" id="bFit">Fit map to window</button></div>
@@ -829,7 +829,7 @@ body.player #gmq{display:none!important}
 <div id="toast"></div>
 <script>
 const $=s=>document.querySelector(s);
-const LT_VERSION='V1.91';
+const LT_VERSION='V1.92';
 const PLAYER=location.hash==='#player';
 const PS={win:null,frozen:false,black:false,gm:false,t:0,sentMap:null,map:null,rect:null};
 let LOOK={};
@@ -2955,7 +2955,8 @@ if(!PLAYER){
    <div class="qr"><button id="q_gm" title="Double-click to show the player window your full GM view">Show GM view</button></div>
    <button id="q_win" style="width:100%"></button></div>`;
   document.body.append(d);
-  $('#gmqb').onclick=()=>d.classList.toggle('open');
+  const gmFit=()=>{d.style.top='';if(d.classList.contains('open')){const h=d.offsetHeight,t=Math.max(8,Math.min(innerHeight*.38,innerHeight-h-8));d.style.top=t+'px'}};
+  $('#gmqb').onclick=()=>{d.classList.toggle('open');gmFit()};window.addEventListener('resize',gmFit);
   const on=(id,fn)=>$('#'+id).addEventListener('change',e=>{fn(e.target);syncQuick()});
   on('q_ptip',e=>setLook({ptip:e.checked}));on('q_penemy',e=>setLook({penemy:e.checked}));on('q_pruler',e=>setLook({pruler:e.checked}));
   on('q_wx',e=>setLook({wx:e.value}));on('q_crd',e=>setLook({crd:e.value}));on('q_crdn',e=>setLook({crdn:+e.value}));on('q_pmove',e=>{setLook({pmove:e.checked});pushPlayer()});on('q_hnum',e=>setLook({hnum:e.checked}));on('q_tedit',e=>setTEdit(e.checked));on('q_pfollow',e=>setLook({pfollow:e.checked}));on('q_pfog',e=>setLook({pfog:e.value}));on('q_pbars',e=>setLook({pbars:e.value}));
