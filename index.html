@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kyubisan's Lancer Table V1.74</title>
+<title>Kyubisan's Lancer Table V1.75</title>
 <!-- Copyright (c) 2026 Fox Murray. All rights reserved. -->
 <!-- VERSION: bump LT_VERSION (script) and the title/brand text on every change. Small additions +0.01, larger ones more. Stays in V1.xx for now. -->
 <style>
@@ -639,7 +639,7 @@ body.player #gmq{display:none!important}
 </head>
 <body>
 <header id="tools">
-  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.74</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
+  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.75</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
   <div class="mn"><button class="mb">Map ▾</button><div class="pop">
     <div class="rw"><button class="mi" id="bMap">Load map image</button></div>
     <div class="rw"><button class="mi" id="bFit">Fit map to window</button></div>
@@ -768,7 +768,7 @@ body.player #gmq{display:none!important}
 <div id="toast"></div>
 <script>
 const $=s=>document.querySelector(s);
-const LT_VERSION='V1.74';
+const LT_VERSION='V1.75';
 const PLAYER=location.hash==='#player';
 const PS={win:null,frozen:false,black:false,t:0,sentMap:null,map:null,rect:null};
 let LOOK={};
@@ -1853,7 +1853,7 @@ function showHov(c,card){
   else if(f.melt)h+='<div class="nt bad">Reactor meltdown at the end of its next turn: Burst 2, Agility save or 4d6 explosive damage (half on a save).</div>';
   if(!f.dead&&mS>0)h+=`<div class="nt">Structure check: roll ${mS}d6 and use the lowest. Two or more 1s destroys the mech.</div>`;
   if(!f.melt&&!f.dead&&mT>0)h+=`<div class="nt">Overheating check: roll ${mT}d6 and use the lowest. Two or more 1s is a reactor meltdown.</div>`;
-  if(c.ejected)h+='<div class="nt">Ejected: the mech is left Impaired and Eject cannot be used again until a Full Repair. Untick Impaired or Ejection used below to override.</div>';
+  if(c.ejected)h+='<div class="nt">Ejected: the mech stays Impaired and Eject cannot be used again until a Full Repair.</div>';
   h+='</div>';
   const sheet=!!(p.mechs&&p.mechs.length);
   h+=cdHTML(c);
@@ -1872,7 +1872,6 @@ $('#hov').onclick=e=>{
   else if(a==='dis'){const n=cardEl(c);disembark(c);showHov(c,n)}
   else if(a==='eject'){hideHov();ejectStart(c)}
   else if(a.startsWith('cd:')){cdOf(c)[a.slice(3)]=b.checked;const n=Object.keys(CDN).filter(k=>cdOf(c)[k]).length,sm=document.querySelector('#hov .cdd summary');if(sm)sm.textContent='Conditions and statuses'+(n?` (${n})`:'');render();renderTurns();return}
-  else if(a==='ejused'){c.ejected=b.checked;showHov(c,cardEl(c));return}
   else if(a==='frep'){const st=stOf(c);setSt(c,{hp:st.hpM,heat:0,str:st.strM,sts:st.stsM});cdOf(c).impaired=false;c.ejected=false;render();renderTurns();showHov(c,cardEl(c))}
   else if(a.startsWith('v:')){
     const k=a.slice(2);
@@ -2144,8 +2143,8 @@ function cdTags(cond){return Object.keys(CDN).filter(k=>cond&&cond[k]).map(k=>`<
 function cdHTML(c){
   const cd=cdOf(c),n=Object.keys(CDN).filter(k=>cd[k]).length;
   return`<details class="cdd"${CDOPEN?' open':''}><summary>Conditions and statuses${n?` (${n})`:''}</summary><div class="cdg">`+
-    CONDS.map(([g,l])=>`<div class="h">${g}</div>`+l.map(([id,nm,t])=>`<label title="${esc(t)}"><input type="checkbox" data-a="cd:${id}"${cd[id]?' checked':''}>${nm}</label>`).join('')).join('')+
-    `<div class="h">Ejection</div><label style="grid-column:1/-1" title="Ejecting is one use only until a Full Repair. Untick to allow it again."><input type="checkbox" data-a="ejused"${c.ejected?' checked':''}>Ejection used</label></div></details>`;
+    CONDS.map(([g,l])=>`<div class="h">${g}</div>`+l.map(([id,nm,t])=>{const lk=id==='impaired'&&c.ejected;return`<label title="${esc(lk?'Locked: the mech ejected and stays Impaired until a Full Repair.':t)}"${lk?' style="opacity:.6;cursor:not-allowed"':''}><input type="checkbox" data-a="cd:${id}"${cd[id]?' checked':''}${lk?' disabled':''}>${nm}${lk?' (until Full Repair)':''}</label>`}).join('')).join('')+
+    `</div></details>`;
 }
 // ---- eject: quick action, pilot flies 6 spaces in a chosen direction, mech is left IMPAIRED ----
 const EJ={on:false};
