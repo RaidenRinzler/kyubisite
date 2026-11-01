@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kyubisan's Lancer Table V1.93</title>
+<title>Kyubisan's Lancer Table V1.94</title>
 <!-- Copyright (c) 2026 Fox Murray. All rights reserved. -->
 <!-- VERSION: bump LT_VERSION (script) and the title/brand text on every change. Small additions +0.01, larger ones more. Stays in V1.xx for now. -->
 <style>
@@ -57,6 +57,9 @@ body.ol-custom #layer .it.dn .onm,body.ol-none #layer .it .onm{display:none}
 
 #vs{position:fixed;inset:0;z-index:8800;display:none;pointer-events:none;overflow:hidden;font-family:Bahnschrift,"DIN Alternate",Rajdhani,"Segoe UI","Arial Narrow",sans-serif;text-transform:uppercase}
 #vs.on{display:block}
+#sheet .ovd,#prof .ovd{margin:4px 0}#sheet .ovd summary,#prof .ovd summary{cursor:pointer;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.ovg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:6px}.ovg label{display:flex;flex-direction:column;gap:2px;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+.ovg input{width:100%;min-width:0;box-sizing:border-box}.ovg label.on{color:var(--ac)}.ovg label.on input{border-color:var(--ac)}
 #vs{--sh:44vh;--gap:1.6vw}
 #vs.dense{--sh:54vh;--gap:1vw}
 #vs .vbg{position:absolute;left:-5%;right:-5%;top:50%;height:var(--sh);transform:translateY(-50%) scaleY(0);background:linear-gradient(90deg,color-mix(in srgb,var(--lc) 38%,#0a1018) 0,#0a1018f2 42%,#0a1018f2 58%,color-mix(in srgb,var(--rc) 38%,#0a1018) 100%);border-top:3px solid #fff;border-bottom:3px solid #fff;box-shadow:0 0 50px #000a;animation:vsbg .28s cubic-bezier(.2,.9,.3,1) forwards;pointer-events:auto;cursor:pointer}
@@ -698,7 +701,7 @@ body.player #gmq{display:none!important}
 </head>
 <body>
 <header id="tools">
-  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.93</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
+  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.94</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
   <div class="mn"><button class="mb">Map ▾</button><div class="pop">
     <div class="rw"><button class="mi" id="bMap">Load map image</button></div>
     <div class="rw"><button class="mi" id="bFit">Fit map to window</button></div>
@@ -831,7 +834,7 @@ body.player #gmq{display:none!important}
 <div id="toast"></div>
 <script>
 const $=s=>document.querySelector(s);
-const LT_VERSION='V1.93';
+const LT_VERSION='V1.94';
 const PLAYER=location.hash==='#player';
 const PS={win:null,frozen:false,black:false,gm:false,t:0,sentMap:null,map:null,rect:null};
 let LOOK={};
@@ -1877,6 +1880,7 @@ function drawSheet(){
       h+=`<div class="fr"><b>${m.name?'“'+E(m.name)+'” ':''}${E(ms.frame)}</b> <span class="mut">${E(ms.src)}${ms.lic!==''?' · LL'+ms.lic:''}${ms.types.length?' · '+E(ms.types.join('/')):''}</span></div>`;
       h+=`<div class="tls">${tile('HP',hp+' / '+hpM)}${tile('Heat',ht+' / '+hM)}${tile('Structure',(live?st.str:m.structure)+' / '+(live?st.strM:m.structure))}${tile('Stress',(live?st.sts:m.stress)+' / '+(live?st.stsM:m.stress))}`+
         `${tile('Armor',S2.armor)}${tile('Evasion',m.evasion)}${tile('E-Defense',m.edef)}${tile('Speed',m.speed)}${tile('Size',S2.size)}${tile('Sensors',S2.sensor)}${tile('Tech attack','+'+S2.tech)}${tile('Save',S2.save)}${tile('Repair cap',S2.repcap)}${tile('SP',(S2.sp-S2.spUsed)+' free','of '+S2.sp)}${tile('Attack bonus','+'+S2.atk)}</div>`;
+      h+=sec('Adjust stats',ovHTML(m));
       h+=sec('Mech skills',`<div class="tls">${['Hull','Agility','Systems','Engineering'].map((n,i)=>tile(n,'+'+ms.skills[i])).join('')}</div>`);
       const wp=w=>det(w.n,[w.sz,w.t].filter(Boolean).join(' '),`<div class="ln">${E([w.rng,w.dmg].filter(Boolean).join(' · '))}</div>${chips(w.tags)}${pre(w.eff)}${pre(w.note)}`);
       h+=sec('Weapons',ms.mounts.map(mt=>mt.w.length?`<div class="mt">${E(mt.t)} mount</div>`+mt.w.map(wp).join(''):`<div class="mt">${E(mt.t)} mount</div><div class="mut" style="padding:2px 0 4px">Empty</div>`).join('')+ms.integ.map(wp).join(''));
@@ -1889,6 +1893,11 @@ function drawSheet(){
   }
   $('#sheet').innerHTML=h+'</div>';
 }
+function ovCtx(t){const inS=!!t.closest('#sheet'),c=inS?sheetCard:profCard;if(!c||!c.p||!c.p.mechs)return null;const idx=inS?shMech:(c.p.mi||0),m=c.p.mechs[idx];return m?{c,idx,m,inS}:null}
+function ovDone(x){if(x.idx===(x.c.p.mi||0))pickMech(x.c,x.idx);render();renderTurns();if(x.inS)drawSheet();else openProf(x.c)}
+document.addEventListener('change',e=>{const t=e.target,k=t.dataset&&t.dataset.ov;if(!k)return;const x=ovCtx(t);if(!x)return;
+  ovSnap(x.m);x.m.ov=x.m.ov||{};const v=t.value.trim();if(v===''||isNaN(+v)||+v===+x.m.auto[k])delete x.m.ov[k];else x.m.ov[k]=+v;ovApply(x.m);ovDone(x)});
+document.addEventListener('click',e=>{const t=e.target;if(!t.dataset||!t.dataset.ovreset)return;const x=ovCtx(t);if(!x)return;x.m.ov={};ovApply(x.m);ovDone(x)});
 document.addEventListener('click',e=>{const b=e.target.closest('#sheet [data-s]');if(!b)return;const a=b.dataset.s;if(a==='x')closeSheet();else if(a.startsWith('t:')){shTab=a.slice(2);drawSheet()}});
 document.addEventListener('change',e=>{if(e.target.matches('#sheet select[data-s=m]')){shMech=+e.target.value;drawSheet()}});
 function showHov(c,card){
@@ -1963,6 +1972,7 @@ function profHTML(c){
   return `<b>${esc(c.name)}</b>`+F('pilot','Pilot','Pilot name')+F('callsign','Callsign','Callsign')+F('mech','Mech name','Mech name')+F('chassis','Chassis','e.g. Everest')+
    (p.mechs&&p.mechs.length>1?`<div class="rw"><span>Imported</span><select data-m="1">${p.mechs.map((m,i)=>`<option value="${i}"${i===p.mi?' selected':''}>${esc(m.name||'Unnamed')} (${esc(m.chassis||'?')})</option>`).join('')}</select></div>`:'')+
    `<div class="rw"><button class="mi" data-a="imp">Import COMP/CON file</button>${QT('Fill these boxes from a pilot .json exported from COMP/CON. It reads name, callsign, level and the mech list. Anything it cannot find is left blank for you to type.')}</div>`+
+   (p.mechs&&p.mechs[p.mi||0]?ovHTML(p.mechs[p.mi||0]):'')+
    `<div class="rw"><button class="mi" data-a="x">Close</button></div>`;
 }
 function openProf(c){
@@ -2011,6 +2021,8 @@ function mechSheet(m,fd,st,sk,grit){
   const sysf=x=>{const d=x.data||{};return{n:x.flavorName||d.name||nice(x.id),t:d.type||'',sp:+d.sp||0,tags:(d.tags||[]).map(tagTxt),eff:plain(d.effect||''),used:x.destroyed?0:1}};
   const systems=(L.systems||[]).map(sysf),isys=(L.integratedSystems||[]).map(sysf);
   const used=systems.reduce((a,x)=>a+x.sp,0)+mounts.reduce((a,mt)=>a+mt.w.reduce((b,w)=>b+w.sp,0),0);
+  const lx=Math.floor(sk[3]/2)+(+st.lim||0),lim=a=>{if(lx&&Array.isArray(a))a.forEach(o=>{if(o&&o.tags)o.tags=o.tags.map(t=>{const q=/^Limited (\d+)$/.exec(t);return q?'Limited '+(+q[1]+lx):t})})};
+  lim(systems);lim(isys);lim(integ);mounts.forEach(mt=>lim(mt.w));
   const cs=fd&&fd.core_system||null;
   return{notes:plain(m.notes||''),frame:fd&&fd.name||'',src:fd&&fd.source||'',lic:fd&&fd.license_level!=null?fd.license_level:'',types:(fd&&fd.mechtype)||[],desc:plain(fd&&fd.description||'').slice(0,900),
     traits:((fd&&fd.traits)||[]).map(t=>({n:t.name,d:plain(t.description||'')})),
@@ -2032,6 +2044,42 @@ function pilotSheet(x,sk,grit){
     armor:gear(lo.armor),weapons:gear(lo.weapons),gear:gear(lo.gear),
     bond:x.bond&&typeof x.bond==='object'?{minor:x.bond.minorIdeal||'',stress:x.bond.stress,max:x.bond.maxStress}:null};
 }
+
+// ---- mech stat bonuses: core bonuses, frame traits and core passive, systems, weapon mods and talents all feed the numbers
+const BK={hp:'hp',heatcap:'heat',armor:'armor',edef:'edef',evasion:'evasion',speed:'speed',size:'size',sensor_range:'sensor',sensor:'sensor',tech_attack:'tech',save:'save',repcap:'repcap',sp:'sp',structure:'structure',stress:'stress',limited_bonus:'lim'};
+function bonVal(v,ctx){
+  if(typeof v==='number')return v;if(typeof v!=='string')return 0;
+  const o={ll:ctx.ll,grit:ctx.grit,hull:ctx.sk[0],agi:ctx.sk[1],agility:ctx.sk[1],sys:ctx.sk[2],systems:ctx.sk[2],eng:ctx.sk[3],engineering:ctx.sk[3]};
+  let t=v.replace(/\{([a-z_]+)\}/gi,(_,k)=>o[k.toLowerCase()]!=null?o[k.toLowerCase()]:0).replace(/\b(ceil|floor|round)\b/g,'Math.$1');
+  if(!/^[0-9+\-*\/(). ,Mathceilfloorrnd]*$/.test(t))return +v||0;
+  try{const r=Function('return('+t+')')();return isFinite(r)?+r:0}catch(e){return 0}
+}
+function mechBon(x,m,fd,L,ctx){
+  const out=[];
+  const add=(arr,src)=>(Array.isArray(arr)?arr:[]).forEach(b=>{if(!b||b.weapon_types||b.range_types||b.damage_types)return;const k=BK[b.id];if(!k)return;const v=bonVal(b.val,ctx);if(v)out.push({k,v,src})});
+  (x.core_bonuses||[]).forEach(cb=>{const d=cb.data||cb;add(d.bonuses,d.name||nice(cb.id))});
+  ((fd&&fd.traits)||[]).forEach(t=>add(t.bonuses,t.name));
+  if(fd&&fd.core_system)add(fd.core_system.passive_bonuses,fd.core_system.name);
+  [...(L.systems||[]),...(L.integratedSystems||[])].forEach(y=>{if(y&&!y.destroyed){const d=y.data||{};add(d.bonuses,y.flavorName||d.name||nice(y.id))}});
+  [...(L.mounts||[]),...(L.integratedMounts||[])].forEach(mt=>[...(mt.slots||[]),...(mt.extra||[])].forEach(sl=>{const w=sl&&sl.weapon,md=w&&w.mod;if(md){const d=md.data||md;add(d.bonuses,d.name||nice(md.id))}}));
+  (x.talents||[]).forEach(t=>{const d=t.data||{};(d.ranks||[]).slice(0,+t.rank||1).forEach(r=>add(r.bonuses,(d.name||nice(t.id))+(r.name?': '+r.name:'')))});
+  return out;
+}
+// ---- manual overrides: m.ov holds the numbers you typed, m.auto the numbers worked out from the sheet
+const OVK=[['hp','HP'],['heat','Heat cap'],['structure','Structure'],['stress','Stress'],['armor','Armor'],['evasion','Evasion'],['edef','E-Defense'],['speed','Speed'],['size','Size'],['sensor','Sensors'],['tech','Tech attack'],['save','Save target'],['repcap','Repair cap'],['sp','SP'],['atk','Attack bonus']],OVS=['sensor','tech','save','repcap','sp','atk'];
+function ovGet(m,k){return OVS.includes(k)?(m.sheet&&m.sheet.stats?m.sheet.stats[k]:''):m[k]}
+function ovSet(m,k,v){if(OVS.includes(k)){if(m.sheet&&m.sheet.stats)m.sheet.stats[k]=v}else{m[k]=v;if((k==='armor'||k==='size')&&m.sheet&&m.sheet.stats)m.sheet.stats[k]=v}}
+function ovSnap(m){if(!m.auto){m.auto={};OVK.forEach(([k])=>m.auto[k]=ovGet(m,k))}}
+function ovApply(m){ovSnap(m);OVK.forEach(([k])=>{const o=m.ov&&m.ov[k];ovSet(m,k,o!=null&&o!==''&&!isNaN(+o)?+o:m.auto[k])})}
+function ovHTML(m){
+  ovSnap(m);const ov=m.ov||{},n=Object.keys(ov).length,E=esc,bon=m.bon||[];
+  const nm={hp:'HP',heat:'Heat cap',armor:'Armor',edef:'E-Defense',evasion:'Evasion',speed:'Speed',size:'Size',sensor:'Sensors',tech:'Tech attack',save:'Save',repcap:'Repair cap',sp:'SP',structure:'Structure',stress:'Stress'};
+  return`<details class="ovd"${n?' open':''}><summary><b>Edit stats</b> <i>${n?n+' custom':'from the sheet'}</i></summary><div class="ovg">`+
+    OVK.map(([k,l])=>{const cur=ovGet(m,k),on=ov[k]!=null;return`<label class="${on?'on':''}">${l}<input type="number" step="any" data-ov="${k}" value="${cur===''||cur==null?'':cur}" placeholder="${m.auto[k]===''||m.auto[k]==null?'':m.auto[k]}" title="Sheet value: ${m.auto[k]}"></label>`}).join('')+
+    `</div><div class="ln mut" style="margin-top:6px">Type a number to override it. Clear the box to go back to the sheet value shown faintly.</div>`+
+    `<div class="rw" style="margin-top:6px"><button class="mi" data-ovreset="1">Reset all to the sheet</button></div>`+
+    (bon.length?`<div class="ln" style="margin-top:6px"><b>Bonuses already counted</b></div>`+bon.map(b=>`<div class="ln mut">${b.v>0?'+':''}${b.v} ${E(nm[b.k]||b.k)} · ${E(b.src)}</div>`).join(''):`<div class="ln mut" style="margin-top:6px">No stat bonuses found in the sheet.</div>`)+`</details>`;
+}
 function parseCC(txt){
   let j;try{j=JSON.parse(txt)}catch(e){return[]}
   const found=[];
@@ -2052,13 +2100,17 @@ function parseCC(txt){
       const fid=typeof f==='string'?f:(f&&(f.id||f.name))||m.frame_id||'';
       const chassis=fd&&fd.name?fd.name:(f&&typeof f==='object'&&f.name)?f.name:nice(fid);
       const st=(fd&&fd.stats)||{};
-      return{name:m.name||'',chassis,
-        size:st.size!=null?st.size:'',structure:st.structure!=null?st.structure:'',stress:st.stress!=null?st.stress:'',
-        speed:st.speed!=null?st.speed+Math.floor(agi/2):'',
-        hp:st.hp!=null?(+st.hp||0)+2*sk[0]+grit:'',heat:st.heatcap!=null?(+st.heatcap||0)+sk[3]:'',armor:st.armor!=null?+st.armor||0:'',
-        evasion:st.evasion!=null?(+st.evasion||0)+agi:'',edef:st.edef!=null?(+st.edef||0)+sk[2]:'',
-        sheet:mechSheet(m,fd,st,sk,grit),img:(m.img&&(m.img.portrait||m.img.cloud_portrait))||'',
+      const L0=(m.loadouts&&m.loadouts[m.active_loadout_index||0])||(m.loadouts&&m.loadouts[0])||{},bon=mechBon(x,m,fd,L0,{ll:+x.level||0,grit,sk}),B={};
+      bon.forEach(b=>B[b.k]=(B[b.k]||0)+b.v);
+      const bb=k=>B[k]||0,ad=(v,k)=>v!=null?(+v||0)+bb(k):v,st2={...st,sensor_range:ad(st.sensor_range,'sensor'),tech_attack:(+st.tech_attack||0)+bb('tech'),save:(+st.save||0)+bb('save'),repcap:(+st.repcap||0)+bb('repcap'),sp:(+st.sp||0)+bb('sp'),armor:(+st.armor||0)+bb('armor'),size:ad(st.size,'size'),lim:bb('lim')};
+      const mo={name:m.name||'',chassis,bon,
+        size:st2.size!=null?st2.size:'',structure:st.structure!=null?(+st.structure||0)+bb('structure'):'',stress:st.stress!=null?(+st.stress||0)+bb('stress'):'',
+        speed:st.speed!=null?st.speed+Math.floor(agi/2)+bb('speed'):'',
+        hp:st.hp!=null?(+st.hp||0)+2*sk[0]+grit+bb('hp'):'',heat:st.heatcap!=null?(+st.heatcap||0)+sk[3]+bb('heat'):'',armor:st.armor!=null?(+st.armor||0)+bb('armor'):'',
+        evasion:st.evasion!=null?(+st.evasion||0)+agi+bb('evasion'):'',edef:st.edef!=null?(+st.edef||0)+sk[2]+bb('edef'):'',
+        sheet:mechSheet(m,fd,st2,sk,grit),img:(m.img&&(m.img.portrait||m.img.cloud_portrait))||'',
         active:!!m.active||(!!m.id&&(m.id===x.active_mech||m.id===x.favorite_mech))};
+      ovSnap(mo);return mo;
     });
     let mi=mechs.findIndex(m=>m.active);if(mi<0)mi=0;
     return{pilot:unq(x.name),callsign:unq(x.callsign),level:x.level!=null?x.level:'',mechs,mi,ps:pilotSheet(x,sk,grit),img:(x.img&&(x.img.portrait||x.img.cloud_portrait||(x.img.avatar&&x.img.avatar.image&&x.img.avatar.image.src)))||''};
@@ -2092,6 +2144,7 @@ function applyCC(c,d){
   const p=c.p||(c.p={});
   if(d.img&&!c.img){const u=d.img;c.img=u;S.items.forEach(t=>{if(t.link===c.id&&t.type==='token'&&!t.img&&t.role!=='mech')t.img=u});
     grabImg(u,v=>{if(c.img===u&&v!==u){c.img=v;S.items.forEach(t=>{if(t.link===c.id&&t.img===u)t.img=v})}render();renderTurns()})}
+  const oldM=p.mechs||[];d.mechs.forEach(nm2=>{const o=oldM.find(q=>q.ov&&Object.keys(q.ov).length&&q.name===nm2.name&&q.chassis===nm2.chassis);if(o){nm2.ov={...o.ov};ovApply(nm2)}});
   Object.assign(p,{pilot:d.pilot,callsign:d.callsign,level:d.level,mechs:d.mechs,mi:d.mi,ps:d.ps});
   pickMech(c,d.mi);
   if(d.callsign)setCardName(c,d.callsign);
