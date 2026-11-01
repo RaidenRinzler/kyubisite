@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kyubisan's Lancer Table V1.85</title>
+<title>Kyubisan's Lancer Table V1.86</title>
 <!-- Copyright (c) 2026 Fox Murray. All rights reserved. -->
 <!-- VERSION: bump LT_VERSION (script) and the title/brand text on every change. Small additions +0.01, larger ones more. Stays in V1.xx for now. -->
 <style>
@@ -652,7 +652,7 @@ body.player #gmq{display:none!important}
 </head>
 <body>
 <header id="tools">
-  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.85</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
+  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.86</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
   <div class="mn"><button class="mb">Map ▾</button><div class="pop">
     <div class="rw"><button class="mi" id="bMap">Load map image</button></div>
     <div class="rw"><button class="mi" id="bFit">Fit map to window</button></div>
@@ -781,7 +781,7 @@ body.player #gmq{display:none!important}
 <div id="toast"></div>
 <script>
 const $=s=>document.querySelector(s);
-const LT_VERSION='V1.85';
+const LT_VERSION='V1.86';
 const PLAYER=location.hash==='#player';
 const PS={win:null,frozen:false,black:false,gm:false,t:0,sentMap:null,map:null,rect:null};
 let LOOK={};
@@ -2202,7 +2202,7 @@ function ejectCancel(){ejEnd()}
 vp.addEventListener('pointerdown',e=>{if(!EJ.on||e.button!==0)return;e.stopImmediatePropagation();e.preventDefault();EJ.drag=true;vp.setPointerCapture(e.pointerId);ejAim(wpt(e))},true);
 vp.addEventListener('pointermove',e=>{if(!EJ.on||!EJ.drag)return;e.stopImmediatePropagation();ejAim(wpt(e))},true);
 vp.addEventListener('pointerup',e=>{if(!EJ.on)return;EJ.drag=false;e.stopImmediatePropagation()},true);
-function hasAI(c){const m=c&&c.p&&c.p.mechs&&c.p.mechs[c.p.mi||0];return !!(m&&[...(m.systems||[]),...(m.isys||[])].some(x=>(x.tags||[]).some(t=>String(t).trim().toUpperCase()==='AI')))}
+function hasAI(c){const m=c&&c.p&&c.p.mechs&&c.p.mechs[c.p.mi||0],sh=m&&m.sheet;return !!(sh&&[...(sh.systems||[]),...(sh.isys||[])].some(x=>(x.tags||[]).some(t=>String(t).trim().toUpperCase()==='AI')))}
 function ejectConfirm(){
   if(!EJ.on)return;const c=EJ.c,tgt=EJ.tgt,from=EJ.o;ejEnd();
   const unit=(c.p&&c.p.callsign)||c.name;
