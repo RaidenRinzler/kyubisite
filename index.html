@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kyubisan's Lancer Table V1.76</title>
+<title>Kyubisan's Lancer Table V1.79</title>
 <!-- Copyright (c) 2026 Fox Murray. All rights reserved. -->
 <!-- VERSION: bump LT_VERSION (script) and the title/brand text on every change. Small additions +0.01, larger ones more. Stays in V1.xx for now. -->
 <style>
@@ -640,7 +640,7 @@ body.player #gmq{display:none!important}
 </head>
 <body>
 <header id="tools">
-  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.76</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
+  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.79</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
   <div class="mn"><button class="mb">Map ▾</button><div class="pop">
     <div class="rw"><button class="mi" id="bMap">Load map image</button></div>
     <div class="rw"><button class="mi" id="bFit">Fit map to window</button></div>
@@ -706,7 +706,7 @@ body.player #gmq{display:none!important}
     <div class="rw"><span>Fog in 3D</span><select id="fog3"><option value="off">Normal</option><option value="dark">Darkened</option><option value="black">Black</option></select></div>
     </div>
     <div class="apg" data-g="players">
-    <div class="rw"><span>Player screen</span><button class="mi" id="bPlayer" title="Opens a second window for your players. Drag it to the second monitor or share just that window.">Open window</button><button class="mi" id="bBlack" title="Blank the player screen between scenes">Blackout</button></div>
+    <div class="rw"><span>Player screen</span><button class="mi" id="bPlayer" title="Opens a second window for your players. Drag it to the second monitor or share just that window.">Open window</button><button class="mi" id="bGM" title="Show the player window exactly what you see: hidden items, spawn points, fog contents and all stats. Double-click to turn on, click to turn off.">Show GM view</button><button class="mi" id="bBlack" title="Blank the player screen between scenes">Blackout</button></div>
     <div class="rw"><span>Fog for players</span><select id="pfog"><option value="sensor">Revealed by sensors</option><option value="stay">Always hidden</option></select><i class="q" data-tip="Fog of war tiles are black on the player screen. With sensors, anything within a player or ally mech's sensor range is uncovered. Vapour and smoke are separate tiles and never hide anything."></i></div>
     <div class="rw"><span>HP and heat bars</span><select id="pbars"><option value="friends">Players and allies</option><option value="all">Everyone</option><option value="none">Nobody</option></select></div>
     <div class="rw"><span>Enemy portraits</span><select id="penemy"><option value="0">Show in turn bar</option><option value="1">Hide from players</option></select></div>
@@ -769,9 +769,9 @@ body.player #gmq{display:none!important}
 <div id="toast"></div>
 <script>
 const $=s=>document.querySelector(s);
-const LT_VERSION='V1.76';
+const LT_VERSION='V1.79';
 const PLAYER=location.hash==='#player';
-const PS={win:null,frozen:false,black:false,t:0,sentMap:null,map:null,rect:null};
+const PS={win:null,frozen:false,black:false,gm:false,t:0,sentMap:null,map:null,rect:null};
 let LOOK={};
 if(PLAYER)window.addEventListener('keydown',e=>e.stopPropagation(),true);
 const COL={player:'#4aa3ff',enemy:'#ff5a4d',ally:'#5fd38d',neutral:'#c9b458'},FAC=Object.keys(COL);
@@ -2201,8 +2201,8 @@ function ejectApply(c,q,from){
   S.items.push(it);p.out=true;c.ejected=true;cdOf(c).impaired=true;sel=it.id;render();renderTurns();inspect();
   if(from&&!PLAYER){$('#olp').innerHTML=`<line x1="${from[0]}" y1="${from[1]}" x2="${q.cx}" y2="${q.cy}" stroke="#ff5a3d" stroke-width="5" stroke-dasharray="12 8" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`;setTimeout(()=>{if(!EJ.on)$('#olp').innerHTML=''},2600)}
 }
-const EJQ=[["It was fun.", "Star Trek"], ["Ain’t over till it’s over.", "Yogi Berra"], ["Until next time, then.", ""], ["Second star to the right.", "Peter Pan"], ["Go get ’em, tiger.", "Spider-Man 2 (2004)"], ["Make it so.", "Star Trek"], ["See you on the other side.", ""], ["Wait for the wheel.", "Farscape"], ["Do not throw your shot.", "Hamilton"], ["Drop and burn ’em up.", "Hamilton, Guns and Ships"], ["Exhibit no restraint.", "Hamilton, Wait for It"], ["Rip and saw.", ""], ["Code zero zero zero. Destruct. Zero.", "Star Trek"], ["Authorization Alpha-Alpha 3-0-5.", "Star Trek"], ["Have just the greatest day.", ""], ["Avenge me.", ""], ["Stay safe.", ""], ["Situation normal.", ""], ["PROTOCOL <3", "BT-7274"], ["Never give up. Never surrender.", "Galaxy Quest"], ["In case of doubt, attack.", "General George S. Patton"], ["You’re never beaten until you admit it.", "General George S. Patton"], ["Wrong us, shall we not revenge?", "The Merchant of Venice"], ["Till all are one.", "Transformers"], ["Nothing but the rain.", "Battlestar Galactica"], ["Sometimes, you have to roll a hard six.", "Battlestar Galactica"], ["And sometimes, when you fall, you fly.", "Neil Gaiman, The Sandman"], ["See you space cowboy...", "Cowboy Bebop"], ["Just another day at the office.", "Call of Duty 4: Modern Warfare"], ["End of line.", "Tron"], ["Fortune favors the bold.", "Latin proverb"], ["A leaf on the wind.", "Firefly"], ["You are who you choose to be.", "The Iron Giant"], ["Always.", "Harry Potter"], ["Finish the fight.", "Halo 3"]];   // rare farewell lines: 10% of ejections show one instead of PROTOCOL [03]
-const EJC=[['CORE BREAK IN PROGRESS','','sys'],['DESTRUCT SEQUENCE ENGAGED','','sys'],['EJECT NOW EJECT','','sys'],['EJECT-SYSTEM ENGAGED','','sys'],['PILOT EJECTING','','sys'],['PROTOCOL [03]','','sys'],['Fly, you fool.','The Lord of the Rings','q']];
+const EJQ=[["It was fun.", ""], ["Ain’t over till it’s over.", ""], ["Until next time, then.", ""], ["Second star to the right.", ""], ["Go get ’em, tiger.", ""], ["Make it so.", ""], ["See you on the other side.", ""], ["Wait for the wheel.", ""], ["Do not throw your shot.", ""], ["Drop and burn ’em up.", ""], ["Exhibit no restraint.", ""], ["Rip and saw.", ""], ["Code zero zero zero. Destruct. Zero.", ""], ["Authorization Alpha-Alpha 3-0-5.", ""], ["Have just the greatest day.", ""], ["Avenge me.", ""], ["Stay safe.", ""], ["Situation normal.", ""], ["PROTOCOL <3", ""], ["Never give up. Never surrender.", ""], ["In case of doubt, attack.", ""], ["You’re never beaten until you admit it.", ""], ["Wrong us, shall we not revenge?", ""], ["Till all are one.", ""], ["Nothing but the rain.", ""], ["Sometimes, you have to roll a hard six.", ""], ["And sometimes, when you fall, you fly.", ""], ["See you space cowboy...", ""], ["Just another day at the office.", ""], ["End of line.", ""], ["Fortune favors the bold.", ""], ["A leaf on the wind.", ""], ["You are who you choose to be.", ""], ["Always.", ""], ["Finish the fight.", ""]];   // rare farewell lines: 10% of ejections show one instead of PROTOCOL [03]
+const EJC=[['CORE BREAK IN PROGRESS','','sys'],['DESTRUCT SEQUENCE ENGAGED','','sys'],['EJECT NOW EJECT','','sys'],['EJECT-SYSTEM ENGAGED','','sys'],['PILOT EJECTING','','sys'],['PROTOCOL [03]','','sys'],['Fly, you fool.','','q']];
 // the seven common lines are shuffled into the six slots of the sequence, so each is about equally likely; 10% of the time the last slot is a rare quote instead
 function ejPlan(){const a=EJC.map((_,i)=>i);for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return{s:a.slice(0,6),r:Math.random()<.1?Math.random()*EJQ.length|0:-1}}
 function ejectFx(unit,bcast,launch,plan){
@@ -2214,13 +2214,13 @@ function ejectFx(unit,bcast,launch,plan){
   o.className='on';o.innerHTML='<i class="dk"></i><i class="vg"></i><i class="hz t"></i><i class="hz b"></i><i class="scn"></i><div class="sm"></div><div class="bg"></div><i class="wh"></i>';
   const sm=o.querySelector('.sm'),bg=o.querySelector('.bg'),at=(ms,f)=>ejectFx.ts.push(setTimeout(f,ms)),big=(t,cls,sub)=>{bg.className='bg '+(cls||'');bg.innerHTML=t+(sub?`<small>${sub}</small>`:'')},line=t=>{const i=document.createElement('i');i.textContent=t;sm.append(i)};
   document.body.classList.add('ej-shake');
-  const E=i=>EJC[plan.s[i]],txt=e=>e[2]==='sys'?e[0]:'“'+e[0]+'”',bigE=(e,cls)=>e[2]==='sys'?big(esc(e[0]),cls,unit):big(esc(txt(e)),(cls+' qt').trim(),esc(e[1]));
+  const E=i=>EJC[plan.s[i]],txt=e=>e[2]==='sys'?e[0]:'“'+e[0].toUpperCase()+'”',bigE=(e,cls)=>e[2]==='sys'?big(esc(e[0]),cls,unit):big(esc(txt(e)),(cls+' qt').trim(),unit);
   at(150,()=>line(txt(E(0))));
   at(560,()=>line(txt(E(1))));
   at(950,()=>bigE(E(2),'fl'));
   at(1850,()=>bigE(E(3),'sk'));
   at(2500,()=>bigE(E(4),'sk fl'));
-  at(3050,()=>{o.classList.add('go');plan.r>=0?big(esc('“'+EJQ[plan.r][0]+'”'),'qt',esc(EJQ[plan.r][1]||unit)):bigE(E(5),'');document.body.classList.remove('ej-shake');launch&&launch()});
+  at(3050,()=>{o.classList.add('go');plan.r>=0?big(esc('“'+EJQ[plan.r][0].toUpperCase()+'”'),'qt',unit):bigE(E(5),'');document.body.classList.remove('ej-shake');launch&&launch()});
   at(4300,()=>{o.classList.add('out')});
   at(5050,()=>{o.className='';o.innerHTML=''});
 }
@@ -2844,6 +2844,7 @@ if(!PLAYER){
    <label>Fog <select id="q_pfog"><option value="sensor">Sensors reveal</option><option value="stay">Always hidden</option></select></label>
    <label>Bars <select id="q_pbars"><option value="friends">Players and allies</option><option value="all">Everyone</option><option value="none">Nobody</option></select></label>
    <div class="qr"><button id="q_frz">Freeze</button><button id="q_blk">Blackout</button></div>
+   <div class="qr"><button id="q_gm" title="Double-click to show the player window your full GM view">Show GM view</button></div>
    <button id="q_win" style="width:100%"></button></div>`;
   document.body.append(d);
   $('#gmqb').onclick=()=>d.classList.toggle('open');
@@ -2938,6 +2939,8 @@ function sensorOf(it){
   return v>0?v:5;
 }
 function playerState(){
+  if(PS.gm){const o=JSON.parse(JSON.stringify({...S,map:null,turns:[],items:[]}));Object.keys(o.cells).forEach(k=>{if(o.cells[k]==='fog')delete o.cells[k]});o.items=S.items.map(i=>({...i,hidden:false}));
+    o.turns=S.turns.map(c=>({id:c.id,name:c.name,fac:c.fac,done:c.done,hc:c.hc,cond:cdOf(c),img:c.img,p:{out:!!(c.p&&c.p.out),callsign:c.p&&c.p.callsign},st:c.st?{...c.st}:undefined}));return o}
   const gs=S.grid.size,o=JSON.parse(JSON.stringify({...S,map:null,turns:[],items:[]})),friend=f=>f==='player'||f==='ally';
   const fogK=Object.keys(o.cells).filter(k=>o.cells[k]==='fog'),reveal=new Set();
   if(LOOK.pfog!=='stay'){
@@ -2975,7 +2978,7 @@ function pushPlayer(now){
   if(R&&LOOK.pruler!==false){const a=rsnap(R.a),b=rsnap(R.b);ruler={a:R.a,b:R.b};L=LOS.on&&Math.hypot(b.x-a.x,b.y-a.y)>1?losCalc(a,b):null;V=L?losVerdict(L):null}
   PS.win.postMessage({t:'state',S:playerState(),mv:(LOOK.pmove!==false&&mvId)||null,look:LOOK,rect,black:PS.black,v3,ruler,L,V,los:LOS.on,share:!!LOS.share},'*');
 }
-function updFreeze(){syncQuick();const b=$('#bFreeze');b.textContent=PS.frozen?'Frozen':'Freeze';b.classList.toggle('on',PS.frozen);$('#bBlack').classList.toggle('on',PS.black)}
+function updFreeze(){syncQuick();const b=$('#bFreeze');b.textContent=PS.frozen?'Frozen':'Freeze';b.classList.toggle('on',PS.frozen);$('#bBlack').classList.toggle('on',PS.black);[['#bGM','Show GM view'],['#q_gm','Show GM view']].forEach(([q,t])=>{const e=$(q);if(e){e.classList.toggle('on',PS.gm);e.textContent=PS.gm?'GM VIEW LIVE':t}})}
 if(!PLAYER){
   ['render','renderTurns','drawInk','drawCells','drawTerrain','drawHeight','drawTpl','apply','draw3d','open3d','close3d','drawRuler','drawMove'].forEach(n=>{const f=window[n];window[n]=function(){const r=f.apply(this,arguments);pushPlayer();if(n==='drawRuler')syncQuick();return r}});
   {const f=playFx;window.playFx=function(...a){a[4]=a[4]||flavour(a[0]);if(PS.win&&!PS.win.closed&&!PS.frozen)PS.win.postMessage({t:'fx',a},'*');return f.apply(this,a)}}
@@ -2987,6 +2990,8 @@ if(!PLAYER){
     PS.sentMap=null;PS.frozen=false;$('#bFreeze').style.display='';updFreeze();
   };
   $('#bFreeze').onclick=()=>{PS.frozen=!PS.frozen;updFreeze();if(!PS.frozen)pushPlayer(true);else toast('Player screen frozen. Changes stay hidden until you unfreeze.')};
+  const gmSet=v=>{PS.gm=v;updFreeze();pushPlayer(true);toast(v?'Players can now see your full GM view. Click the button again to hide it.':'Player screen back to normal.')};
+  ['#bGM','#q_gm'].forEach(q=>{const e=$(q);e.onclick=()=>{if(PS.gm)gmSet(false);else toast('Double-click to show the players your GM view.')};e.ondblclick=()=>{if(!PS.gm)gmSet(true)}});
   $('#bBlack').onclick=()=>{PS.black=!PS.black;updFreeze();if(PS.win&&!PS.win.closed)PS.win.postMessage({t:'black',on:PS.black},'*')};
   $('#pfog').onchange=e=>setLook({pfog:e.target.value});$('#pbars').onchange=e=>setLook({pbars:e.target.value});
   $('#penemy').onchange=e=>setLook({penemy:e.target.value==='1'});$('#pfollow').onchange=e=>setLook({pfollow:e.target.checked});$('#pruler').onchange=e=>setLook({pruler:e.target.checked});$('#pmove').onchange=e=>{setLook({pmove:e.target.checked});pushPlayer()};$('#flav').onchange=e=>setLook({flav:e.target.checked});$('#tipt').onchange=e=>setLook({tip:e.target.checked});$('#ptip').onchange=e=>setLook({ptip:e.target.checked});
