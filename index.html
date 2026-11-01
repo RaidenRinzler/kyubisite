@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kyubisan's Lancer Table V1.75</title>
+<title>Kyubisan's Lancer Table V1.76</title>
 <!-- Copyright (c) 2026 Fox Murray. All rights reserved. -->
 <!-- VERSION: bump LT_VERSION (script) and the title/brand text on every change. Small additions +0.01, larger ones more. Stays in V1.xx for now. -->
 <style>
@@ -38,6 +38,7 @@ body.ol-custom #layer .it.dn .onm,body.ol-none #layer .it .onm{display:none}
 .cdt i{font:700 8px/1 system-ui,sans-serif;font-style:normal;letter-spacing:.07em;padding:2px 5px;border-radius:2px;white-space:nowrap;background:#f2b840;color:#111;box-shadow:0 1px 3px #0009}
 .cdt i.st{background:#4aa3ff;color:#06121f}
 .cdd{margin-top:8px;border-top:1px solid var(--ln);padding-top:6px}
+.cdd[open]>.cdg{max-height:30vh;overflow-y:auto}
 .cdd summary{cursor:pointer;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
 .cdg{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;margin-top:6px}
 .cdg .h{grid-column:1/-1;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin-top:3px}
@@ -639,7 +640,7 @@ body.player #gmq{display:none!important}
 </head>
 <body>
 <header id="tools">
-  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.75</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
+  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.76</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
   <div class="mn"><button class="mb">Map ▾</button><div class="pop">
     <div class="rw"><button class="mi" id="bMap">Load map image</button></div>
     <div class="rw"><button class="mi" id="bFit">Fit map to window</button></div>
@@ -768,7 +769,7 @@ body.player #gmq{display:none!important}
 <div id="toast"></div>
 <script>
 const $=s=>document.querySelector(s);
-const LT_VERSION='V1.75';
+const LT_VERSION='V1.76';
 const PLAYER=location.hash==='#player';
 const PS={win:null,frozen:false,black:false,t:0,sentMap:null,map:null,rect:null};
 let LOOK={};
@@ -1765,7 +1766,7 @@ function place(el,card,disp){
   let x,y;
   if(left){x=r.right+4;y=Math.min(r.top,innerHeight-h-8)}
   else{x=Math.min(Math.max(8,r.left),innerWidth-w-8);y=r.top-h-4;if(y<8)y=r.bottom+4}
-  el.style.left=x+'px';el.style.top=Math.max(8,y)+'px';el.style.visibility='visible';
+  el.style.left=x+'px';el.style.top=Math.max(8,Math.min(y,innerHeight-h-8))+'px';el.style.visibility='visible';
 }
 const cardEl=c=>document.querySelector(`.tc[data-cid="${c.id}"]`);
 function hideHov(){vOpen='';clearTimeout(hovT);clearTimeout(hovHide);$('#hov').style.display='none';hovCard=null}
@@ -1865,7 +1866,7 @@ function showHov(c,card){
 }
 $('#hov').onmouseenter=()=>clearTimeout(hovHide);
 $('#hov').onmouseleave=()=>{hovHide=setTimeout(hideHov,250)};
-$('#hov').addEventListener('toggle',e=>{if(e.target.classList&&e.target.classList.contains('cdd'))CDOPEN=e.target.open},true);
+$('#hov').addEventListener('toggle',e=>{if(e.target.classList&&e.target.classList.contains('cdd'))CDOPEN=e.target.open;if(hovCard)place($('#hov'),cardEl(hovCard),'block')},true);
 $('#hov').onclick=e=>{
   const b=e.target.closest('[data-a]'),a=b&&b.dataset.a,c=hovCard;if(!a||!c||b.disabled)return;
   if(a==='place'){hideHov();const t=mechTok(c);if(t){stopDrawing();sel=t.id;centreOn(t);render();inspect()}else placeMech(c,centre())}
