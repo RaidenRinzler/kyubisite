@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Kyubisan's Lancer Table V1.92</title>
+<title>Kyubisan's Lancer Table V1.93</title>
 <!-- Copyright (c) 2026 Fox Murray. All rights reserved. -->
 <!-- VERSION: bump LT_VERSION (script) and the title/brand text on every change. Small additions +0.01, larger ones more. Stays in V1.xx for now. -->
 <style>
@@ -75,6 +75,7 @@ body.ol-custom #layer .it.dn .onm,body.ol-none #layer .it .onm{display:none}
 #vs .vn{font-weight:800;font-size:clamp(14px,3.2vh,40px);letter-spacing:.14em;color:#fff;text-shadow:0 2px 0 #000,0 0 14px var(--vc);max-width:var(--cw);min-width:100%;box-sizing:border-box;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #vs.dense .vc{position:relative;gap:0}
 #vs.dense .vn{position:absolute;left:3px;right:3px;bottom:3px;min-width:0;max-width:none;font-size:clamp(9px,calc(var(--cw)*.12),24px);letter-spacing:.06em;padding:1.2em .2em .25em;background:linear-gradient(transparent,#000d)}
+#vs .vx,#vs .vc{will-change:transform,opacity}
 #vs .vx{font-weight:900;font-style:italic;font-size:clamp(70px,24vh,300px);line-height:1;color:#fff;padding:0 2vw;text-shadow:4px 0 var(--rc),-4px 0 var(--lc),0 0 40px #fff8;opacity:0;animation:vsx .45s cubic-bezier(.2,1.5,.4,1) .55s forwards}
 #vs .vcap{position:absolute;left:0;right:0;top:calc(50% + var(--sh)/2 + 10px);text-align:center;font-weight:700;font-size:clamp(14px,3vh,34px);letter-spacing:.5em;color:#fff;text-shadow:0 2px 0 #000,0 0 14px #000;opacity:0;animation:vsc .4s ease-out .9s forwards}
 #vs .vfl{position:absolute;inset:0;background:#fff;opacity:0;animation:vsfl .5s ease-out .55s}
@@ -98,6 +99,7 @@ body.ol-custom #layer .it.dn .onm,body.ol-none #layer .it .onm{display:none}
 #vsp .tm{display:flex;gap:4px;margin-bottom:4px}#vsp .tm input[type=text]{flex:1;min-width:0}#vsp .tm input[type=color]{width:34px;padding:0;border:1px solid var(--ln);background:none;cursor:pointer}
 #vsp .rw2{display:flex;gap:8px;align-items:center;margin-top:8px}#vsp .rw2 input[type=text]{flex:1}
 #vsp .bt2{display:flex;gap:6px;margin-top:10px;justify-content:flex-end}
+body.ej-shake #vp,body.ej2-gl #vp,body.ej2-up #vp{will-change:transform}
 body.ej-shake #vp{animation:ejsh .11s linear infinite}
 #ejx.v2 .rd{position:absolute;inset:0;background:#e8270f;opacity:0;animation:ejrd .8s steps(1,end) infinite,ejrdin .4s ease-out}
 #ejx.v2 .vg{animation:none;opacity:1;background:radial-gradient(ellipse at center,transparent 40%,#b3100755 125%)}
@@ -107,10 +109,10 @@ body.ej-shake #vp{animation:ejsh .11s linear infinite}
 #ejx.v2 .bt span.ty::after{content:"\25AE";margin-left:.12em;animation:ejblink .5s steps(2,jump-none) infinite}
 #ejx.v2 .bt span.fl{animation:ejblink .3s steps(2,jump-none) infinite}
 #ejx.v2 .gls{position:absolute;inset:0}
-#ejx.v2 .gls b{position:absolute;background:#7ff;mix-blend-mode:difference;opacity:0}
+#ejx.v2 .gls b{position:absolute;background:#9ff;opacity:0}
 #ejx.v2.gl .gls b{animation:ejgl .12s steps(2,jump-none) infinite}
 #ejx.v2 .stk{position:absolute;inset:0;overflow:hidden}
-#ejx.v2 .stk b{position:absolute;top:-70vh;background:linear-gradient(transparent,#fff 45%,#fff 55%,transparent);animation:ejstk linear infinite}
+#ejx.v2 .stk b{will-change:transform;position:absolute;top:-70vh;background:linear-gradient(transparent,#fff 45%,#fff 55%,transparent);animation:ejstk linear infinite}
 #ejx.v2 .bl{position:absolute;left:0;right:0;bottom:0;height:70%;background:linear-gradient(to top,#fff 0,#ffc477cc 22%,#ff7a3a44 55%,transparent);opacity:0}
 #ejx.v2.go .bl{animation:ejbl 1.2s ease-out forwards}
 #ejx.v2.go .rd,#ejx.v2.go .vg,#ejx.v2.go .bt{opacity:0;animation:none;transition:opacity .15s}
@@ -124,9 +126,9 @@ body.ej-shake #vp{animation:ejsh .11s linear infinite}
 @keyframes ejbl{0%{opacity:0}30%{opacity:.85}100%{opacity:.35}}
 @keyframes ejwh2{0%{opacity:0}30%{opacity:.3}85%{opacity:1}100%{opacity:1}}
 body.ej2-gl #vp{animation:ejglv .14s steps(2,jump-none) infinite}
-@keyframes ejglv{0%{transform:translate(-8px,2px) skewX(3deg);filter:hue-rotate(90deg) saturate(3)}50%{transform:translate(10px,-3px) skewX(-4deg);filter:hue-rotate(-60deg) contrast(1.6)}100%{transform:translate(-3px,4px);filter:invert(.15)}}
+@keyframes ejglv{0%{transform:translate3d(-8px,2px,0) skewX(3deg)}50%{transform:translate3d(10px,-3px,0) skewX(-4deg)}100%{transform:translate3d(-3px,4px,0)}}
 body.ej2-up #vp{animation:ejup 1.2s cubic-bezier(.6,0,1,.6) forwards;transform-origin:50% 60%}
-@keyframes ejup{0%{transform:scale(1) translateY(0);filter:none}25%{transform:scale(1.05) translateY(3%)}100%{transform:scale(.35) translateY(70%);filter:blur(8px) brightness(2.2)}}
+@keyframes ejup{0%{transform:scale(1) translate3d(0,0,0)}25%{transform:scale(1.05) translate3d(0,3%,0)}100%{transform:scale(.35) translate3d(0,70%,0)}}
 @keyframes ejsh{0%{transform:translate(0,0)}25%{transform:translate(-4px,2px)}50%{transform:translate(3px,-3px)}75%{transform:translate(-2px,-3px)}}
 .mrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;border-top:1px solid var(--ln);padding-top:6px;margin-top:2px}
 .spn{position:absolute;left:0;right:0;bottom:-1px;text-align:center;font:700 9px/1 system-ui,sans-serif;letter-spacing:.06em;color:#fff;text-shadow:0 0 3px #000,0 0 3px #000,0 0 2px #000;pointer-events:none;white-space:nowrap;overflow:hidden}
@@ -622,7 +624,7 @@ body.sk-amber{--bg:#0b0700;--pn:#140d02;--bt:#1f1503;--ln:#7a4d0a;--tx:#ffc23a;-
 #pblack.on{display:flex}
 body.player #tools,body.player #insp,body.player #tpanel,body.player #ref,body.player #hov,body.player #prof,body.player #sheet,body.player #toast,body.player #ctl{display:none!important}
 body.player #vp,body.player #vp *,body.player .tc{pointer-events:none!important}
-body.player .c-fog{fill-opacity:1}
+body.player:not(.gmview) .c-fog{fill-opacity:1}
 body.player #v3bar,body.player #v3l{display:none!important}
 #pdet{display:none;position:fixed;right:14px;bottom:14px;width:360px;z-index:5500;background:var(--glass);border-left:3px solid var(--ac);padding:10px 12px;box-shadow:0 12px 32px #0009;color:var(--tx)}
 #pdet.on{display:block}
@@ -696,7 +698,7 @@ body.player #gmq{display:none!important}
 </head>
 <body>
 <header id="tools">
-  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.92</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
+  <span class="brand" title="© 2026 Fox Murray. All rights reserved.">KYUBISAN'S LANCER TABLE <small id="ver" style="font-size:10px;letter-spacing:.08em;opacity:.7;margin-left:4px">V1.93</small><small style="font-size:9px;letter-spacing:.06em;opacity:.55;margin-left:8px;white-space:nowrap">© 2026 Fox Murray</small></span>
   <div class="mn"><button class="mb">Map ▾</button><div class="pop">
     <div class="rw"><button class="mi" id="bMap">Load map image</button></div>
     <div class="rw"><button class="mi" id="bFit">Fit map to window</button></div>
@@ -829,7 +831,7 @@ body.player #gmq{display:none!important}
 <div id="toast"></div>
 <script>
 const $=s=>document.querySelector(s);
-const LT_VERSION='V1.92';
+const LT_VERSION='V1.93';
 const PLAYER=location.hash==='#player';
 const PS={win:null,frozen:false,black:false,gm:false,t:0,sentMap:null,map:null,rect:null};
 let LOOK={};
@@ -1435,7 +1437,7 @@ const TH={'Union red':'#d9433f','Cyan':'#2ec4d6','Amber':'#f2a33a','Violet':'#9b
 // weather: light particle overlay, optional per screen
 var WX={k:'none',n:2,cv:null,ps:[],raf:0,t0:0,w:0,h:0,L:0,T:0};
 const WXK={rain:'Rain',snow:'Snow',sand:'Sand',soot:'Soot and ash',embers:'Embers'};
-function wxShow(l){const k=l.wx||'none';if(k==='none')return false;const who=l.wwho||'player';return PLAYER?(who==='player'||who==='both'):(who==='gm'||who==='both')}
+function wxShow(l){const k=l.wx||'none';if(k==='none')return false;const who=l.wwho||'player';return (PLAYER&&!window.GMV)?(who==='player'||who==='both'):(who==='gm'||who==='both')}
 function wxMake(k,w,h,first){
   const r=Math.random,o={x:r()*w,y:first?r()*h:-20,ph:r()*6.28};
   if(k==='rain'){o.v=900+r()*500;o.l=12+r()*14;o.dx=-.18}
@@ -2273,9 +2275,9 @@ function ejPlan(){const a=EJC.map((_,i)=>i);for(let i=a.length-1;i>0;i--){const 
 // ---- VS banner: a strip across the middle with profiles on either side; shown on the GM and player screens
 const VS={L:new Set(),R:new Set(),capt:'',stay:false,ln:'',rn:'',lc:'#8f9ba9',rc:'#d9433f'};
 function vsCards(){return S.turns.map(c=>({id:c.id,n:(c.p&&c.p.callsign)||c.name||'?',img:c.img||mechImg(c)||'',fac:c.fac}))}
-function vsHide(local){const o=$('#vs');if(!o||!o.classList.contains('on'))return;clearTimeout(vsHide.t);o.classList.add('out');setTimeout(()=>{o.className='';o.innerHTML=''},560)}
+function vsHide(local){const o=$('#vs');if(!o||!o.classList.contains('on'))return;PS.fxV=0;setTimeout(()=>fxFlush(),600);clearTimeout(vsHide.t);o.classList.add('out');setTimeout(()=>{o.className='';o.innerHTML=''},560)}
 function vsShow(d){
-  const o=$('#vs');clearTimeout(vsHide.t);
+  const o=$('#vs');clearTimeout(vsHide.t);PS.fxV=1;
   const n=Math.max(d.L.length,d.R.length),dense=n>=5,cols=Math.max(1,Math.ceil(n/(dense?2:1)));
   const side=(a,col)=>a.map((x,i)=>x.q?`<div class="vc" style="--i:${i}"><div class="vp vq">?</div><div class="vn">???</div></div>`:`<div class="vc" style="--i:${i}"><div class="vp"${x.img?` style="background-image:url('${String(x.img).replace(/'/g,"%27")}')"`:''}>${x.img?'':esc((x.n||'?')[0])}</div><div class="vn">${esc(x.n)}</div></div>`).join('');
   const lc=/^#[0-9a-f]{6}$/i.test(d.lc)?d.lc:'#8f9ba9',rc=/^#[0-9a-f]{6}$/i.test(d.rc)?d.rc:'#d9433f',tn=t=>t?`<div class="vt">${esc(t)}</div>`:'';
@@ -2302,7 +2304,9 @@ if(!PLAYER){
   $('#bVS').onclick=e=>{e.stopPropagation();if(P.classList.toggle('on'))vsDraw()};
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#vs').classList.contains('on')&&!EJ.on){vsStop()}},true);
 }
+function fxFlush(){if(PLAYER&&!PS.fxE&&!PS.fxV&&PS.pend){const m=PS.pend;PS.pend=null;window.applyPState&&window.applyPState(m)}}
 function ejectFx2(unit,launch,plan,o){
+  PS.fxE=1;
   const at=(ms,f)=>ejectFx.ts.push(setTimeout(f,ms)),cl=()=>document.body.classList.remove('ej2-gl','ej2-up','ej-shake');
   cl();o.className='on v2';
   o.innerHTML='<i class="rd"></i><i class="vg"></i><i class="gls"></i><div class="bl"></div><div class="stk"></div><div class="bt" style="display:none"><span></span></div><i class="wh"></i>';
@@ -2319,10 +2323,10 @@ function ejectFx2(unit,launch,plan,o){
   at(g0,()=>{document.body.classList.add('ej2-gl');gls.innerHTML=Array.from({length:6},()=>`<b style="top:${Math.random()*92|0}%;height:${1+Math.random()*4|0}%;left:${Math.random()*20|0}%;right:${Math.random()*20|0}%;animation-delay:${Math.random()*.4}s"></b>`).join('');o.classList.add('gl')});
   at(g0+700,()=>{
     document.body.classList.remove('ej2-gl','ej-shake');document.body.classList.add('ej2-up');o.classList.remove('gl');o.classList.add('go');
-    stk.innerHTML=Array.from({length:26},()=>{const w=1+Math.random()*4,d=.28+Math.random()*.4;return`<b style="left:${Math.random()*100}%;width:${w}px;height:${25+Math.random()*45}vh;opacity:${.12+Math.random()*.4};filter:blur(${Math.random()*2.5}px);animation-duration:${d}s;animation-delay:-${Math.random()*d}s"></b>`}).join('');
+    stk.innerHTML=Array.from({length:16},()=>{const w=1+Math.random()*4,d=.28+Math.random()*.4;return`<b style="left:${Math.random()*100}%;width:${w}px;height:${25+Math.random()*45}vh;opacity:${.12+Math.random()*.4};animation-duration:${d}s;animation-delay:-${Math.random()*d}s"></b>`}).join('');
     launch&&launch()});
   at(g0+1900,()=>{document.body.classList.remove('ej2-up');o.classList.add('out')});
-  at(g0+2950,()=>{o.className='';o.innerHTML='';cl()});
+  at(g0+2950,()=>{o.className='';o.innerHTML='';cl();PS.fxE=0;fxFlush()});
 }
 function ejectFx(unit,bcast,launch,plan){
   if(!plan)plan=ejPlan();
@@ -3048,8 +3052,8 @@ function sensorOf(it){
   return v>0?v:5;
 }
 function playerState(){
-  if(PS.gm){const o=JSON.parse(JSON.stringify({...S,map:null,turns:[],items:[]}));Object.keys(o.cells).forEach(k=>{if(o.cells[k]==='fog')delete o.cells[k]});o.items=S.items.map(i=>({...i,hidden:false}));
-    o.turns=S.turns.map(c=>({id:c.id,name:c.name,fac:c.fac,done:c.done,hc:c.hc,cond:cdOf(c),img:c.img,p:{out:!!(c.p&&c.p.out),callsign:c.p&&c.p.callsign},st:c.st?{...c.st}:undefined}));return o}
+  if(PS.gm){const o=JSON.parse(JSON.stringify({...S,map:null,turns:[],items:[]}));o.items=S.items.map(i=>({...i}));o.gm=1;o.selId=sel;
+    o.turns=S.turns.map(c=>({id:c.id,name:c.name,fac:c.fac,done:c.done,hc:c.hc,ejected:c.ejected,cond:{...cdOf(c)},img:c.img,p:{out:!!(c.p&&c.p.out),callsign:c.p&&c.p.callsign,pilot:c.p&&c.p.pilot,mech:c.p&&c.p.mech,chassis:c.p&&c.p.chassis,size:c.p&&c.p.size,speed:c.p&&c.p.speed},st:c.st?{...c.st}:undefined}));return o}
   const gs=S.grid.size,o=JSON.parse(JSON.stringify({...S,map:null,turns:[],items:[]})),friend=f=>f==='player'||f==='ally';
   const fogK=Object.keys(o.cells).filter(k=>o.cells[k]==='fog'),reveal=new Set();
   if(LOOK.pfog!=='stay'){
@@ -3130,8 +3134,10 @@ if(!PLAYER){
       e.innerHTML=m.html;e.classList.add('on');const w=e.offsetWidth,hh=e.offsetHeight;
       e.style.left=Math.max(6,Math.min(innerWidth-w-6,r.left))+'px';e.style.top=Math.max(6,Math.min(innerHeight-hh-6,r.top))+'px';
     }
-    else if(m.t==='state'){
-      S=Object.assign(blank(),m.S);S.grid=Object.assign(blank().grid,S.grid);S.map=PS.map;S.fogSee=false;sel=null;
+    else if(m.t==='state'){if(PS.fxE||PS.fxV){PS.pend=m;return}window.applyPState(m)}
+  });
+  window.applyPState=m=>{{
+      S=Object.assign(blank(),m.S);S.grid=Object.assign(blank().grid,S.grid);S.map=PS.map;S.fogSee=!!m.S.gm&&!!m.S.fogSee;sel=m.S.gm?(m.S.selId||null):null;document.body.classList.toggle('gmview',!!m.S.gm);window.GMV=!!m.S.gm;
       if(m.look)setLook(m.look);
       mvId=m.mv||null;R=m.ruler;LOS.on=!!m.los;PS.L=m.L;PS.V=m.V;$('#pdet').classList.toggle('on',!!(m.share&&m.ruler&&m.L));
       renderAll();drawRuler();lastRect=m.rect;if(m.rect)fitRect(m.rect);else fit();
@@ -3142,8 +3148,7 @@ if(!PLAYER){
         draw3d();
       }else if(V3.open)close3d();
       $('#pblack').classList.toggle('on',!!m.black);
-    }
-  });
+  }};
   window.addEventListener('resize',()=>{if(lastRect)fitRect(lastRect);else fit()});
   window.opener&&window.opener.postMessage({t:'ready'},'*');
 }
